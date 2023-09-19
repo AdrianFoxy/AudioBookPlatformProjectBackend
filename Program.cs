@@ -41,6 +41,7 @@ var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     await context.Database.MigrateAsync();
+    await AppDbContextSeed.SeedAsync(context);
 }
 catch (Exception ex)
 {
