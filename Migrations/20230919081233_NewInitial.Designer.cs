@@ -4,6 +4,7 @@ using ABP_Backend.Data.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230919081233_NewInitial")]
+    partial class NewInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,7 @@ namespace ABP_Backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<TimeSpan>("BookDuration")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValueSql("'00:00:00'");
+                        .HasColumnType("time");
 
                     b.Property<int>("BookLanguageId")
                         .HasColumnType("int");
@@ -89,23 +90,22 @@ namespace ABP_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AudioBookId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DateTime")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -113,6 +113,8 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
 
                     b.ToTable("Author");
                 });
@@ -125,9 +127,11 @@ namespace ABP_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AudioBookId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AudioFileUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -135,14 +139,10 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<TimeSpan>("Duration")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValueSql("'00:00:00'");
+                        .HasColumnType("TIME");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -150,6 +150,8 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
 
                     b.ToTable("BookAudioFile");
                 });
@@ -168,9 +170,7 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -190,23 +190,22 @@ namespace ABP_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AudioBookId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DateTime")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -214,6 +213,8 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
 
                     b.ToTable("BookSelection");
                 });
@@ -232,9 +233,7 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -260,9 +259,7 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -288,13 +285,10 @@ namespace ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("MediaUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -304,51 +298,6 @@ namespace ABP_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Narrator");
-                });
-
-            modelBuilder.Entity("AudioBookAuthor", b =>
-                {
-                    b.Property<int>("AudioBooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AudioBooksId", "AuthorId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.ToTable("AudioBookAuthor");
-                });
-
-            modelBuilder.Entity("AudioBookBookAudioFile", b =>
-                {
-                    b.Property<int>("AudioBooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookAudioFileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AudioBooksId", "BookAudioFileId");
-
-                    b.HasIndex("BookAudioFileId");
-
-                    b.ToTable("AudioBookBookAudioFile");
-                });
-
-            modelBuilder.Entity("AudioBookBookSelection", b =>
-                {
-                    b.Property<int>("AudioBooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookSelectionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AudioBooksId", "BookSelectionId");
-
-                    b.HasIndex("BookSelectionId");
-
-                    b.ToTable("AudioBookBookSelection");
                 });
 
             modelBuilder.Entity("AudioBookGenre", b =>
@@ -393,49 +342,25 @@ namespace ABP_Backend.Migrations
                     b.Navigation("Narrator");
                 });
 
-            modelBuilder.Entity("AudioBookAuthor", b =>
+            modelBuilder.Entity("ABP_Backend.Data.Entities.Author", b =>
                 {
                     b.HasOne("ABP_Backend.Data.Entities.AudioBook", null)
-                        .WithMany()
-                        .HasForeignKey("AudioBooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ABP_Backend.Data.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Author")
+                        .HasForeignKey("AudioBookId");
                 });
 
-            modelBuilder.Entity("AudioBookBookAudioFile", b =>
+            modelBuilder.Entity("ABP_Backend.Data.Entities.BookAudioFile", b =>
                 {
                     b.HasOne("ABP_Backend.Data.Entities.AudioBook", null)
-                        .WithMany()
-                        .HasForeignKey("AudioBooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ABP_Backend.Data.Entities.BookAudioFile", null)
-                        .WithMany()
-                        .HasForeignKey("BookAudioFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("BookAudioFile")
+                        .HasForeignKey("AudioBookId");
                 });
 
-            modelBuilder.Entity("AudioBookBookSelection", b =>
+            modelBuilder.Entity("ABP_Backend.Data.Entities.BookSelection", b =>
                 {
                     b.HasOne("ABP_Backend.Data.Entities.AudioBook", null)
-                        .WithMany()
-                        .HasForeignKey("AudioBooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ABP_Backend.Data.Entities.BookSelection", null)
-                        .WithMany()
-                        .HasForeignKey("BookSelectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("BookSelection")
+                        .HasForeignKey("AudioBookId");
                 });
 
             modelBuilder.Entity("AudioBookGenre", b =>
@@ -451,6 +376,15 @@ namespace ABP_Backend.Migrations
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ABP_Backend.Data.Entities.AudioBook", b =>
+                {
+                    b.Navigation("Author");
+
+                    b.Navigation("BookAudioFile");
+
+                    b.Navigation("BookSelection");
                 });
 #pragma warning restore 612, 618
         }
