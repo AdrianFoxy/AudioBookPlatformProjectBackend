@@ -1,4 +1,6 @@
-using ABP_Backend.Data;
+using ABP_Backend.Data.DB;
+using ABP_Backend.Data.Interfraces;
+using ABP_Backend.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IAudioBookRepository, AudioBookRepository>();
 
 var app = builder.Build();
 
