@@ -5,7 +5,9 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-        public List<AudioBook> AudioBooks { get; set; }
+        public List<AudioBook> AudioBook { get; set; }
+        public List<AudioBookSelection> AudioBookSelection { get; set; }
+
 
     }
 }

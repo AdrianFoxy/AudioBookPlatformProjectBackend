@@ -1,0 +1,62 @@
+[
+  {
+    "AudioBookId": 1,
+    "GenreId": 9
+  },
+  {
+    "AudioBookId": 1,
+    "GenreId": 5
+  },
+  {
+    "AudioBookId": 1,
+    "GenreId": 11
+  },
+  {
+    "AudioBookId": 2,
+    "GenreId": 9
+  },
+  {
+    "AudioBookId": 2,
+    "GenreId": 5
+  },
+  {
+    "AudioBookId": 2,
+    "GenreId": 11
+  },
+  {
+    "AudioBookId": 3,
+    "GenreId": 17
+  },
+  {
+    "AudioBookId": 4,
+    "GenreId": 17
+  },
+  {
+    "AudioBookId": 5,
+    "GenreId": 17
+  },
+  {
+    "AudioBookId": 6,
+    "GenreId": 11
+  },
+  {
+    "AudioBookId": 6,
+    "GenreId": 5
+  },
+  {
+    "AudioBookId": 6,
+    "GenreId": 9
+  },
+  {
+    "AudioBookId": 7,
+    "GenreId": 8
+  },
+  {
+    "AudioBookId": 7,
+    "GenreId": 9
+  },
+  {
+    "AudioBookId": 8,
+    "GenreId": 8
+  }
+]

@@ -3,6 +3,8 @@
     public class Genre : BaseEntity
     {
         public string Name { get; set; }
-        public List<AudioBook> AudioBooks { get; set; }
+        public List<AudioBookGenre> AudioBookGenre { get; set; }
+        public List<AudioBook> AudioBook { get; set; }
+
     }
 }

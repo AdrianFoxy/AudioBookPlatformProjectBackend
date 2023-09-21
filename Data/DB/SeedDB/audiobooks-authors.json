@@ -1,0 +1,34 @@
+[
+  {
+    "AudioBookId": 1,
+    "AuthorId": 1
+  },
+  {
+    "AudioBookId": 2,
+    "AuthorId": 1
+  },
+  {
+    "AudioBookId": 3,
+    "AuthorId": 3
+  },
+  {
+    "AudioBookId": 4,
+    "AuthorId": 2
+  },
+  {
+    "AudioBookId": 5,
+    "AuthorId": 4
+  },
+  {
+    "AudioBookId": 6,
+    "AuthorId": 7
+  },
+  {
+    "AudioBookId": 7,
+    "AuthorId": 6
+  },
+  {
+    "AudioBookId": 8,
+    "AuthorId": 5
+  }
+]

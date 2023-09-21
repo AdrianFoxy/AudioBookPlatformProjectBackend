@@ -9,7 +9,8 @@ namespace ABP_Backend.Data.Entities
         public string AudioFileUrl { get; set; }
         [Column(TypeName = "TIME")]
         public TimeSpan Duration { get; set; }
-        public List<AudioBook> AudioBooks { get; set; }
+        public List<AudioBook> AudioBook { get; set; }
+        public List<AudioBookAudioFile> AudioBookBookAudioFile { get; set; }
 
     }
 }
