@@ -1,5 +1,6 @@
 ﻿using ABP_Backend.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
 namespace ABP_Backend.Data.DB
@@ -30,6 +31,28 @@ namespace ABP_Backend.Data.DB
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             }
 
+            // Many-to-Many Entity
+            modelBuilder.Entity<AudioBook>()
+                .HasMany(e => e.Author)
+                .WithMany(e => e.AudioBook)
+                .UsingEntity<AudioBookAuthor>();
+
+            modelBuilder.Entity<AudioBook>()
+                .HasMany(e => e.Genre)
+                .WithMany(e => e.AudioBook)
+                .UsingEntity<AudioBookGenre>();
+
+            modelBuilder.Entity<AudioBook>()
+                .HasMany(e => e.BookAudioFile)
+                .WithMany(e => e.AudioBook)
+                .UsingEntity<AudioBookAudioFile>();
+
+            modelBuilder.Entity<AudioBook>()
+                .HasMany(e => e.BookSelection)
+                .WithMany(e => e.AudioBook)
+                .UsingEntity<AudioBookSelection>();
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
@@ -42,6 +65,10 @@ namespace ABP_Backend.Data.DB
         public DbSet<BookAudioFile> BookAudioFile { get; set; }
         public DbSet<BookLanguage> BookLanguage { get; set; }
         public DbSet<BookSelection> BookSelection { get; set; }
+        public DbSet<AudioBookAuthor> AudioBookAuthor { get; set; }
+        public DbSet<AudioBookGenre> AudioBookGenre { get; set; }
+        public DbSet<AudioBookAudioFile> AudioBookAudioFile { get; set; }
+        public DbSet<AudioBookSelection> AudioBookSelection { get; set; }
 
     }
 }
