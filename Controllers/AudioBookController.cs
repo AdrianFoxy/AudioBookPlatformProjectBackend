@@ -1,4 +1,5 @@
 ﻿using ABP_Backend.Data;
+using ABP_Backend.Data.Dtos;
 using ABP_Backend.Data.Entities;
 using ABP_Backend.Data.Interfraces;
 using ABP_Backend.Data.Specification.SpecClasses;
@@ -23,11 +24,19 @@ namespace ABP_Backend.Controllers
         }
 
         [HttpGet("get-all-books")]
-        public async Task<ActionResult<List<AudioBook>>> GetBooks()
+        public async Task<ActionResult<List<AudioBookInLibraryDto>>> GetBooks()
         {
             var spec = new LibraryAudioBookSpecification();
             var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
-            return Ok(abooks);
+            return abooks.Select(abooks => new AudioBookInLibraryDto
+            {
+                Id = abooks.Id,
+                Name = abooks.Name,
+                PictureUrl = abooks.PictureUrl,
+                Rating = abooks.Rating,
+                BookDuration = abooks.BookDuration,
+                Author = abooks.Author
+            }).ToList();
         }
 
         [HttpGet("get-all-genres")]
