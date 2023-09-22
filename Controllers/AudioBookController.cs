@@ -1,6 +1,7 @@
 ﻿using ABP_Backend.Data;
 using ABP_Backend.Data.Entities;
 using ABP_Backend.Data.Interfraces;
+using ABP_Backend.Data.Specification.SpecClasses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,8 @@ namespace ABP_Backend.Controllers
         [HttpGet("get-all-books")]
         public async Task<ActionResult<List<AudioBook>>> GetBooks()
         {
-            var abooks = await _audioBookRepo.GetListAllAsync();
+            var spec = new LibraryAudioBookSpecification();
+            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
             return Ok(abooks);
         }
 
@@ -38,7 +40,8 @@ namespace ABP_Backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AudioBook>> GetBook(int id)
         {
-            return await _audioBookRepo.GetByIdAsync(id);
+            var spec = new LibraryAudioBookSpecification(id);
+            return await _audioBookRepo.GetEntityWithSpec(spec);
         }
     }
 }
