@@ -10,6 +10,6 @@ namespace ABP_Backend.Data.Dtos
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
         public TimeSpan BookDuration { get; set; }
-        public List<Author> Author { get; set; }
+        public List<AuthorInLibraryAudioBook> Author { get; set; }
     }
 }
