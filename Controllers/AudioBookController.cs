@@ -1,12 +1,10 @@
-﻿using ABP_Backend.Data;
-using ABP_Backend.Data.Dtos;
+﻿using ABP_Backend.Data.Dtos;
 using ABP_Backend.Data.Entities;
 using ABP_Backend.Data.Interfraces;
 using ABP_Backend.Data.Specification.SpecClasses;
+using ABP_Backend.Errors;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ABP_Backend.Controllers
 {
@@ -27,7 +25,7 @@ namespace ABP_Backend.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-books")]
+        [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AudioBookInLibraryDto>>> GetBooks()
         {
             var spec = new LibraryAudioBookSpecification();
@@ -36,18 +34,17 @@ namespace ABP_Backend.Controllers
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks));
         }
 
-        [HttpGet("get-all-genres")]
-        public async Task<ActionResult<List<Genre>>> GetGenres()
-        {
-            var genres = await _genreRepo.GetListAllAsync();
-            return Ok(genres);
-        }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AudioBook>> GetBook(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
-            return await _audioBookRepo.GetEntityWithSpec(spec);
+            var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
+
+            if (aidiobook == null) return NotFound(new ApiResponse(404));
+            return Ok(aidiobook);
         }
     }
 }
