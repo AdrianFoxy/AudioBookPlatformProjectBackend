@@ -1,13 +1,10 @@
-﻿using ABP_Backend.Data;
-using ABP_Backend.Data.Dtos;
+﻿using ABP_Backend.Data.Dtos;
 using ABP_Backend.Data.Entities;
 using ABP_Backend.Data.Interfraces;
 using ABP_Backend.Data.Specification.SpecClasses;
 using ABP_Backend.Errors;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ABP_Backend.Controllers
 {
@@ -28,7 +25,7 @@ namespace ABP_Backend.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-books")]
+        [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AudioBookInLibraryDto>>> GetBooks()
         {
             var spec = new LibraryAudioBookSpecification();
@@ -37,12 +34,6 @@ namespace ABP_Backend.Controllers
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks));
         }
 
-        [HttpGet("get-all-genres")]
-        public async Task<ActionResult<List<Genre>>> GetGenres()
-        {
-            var genres = await _genreRepo.GetListAllAsync();
-            return Ok(genres);
-        }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
