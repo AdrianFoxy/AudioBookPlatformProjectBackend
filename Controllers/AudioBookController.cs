@@ -3,6 +3,7 @@ using ABP_Backend.Data.Dtos;
 using ABP_Backend.Data.Entities;
 using ABP_Backend.Data.Interfraces;
 using ABP_Backend.Data.Specification.SpecClasses;
+using ABP_Backend.Errors;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,10 +45,15 @@ namespace ABP_Backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AudioBook>> GetBook(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
-            return await _audioBookRepo.GetEntityWithSpec(spec);
+            var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
+
+            if (aidiobook == null) return NotFound(new ApiResponse(404));
+            return Ok(aidiobook);
         }
     }
 }
