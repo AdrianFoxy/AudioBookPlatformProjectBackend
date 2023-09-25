@@ -5,6 +5,7 @@ using Re_ABP_Backend.Data.Specification.SpecClasses;
 using Re_ABP_Backend.Errors;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -43,7 +44,11 @@ namespace Re_ABP_Backend.Controllers
             var spec = new LibraryAudioBookSpecification(id);
             var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
 
-            if (aidiobook == null) return NotFound(new ApiResponse(404));
+            if (aidiobook == null) 
+            {
+                Log.Information("Request to get audiobook by id failed, book with id {Id} does not exists.", id);
+                return NotFound(new ApiResponse(404));
+            }
             return Ok(aidiobook);
         }
     }
