@@ -7,7 +7,7 @@ namespace Re_ABP_Backend.Data.Specification
     {
         // Friendly remind for stupid me in future
         // How does it work? 0_0
-        // Here we will get inputQuery, just iqueriable of product, audiobooks, etc
+        // Here we will get inputQuery, just iqueriable of products, audiobooks, etc
         // Then check spec.Criteria, for example it can be
         // p => p.Duration > 00:12:32
         // then we will add includes, if they exist
@@ -20,6 +20,16 @@ namespace Re_ABP_Backend.Data.Specification
             if(spec.Criteria != null)
             {
                 query = query.Where(spec.Criteria); // p => p.ProductTypeId == id
+            }
+
+            if (spec.OrderBy != null)
+            {
+                query = query.OrderBy(spec.OrderBy);
+            }
+
+            if (spec.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(spec.OrderByDescending);
             }
 
             query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));

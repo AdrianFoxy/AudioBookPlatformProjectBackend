@@ -27,10 +27,11 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<AudioBookInLibraryDto>>> GetBooks()
+        public async Task<ActionResult<IReadOnlyList<AudioBookInLibraryDto>>> GetBooksAsync(
+            string? sort, int? authorId, int? genreId)
         {
-            var spec = new LibraryAudioBookSpecification();
-            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);;
+            var spec = new LibraryAudioBookSpecification(sort, authorId, genreId);
+            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
             return Ok(_mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks));
         }
@@ -39,7 +40,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AudioBook>> GetBook(int id)
+        public async Task<ActionResult<AudioBook>> GetBookAsync(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
             var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
