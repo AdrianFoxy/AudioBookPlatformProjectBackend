@@ -1,4 +1,5 @@
-﻿using Re_ABP_Backend.Data.Entities;
+﻿using Re_ABP_Backend.Data.Dtos.FilteringDtos;
+using Re_ABP_Backend.Data.Entities;
 using System.Text.Json.Serialization;
 
 namespace Re_ABP_Backend.Data.Dtos
@@ -10,6 +11,6 @@ namespace Re_ABP_Backend.Data.Dtos
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
         public TimeSpan BookDuration { get; set; }
-        public List<AuthorInLibraryAudioBook> Author { get; set; }
+        public List<AuthorFilteringDto> Author { get; set; }
     }
 }

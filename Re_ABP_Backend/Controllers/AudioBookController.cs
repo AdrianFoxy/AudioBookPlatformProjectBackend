@@ -59,7 +59,7 @@ namespace Re_ABP_Backend.Controllers
 
             if (aidiobook == null) 
             {
-                Log.Information("Request to get audiobook by id failed, book with id {Id} does not exists.", id);
+                Log.Error("Request to get audiobook by id failed, book with id {Id} does not exists.", id);
                 return NotFound(new ApiResponse(404));
             }
             return Ok(aidiobook);

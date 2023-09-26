@@ -1,6 +1,6 @@
-﻿namespace Re_ABP_Backend.Data.Dtos
+﻿namespace Re_ABP_Backend.Data.Dtos.FilteringDtos
 {
-    public class AuthorInLibraryAudioBook
+    public class GenreFilteringDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
