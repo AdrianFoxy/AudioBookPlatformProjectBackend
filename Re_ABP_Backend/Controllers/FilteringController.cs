@@ -37,7 +37,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-genres")]
-        public async Task<ActionResult<GenreFilteringDto>> GetFilteringGenres()
+        public async Task<ActionResult<GenreFilteringDto>> GetFilteringGenresAsync()
         {
             var result = await _genreRepo.GetListAllAsync();
             if(result == null)
@@ -51,7 +51,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-authors")]
-        public async Task<ActionResult<AuthorFilteringDto>> GetFilteringAuthors()
+        public async Task<ActionResult<AuthorFilteringDto>> GetFilteringAuthorsAsync()
         {
             var result = await _authorRepo.GetListAllAsync();
             if (result == null)
@@ -65,7 +65,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-bookLanguage")]
-        public async Task<ActionResult<BookLanguageFilteringDto>> GetFilteringBookLanguages()
+        public async Task<ActionResult<BookLanguageFilteringDto>> GetFilteringBookLanguagesAsync()
         {
             var result = await _bookLanguageRepo.GetListAllAsync();
             if (result == null)
@@ -79,7 +79,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-bookSeries")]
-        public async Task<ActionResult<BookSeriesDto>> GetFilteringBookSeries()
+        public async Task<ActionResult<BookSeriesDto>> GetFilteringBookSeriesAsync()
         {
             var result = await _bookSeriesRepo.GetListAllAsync();
             if (result == null)
@@ -93,7 +93,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-narrator")]
-        public async Task<ActionResult<NarratorFilteringDto>> GetFilteringNarrators()
+        public async Task<ActionResult<NarratorFilteringDto>> GetFilteringNarratorsAsync()
         {
             var result = await _narratorRepo.GetListAllAsync();
             if (result == null)

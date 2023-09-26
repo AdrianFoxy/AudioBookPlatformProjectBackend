@@ -14,6 +14,16 @@
         public string? Sort { get; set; }
         public List<int>? AuthorIds { get; set; }
         public List<int>? GenreIds { get; set; }
+        public List<int>? BookSeriesIds { get; set; }
+        public List<int>? BookLanguageIds { get; set; }
+        public List<int>? NarratorIds { get; set; }
+
+        public List<int>? ExceptAuthorIds { get; set; }
+        public List<int>? ExceptGenreIds { get; set; }
+        public List<int>? ExceptBookSeriesIds { get; set; }
+        public List<int>? ExceptBookLanguageIds { get; set; }
+        public List<int>? ExceptNarratorIds { get; set; }
+
         private string _search;
         public string? Search 
         { 

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Re_ABP_Backend.Data.Specification;
 using Re_ABP_Backend.Data.Helpers;
+using Re_ABP_Backend.Data.Dtos.FilteringDtos;
+using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -48,7 +50,6 @@ namespace Re_ABP_Backend.Controllers
                 abParams.PageSize, totalItems, data));
         }
 
-
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -65,10 +66,22 @@ namespace Re_ABP_Backend.Controllers
             return Ok(aidiobook);
         }
 
-        [HttpGet("get-authors")]
-        public async Task<ActionResult<Author>> GetAuthorsAsycn()
+        [HttpGet("recommedation")]
+        public async Task<ActionResult<AudioBookInLibraryDto>> GetRecommedantionAudioBooksAsync()
         {
-            return Ok(await _authorRepo.GetListAllAsync());
+
+            var spec = new RecommedantionsSpecification();
+
+            var result = await _audioBookRepo.GetListWithSpecAsync(spec);
+            if (result == null)
+            {
+                Log.Error("Request to get recommedation is failed, there are no data");
+                return NotFound(new ApiResponse(404));
+            }
+
+            return Ok(_mapper
+                   .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(result));
         }
+
     }
 }
