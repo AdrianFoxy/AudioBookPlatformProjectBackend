@@ -4,17 +4,24 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses
 {
     public class LibraryAudioBookSpecification : BaseSpecification<AudioBook>
     {
-        public LibraryAudioBookSpecification(string sort)
+        public LibraryAudioBookSpecification(ABSpecParams abParams)
+            : base(x =>
+                (string.IsNullOrEmpty(abParams.Search) || x.Name.ToLower().Contains(abParams.Search)) &&
+                (abParams.AuthorIds == null || abParams.AuthorIds.Count == 0 || x.Author.Any(x => abParams.AuthorIds.Contains(x.Id))) &&
+                (abParams.GenreIds == null || abParams.GenreIds.Count == 0 || x.Genre.Any(x => abParams.GenreIds.Contains(x.Id)))
+            )
         {
             AddInclude(x => x.Author);
             AddInclude(x => x.Genre);
             AddInclude(x => x.Narrator);
             AddInclude(x => x.BookSeries);
             AddInclude(x => x.BookLanguage);
+            ApplyPaging(abParams.PageSize * (abParams.PageIndex - 1),
+                abParams.PageSize);
 
-            if (!string.IsNullOrEmpty(sort))
+            if (!string.IsNullOrEmpty(abParams.Sort))
             {
-                switch (sort)
+                switch (abParams.Sort)
                 {
                     case "rateAsc":
                         AddOrderBy(p => p.Rating); 

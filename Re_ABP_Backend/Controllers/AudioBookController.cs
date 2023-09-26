@@ -6,6 +6,8 @@ using Re_ABP_Backend.Errors;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Re_ABP_Backend.Data.Specification;
+using Re_ABP_Backend.Data.Helpers;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -27,13 +29,20 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<AudioBookInLibraryDto>>> GetBooksAsync(
-            string? sort, int? authorId, int? genreId)
+        public async Task<ActionResult<Pagination<AudioBookInLibraryDto>>> GetBooksAsync(
+            [FromQuery] ABSpecParams abParams)
         {
-            var spec = new LibraryAudioBookSpecification(sort, authorId, genreId);
+            var spec = new LibraryAudioBookSpecification(abParams);
+            var countSpec = new LibraryAudioBookForCountSpecification(abParams);
+
+            var totalItems = await _audioBookRepo.CountAsync(countSpec);
+
             var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
-            return Ok(_mapper
-                .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks));
+
+            var data = _mapper
+                .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
+            return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageSize,
+                abParams.PageSize, totalItems, data));
         }
 
 
