@@ -43,6 +43,11 @@ namespace Re_ABP_Backend.Controllers
             var totalItems = await _audioBookRepo.CountAsync(countSpec);
 
             var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
+            if (abooks == null)
+            {
+                Log.Error("Request to get audiobooks for libraby is failed, there are no data");
+                return NotFound(new ApiResponse(404));
+            }
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
