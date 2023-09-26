@@ -1,6 +1,7 @@
 ﻿using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Entities;
 using AutoMapper;
+using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -12,7 +13,11 @@ namespace Re_ABP_Backend.Data.Helpers
                 .ForMember(d => d.Author, o => o.MapFrom(s => s.Author))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom<AudioBookUrlResolver>());
 
-            CreateMap<Author, AuthorInLibraryAudioBook>();
+            CreateMap<Author, AuthorFilteringDto>();
+            CreateMap<Genre, GenreFilteringDto>();
+            CreateMap<BookLanguage, BookLanguageFilteringDto>();
+            CreateMap<Narrator, NarratorFilteringDto>();
+            CreateMap<BookSeries, BookSeriesDto>();
         }
     }
 }

@@ -2,12 +2,22 @@ using Microsoft.EntityFrameworkCore;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Exntensions;
 using Re_ABP_Backend.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCorsConfiguration();
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/action-logs.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var app = builder.Build();
 
@@ -24,6 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

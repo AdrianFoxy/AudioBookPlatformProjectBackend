@@ -9,5 +9,7 @@ namespace Re_ABP_Backend.Data.Interfraces
         Task<IReadOnlyList<T>> GetListAllAsync();
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
         Task<IReadOnlyList<T>> GetListWithSpecAsync(ISpecification<T> spec);
+        Task<int> CountAsync(ISpecification<T> spec);
+
     }
 }
