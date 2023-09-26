@@ -15,7 +15,7 @@
         public List<int>? AuthorIds { get; set; }
         public List<int>? GenreIds { get; set; }
         private string _search;
-        public string Search 
+        public string? Search 
         { 
             get => _search;
             set => _search = value.ToLower();

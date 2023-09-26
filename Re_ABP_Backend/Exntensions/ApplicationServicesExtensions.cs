@@ -13,10 +13,6 @@ namespace Re_ABP_Backend.Exntensions
             , IConfiguration config)
         {
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-
             services.AddDbContext<AppDBContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
@@ -43,7 +39,6 @@ namespace Re_ABP_Backend.Exntensions
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
-
             return services;
         }
     }

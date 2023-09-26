@@ -17,14 +17,17 @@ namespace Re_ABP_Backend.Controllers
     {
         private readonly IGenericRepository<AudioBook> _audioBookRepo;
         private readonly IGenericRepository<Genre> _genreRepo;
+        private readonly IGenericRepository<Author> _authorRepo;
         private readonly IMapper _mapper;
 
         public AudioBookController(IGenericRepository<AudioBook> audioBookRepo,
                                    IGenericRepository<Genre> genreRepo,
+                                   IGenericRepository<Author> authorRepo,
                                    IMapper mapper)
         {
             _audioBookRepo = audioBookRepo;
             _genreRepo = genreRepo;
+            _authorRepo = authorRepo;
             _mapper = mapper;
         }
 
@@ -60,6 +63,12 @@ namespace Re_ABP_Backend.Controllers
                 return NotFound(new ApiResponse(404));
             }
             return Ok(aidiobook);
+        }
+
+        [HttpGet("get-authors")]
+        public async Task<ActionResult<Author>> GetAuthorsAsycn()
+        {
+            return Ok(await _authorRepo.GetListAllAsync());
         }
     }
 }

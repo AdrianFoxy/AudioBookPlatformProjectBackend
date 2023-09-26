@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCorsConfiguration();
+
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -31,6 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
