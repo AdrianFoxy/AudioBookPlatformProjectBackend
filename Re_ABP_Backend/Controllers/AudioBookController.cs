@@ -51,7 +51,7 @@ namespace Re_ABP_Backend.Controllers
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
-            return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageSize,
+            return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageIndex,
                 abParams.PageSize, totalItems, data));
         }
 

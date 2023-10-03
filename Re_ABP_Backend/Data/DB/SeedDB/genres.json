@@ -1,19 +1,110 @@
 [
-  { "Name": "Детективи" },
-  { "Name": "Трилери" },
-  { "Name": "Аудіоспектаклі" },
-  { "Name": "Біографії, мемуари" },
-  { "Name": "Аудіоказки" },
-  { "Name": "Навчання" },
-  { "Name": "Філософія" },
-  { "Name": "Фентезі" },
-  { "Name": "Пригоди" },
-  { "Name": "Психологія" },
-  { "Name": "Фантастика" },
-  { "Name": "Містика" },
-  { "Name": "Історія" },
-  { "Name": "Романтика" },
-  { "Name": "Роман" },
-  { "Name": "Ранобе, новели" },
-  { "Name": "Саморозвиток. Мотивація" }
+  {
+    "Name": "Детективи",
+    "EnName": "Detectives"
+  },
+  {
+    "Name": "Трилери",
+    "EnName": "Thrillers"
+  },
+  {
+    "Name": "Аудіоспектаклі",
+    "EnName": "Audio performances"
+  },
+  {
+    "Name": "Біографії, мемуари",
+    "EnName": "Biographies, memoirs"
+  },
+  {
+    "Name": "Аудіоказки",
+    "EnName": "Audio stories"
+  },
+  {
+    "Name": "Навчання",
+    "EnName": "Education"
+  },
+  {
+    "Name": "Філософія",
+    "EnName": "Philosophy"
+  },
+  {
+    "Name": "Фентезі",
+    "EnName": "Fantasy"
+  },
+  {
+    "Name": "Пригоди",
+    "EnName": "Adventures"
+  },
+  {
+    "Name": "Психологія",
+    "EnName": "Psychology"
+  },
+  {
+    "Name": "Наукова фантастика",
+    "EnName": "Scientific fiction"
+  },
+  {
+    "Name": "Містика",
+    "EnName": "Mysticism"
+  },
+  {
+    "Name": "Історія",
+    "EnName": "History"
+  },
+  {
+    "Name": "Романтика",
+    "EnName": "Romance"
+  },
+  {
+    "Name": "Роман",
+    "EnName": "Novel"
+  },
+  {
+    "Name": "Ранобе, новели",
+    "EnName": "Ranobe, novels"
+  },
+  {
+    "Name": "Саморозвиток. Мотивація",
+    "EnName": "Self development. Motivation"
+  },
+  {
+    "Name": "Інше",
+    "EnName": "Differents"
+  },
+  {
+    "Name": "Темне Фентезі",
+    "EnName": "Dark Fantasy"
+  },
+  {
+    "Name": "Українська література",
+    "EnName": "Ukrainian literature"
+  },
+  {
+    "Name": "Антиутопія",
+    "EnName": "Ukrainian literature"
+  },
+  {
+    "Name": "Космічна фантастика",
+    "EnName": "Space fiction"
+  },
+  {
+    "Name": "Постапокаліптика",
+    "EnName": "Post-apocalyptic"
+  },
+  {
+    "Name": "Героїчне фентезі",
+    "EnName": "Heroic fantasy"
+  },
+  {
+    "Name": "Бойове фентезі",
+    "EnName": "Combat fantasy"
+  },
+  {
+    "Name": "Історичне фентезі",
+    "EnName": "Historical fantasy"
+  },
+  {
+    "Name": "Медицина",
+    "EnName": "Medicine"
+  }
 ]

@@ -3,5 +3,7 @@
     public class BookLanguage : BaseEntity
     {
         public string Name { get; set; }
+        public string EnName { get; set; }
+
     }
 }

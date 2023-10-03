@@ -3,10 +3,11 @@
     "Name": "Аліса в країні чудеса",
     "Description": "Льюїс Керролл — псевдонім Чарлза Лутвіджа Доджсона (1832—1898), блискучого оксфордського математика, логіка, письменника і фотографа, який зажив всесвітньої слави своїми фантасмагорійними творами — «Аліса в Дивокраї» й «Аліса в Задзеркаллі». У 1865 році він опублікував історію маленької дівчинки Аліси, яка провалилася у кролячу нору і відкрила зовсім інший світ — неймовірний, диво­вижний і повний усіляких небезпек. Відтоді розпочалися безсмертні пригоди Аліси — можливо, найзнаменитішої героїні англійської літе­ратури. Казка, яку полюбили діти і дорослі, стала одним із кращих зразків літератури у жанрі абсурду.",
     "PictureUrl": "/img/books/img042_cr_3.jpg",
-    "BookDuration": "03:33:41",
+    "BookDuration": "03:14:15",
     "BookLanguageId": 1,
-    "NarratorId": 1,
-    "BookSeriesId": 2
+    "NarratorId": 4,
+    "BookSeriesId": 2,
+    "OrderInSeries": 1
   },
   {
     "Name": "Аліса в Задзеркаллі",
@@ -15,7 +16,8 @@
     "BookDuration": "03:48:14",
     "BookLanguageId": 1,
     "NarratorId": 1,
-    "BookSeriesId": 2
+    "BookSeriesId": 2,
+    "OrderInSeries": 1
   },
   {
     "Name": "Витончене мистецтво забивати на все. Головні ідеї книги",
@@ -24,7 +26,8 @@
     "BookDuration": "00:29:08",
     "BookLanguageId": 1,
     "NarratorId": 3,
-    "BookSeriesId": 1
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
   },
   {
     "Name": "Чудовий ранок. Як не проспати життя. Головні ідеї книги.",
@@ -33,7 +36,8 @@
     "BookDuration": "00:31:09",
     "BookLanguageId": 1,
     "NarratorId": 3,
-    "BookSeriesId": 1
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
   },
   {
     "Name": "Мистецтво мислити масштабно. Головні ідеї книги.",
@@ -42,7 +46,8 @@
     "BookDuration": "00:36:24",
     "BookLanguageId": 1,
     "NarratorId": 3,
-    "BookSeriesId": 1
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
   },
   {
     "Name": "Маленький принц",
@@ -51,7 +56,8 @@
     "BookDuration": "02:09:02",
     "BookLanguageId": 1,
     "NarratorId": 1,
-    "BookSeriesId": 1
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
   },
   {
     "Name": "Хроніки Нарнії. Лев, Біла Відьма і шафа",
@@ -60,7 +66,8 @@
     "BookDuration": "06:09:49",
     "BookLanguageId": 1,
     "NarratorId": 2,
-    "BookSeriesId": 3
+    "BookSeriesId": 3,
+    "OrderInSeries": 1
   },
   {
     "Name": "Лицарство",
@@ -69,6 +76,87 @@
     "BookDuration": "00:44:03",
     "BookLanguageId": 1,
     "NarratorId": 2,
-    "BookSeriesId": 1
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Місце для дракона",
+    "Description": "Тут все навпаки. Головний герой – дракон Грицько – добрий, чуйний та освічений, але в королівстві все одно його хочуть знищити. Чому? Бо так вже заведено у світі, що драконів треба вбити, навіть якщо він нікому не чинить зла. Що ж це з людьми не так? Якісь перекручені порядки, норми та ідеали. Хіба ж вбивство одної ні в чому не винної тварини здатне зробити людей щасливішими? Народ завжди має когось проклинати, але ж на всіх драконів не вистачить…",
+    "PictureUrl": "/img/books/509a7f3f7d1a43070f5166963d0343dd.jpg",
+    "BookDuration": "02:48:01",
+    "BookLanguageId": 1,
+    "NarratorId": 5,
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Міст тролів",
+    "Description": "Що відбувається з героєм-варваром, коли всі «фінальні епічні битви» закінчуються, тролі та гноми перебираються до міста, а чарівна принцеса починає більш прибутковий бізнес? <br> Террі Пратчетт написав десятки романів про світ дискотеки, але ось коротенька історія про все навколо не даремно),",
+    "PictureUrl": "/img/books/1624528998_trolya.jpg",
+    "BookDuration": "00:33:16",
+    "BookLanguageId": 1,
+    "NarratorId": 6,
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Стриб з поїзда",
+    "Description": "Навіщо юна дівчина стрибнула з поїзда? Невже, поспішаючи, помилилась? Лікар Піддубний має великі сумніви...",
+    "PictureUrl": "/img/books/1667410001_z-poyizda.jpeg",
+    "BookDuration": "00:52:40",
+    "BookLanguageId": 1,
+    "NarratorId": 7,
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "The adventures of Tom Sawyer",
+    "Description": "«The Adventures of Tom Sawyer» is a novel by Mark Twain (1835—1910). The story describes the adventures of a boy named Tom Sawyer from the town of St. Petersburg (reminiscent of the town of Hannibal, where the author grew up) in the southern United States. The events of the novel take place on the eve of the Civil War in the United States.",
+    "PictureUrl": "/img/books/41fK2D8MUjL._AC_UF1000,1000_QL80_.jpg",
+    "BookDuration": "01:13:43",
+    "BookLanguageId": 2,
+    "NarratorId": 8,
+    "BookSeriesId": 1,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Sherlock Holmes. The Red-Headed League",
+    "Description": "Holmes is engaged initially by a pawnbroker. He's upset by the loss of a well-paying, part-time job. One that doesn't require many hours and, when it does require work, doesn't interfere with his busiest times at the pawn shop. To Sherlock Holmes, it may be much more than it appears. Could it be the beginning of a larger mystery? Using minute details of the small one, he works to solve the serious one. \"Depend upon it,\" said Holmes to Watson in \"A Case of Identity.\" \"There is nothing so unnatural as the commonplace.\"\n\nLibrarian's note: this entry is for \"The Red Headed League,\" the second of 12 short stories from the 1892 collection, \"The Adventures of Sherlock Holmes.\" It was first published in \"The Strand Magazine.\" Collections and other stories by the author are located elsewhere on Goodreads. The series includes four novels and 58 short stories. Entries for the short stories can be found by searching Goodreads for: \"a Sherlock Holmes Short Story.\"\n",
+    "PictureUrl": "/img/books/51v6j2jWTNL.jpg",
+    "BookDuration": "00:51:22",
+    "BookLanguageId": 2,
+    "NarratorId": 9,
+    "BookSeriesId": 5,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Sherlock Holmes. The Emerald Crown",
+    "Description": "A man from the British royal family leaves an expensive gold and emerald crown at Holder and Stevenson's - one of the best banks in London. When someone tries to take the crown from Mr Holder's desk, he asks Sherlock Holmes for help. Who wants the crown and why? Only Sherlock can find the answers.\n\n",
+    "PictureUrl": "/img/books/download.jpg",
+    "BookDuration": "00:59:02",
+    "BookLanguageId": 2,
+    "NarratorId": 9,
+    "BookSeriesId": 5,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Захар Беркут (Вистава)",
+    "Description": "Коли легенда стає реальністю...\n\nЦе був 1241 рік. У давнину люди були іншими і земля була міцнішою. У той час жив славний ватажок вільної карти Холт - мудрий Захар Беркут. Боярин Тугар Вовк прагне влади над непокірними тухольцями. Після того, як його відкинули, він породжує помсту в серці Блек. За наполяганням зрадника Тугеля до табору вирушило велике монгольське військо. Молодший син Захара Беркута, Максим, опиняється у ворожих ув’язненнях...\n\nБій наближається. Тухольці мають гострі мечі і міцні щити. І їхні серця, живучи на волі, міцніші. ворогів, щоб знищити їх. Але свобода незнищенна.\n\n",
+    "PictureUrl": "/img/books/Franko_Zahar_Berkut_cover_1932.jpg",
+    "BookDuration": "01:45:24",
+    "BookLanguageId": 2,
+    "NarratorId": 10,
+    "BookSeriesId": 6,
+    "OrderInSeries": 1
+  },
+  {
+    "Name": "Чорна рада (Вистава)",
+    "Description": "Перший український історичний роман. Грамотно і весело написано. Після смерті Богдана Хмельницького це був важкий період в історії України, особливо запекла битва між кількома претендентами на полководський скіпетр. Дуже інтригуюча друга сюжетна лінія — кохання молодого козака Петра Шраменко до дівчини Леції. Взагалі з роману легко уявити, якими були козаки, побут, уподобання, цінності українців того часу.\n\n",
+    "PictureUrl": "/img/books/1610130919_chorna-rada.jpg",
+    "BookDuration": "00:49:22",
+    "BookLanguageId": 2,
+    "NarratorId": 10,
+    "BookSeriesId": 6,
+    "OrderInSeries": 2
   }
 ]

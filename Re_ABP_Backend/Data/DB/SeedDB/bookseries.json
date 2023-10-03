@@ -1,11 +1,26 @@
 [
   {
-    "Name": "Без серії"
+    "Name": "Без серії",
+    "EnName": "No series"
   },
   {
-    "Name": "Аліса в Країні Див"
+    "Name": "Аліса в Країні Див",
+    "EnName": "Alice in Wonderland"
   },
   {
-    "Name": "Хроніки нарнії"
+    "Name": "Хроніки нарнії",
+    "EnName": "The Chronicles of Narnia"
+  },
+  {
+    "Name": "Відьмак",
+    "EnName": "The Witcher"
+  },
+  {
+    "Name": "Шерлок Голмс",
+    "EnName": "Sherlock Holmes"
+  },
+  {
+    "Name": "Театр перед мікрофоном",
+    "EnName": "Theater in front of the microphone"
   }
 ]
