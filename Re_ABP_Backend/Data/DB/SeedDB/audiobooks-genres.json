@@ -122,5 +122,37 @@
   {
     "AudioBookId": 16,
     "GenreId": 20
+  },
+  {
+    "AudioBookId": 17,
+    "GenreId": 3
+  },
+  {
+    "AudioBookId": 17,
+    "GenreId": 15
+  },
+  {
+    "AudioBookId": 8,
+    "GenreId": 3
+  },
+  {
+    "AudioBookId": 18,
+    "GenreId": 20
+  },
+  {
+    "AudioBookId": 19,
+    "GenreId": 18
+  },
+  {
+    "AudioBookId": 19,
+    "GenreId": 28
+  },
+  {
+    "AudioBookId": 20,
+    "GenreId": 18
+  },
+  {
+    "AudioBookId": 20,
+    "GenreId": 28
   }
 ]

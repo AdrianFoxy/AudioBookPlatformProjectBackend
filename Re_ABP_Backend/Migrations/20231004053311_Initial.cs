@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInitialAfterError : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,9 @@ namespace Re_ABP_Backend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    EnDescription = table.Column<string>(type: "text", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -85,6 +87,7 @@ namespace Re_ABP_Backend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -126,21 +129,6 @@ namespace Re_ABP_Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Publisher",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Publisher", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AudioBook",
                 columns: table => new
                 {
@@ -154,7 +142,7 @@ namespace Re_ABP_Backend.Migrations
                     BookLanguageId = table.Column<int>(type: "int", nullable: false),
                     NarratorId = table.Column<int>(type: "int", nullable: false),
                     BookSeriesId = table.Column<int>(type: "int", nullable: false),
-                    PublisherId = table.Column<int>(type: "int", nullable: false),
+                    OrderInSeries = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -177,12 +165,6 @@ namespace Re_ABP_Backend.Migrations
                         name: "FK_AudioBook_Narrator_NarratorId",
                         column: x => x.NarratorId,
                         principalTable: "Narrator",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AudioBook_Publisher_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "Publisher",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -299,11 +281,6 @@ namespace Re_ABP_Backend.Migrations
                 column: "NarratorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AudioBook_PublisherId",
-                table: "AudioBook",
-                column: "PublisherId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AudioBookAudioFile_BookAudioFileId",
                 table: "AudioBookAudioFile",
                 column: "BookAudioFileId");
@@ -362,9 +339,6 @@ namespace Re_ABP_Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Narrator");
-
-            migrationBuilder.DropTable(
-                name: "Publisher");
         }
     }
 }

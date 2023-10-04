@@ -14,25 +14,25 @@ namespace Re_ABP_Backend.Data.DB
                 context.Genre.AddRange(genres);
             }
 
-            if(!context.Narrator.Any())
+            if (!context.BookLanguage.Any())
+            {
+                var booklanguageData = File.ReadAllText("Data/DB/SeedDB/bookLanguages.json");
+                var booklanguage = JsonSerializer.Deserialize<List<BookLanguage>>(booklanguageData);
+                context.BookLanguage.AddRange(booklanguage);
+            }
+
+            if (!context.Narrator.Any())
             {
                 var narratorsData = File.ReadAllText("Data/DB/SeedDB/narrators.json");
                 var narrators = JsonSerializer.Deserialize<List<Narrator>>(narratorsData);
                 context.Narrator.AddRange(narrators);
             }
 
-            if(!context.BookSeries.Any())
+            if (!context.BookSeries.Any())
             {
                 var bookseriesData = File.ReadAllText("Data/DB/SeedDB/bookseries.json");
                 var bookseries = JsonSerializer.Deserialize<List<BookSeries>>(bookseriesData);
                 context.BookSeries.AddRange(bookseries);
-            }
-
-            if (!context.BookLanguage.Any())
-            {
-                var booklanguageData = File.ReadAllText("Data/DB/SeedDB/bookLanguages.json");
-                var booklanguage = JsonSerializer.Deserialize<List<BookLanguage>>(booklanguageData);
-                context.BookLanguage.AddRange(booklanguage);
             }
 
             if (!context.Author.Any())
@@ -62,7 +62,7 @@ namespace Re_ABP_Backend.Data.DB
                 var audioBookGenre = JsonSerializer.Deserialize<List<AudioBookGenre>>(audioBooksGenresDat);
                 context.AudioBookGenre.AddRange(audioBookGenre);
             }
-
+/*
             if (!context.BookAudioFile.Any())
             {
                 var audioFilesData = File.ReadAllText("Data/DB/SeedDB/audioFiles.json");
@@ -75,7 +75,7 @@ namespace Re_ABP_Backend.Data.DB
                 var audioBooksAudioFilesData = File.ReadAllText("Data/DB/SeedDB/audiobook-audiofile.json");
                 var audioBooksAudioFiles = JsonSerializer.Deserialize<List<AudioBookAudioFile>>(audioBooksAudioFilesData);
                 context.AudioBookAudioFile.AddRange(audioBooksAudioFiles);
-            }
+            }*/
 
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
