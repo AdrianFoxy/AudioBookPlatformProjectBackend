@@ -1,8 +1,10 @@
 [
   {
-    "Name": "Українська"
+    "Name": "Українська",
+    "EnName": "Ukrainian"
   },
   {
-    "Name": "Англійська"
+    "Name": "Англійська",
+    "EnName": "English"
   }
 ]

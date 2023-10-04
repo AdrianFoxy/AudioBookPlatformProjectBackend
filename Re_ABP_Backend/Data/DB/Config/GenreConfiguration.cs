@@ -9,6 +9,8 @@ namespace Re_ABP_Backend.Data.DB.Config
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
             builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
+            builder.Property(p => p.EnName).IsRequired().HasMaxLength(256);
+
         }
     }
 }

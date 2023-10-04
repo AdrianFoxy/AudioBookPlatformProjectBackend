@@ -3,5 +3,6 @@
     public class BookSeries : BaseEntity
     {
         public string Name { get; set; }
+        public string EnName { get; set; }
     }
 }

@@ -14,25 +14,25 @@ namespace Re_ABP_Backend.Data.DB
                 context.Genre.AddRange(genres);
             }
 
-            if(!context.Narrator.Any())
+            if (!context.BookLanguage.Any())
+            {
+                var booklanguageData = File.ReadAllText("Data/DB/SeedDB/bookLanguages.json");
+                var booklanguage = JsonSerializer.Deserialize<List<BookLanguage>>(booklanguageData);
+                context.BookLanguage.AddRange(booklanguage);
+            }
+
+            if (!context.Narrator.Any())
             {
                 var narratorsData = File.ReadAllText("Data/DB/SeedDB/narrators.json");
                 var narrators = JsonSerializer.Deserialize<List<Narrator>>(narratorsData);
                 context.Narrator.AddRange(narrators);
             }
 
-            if(!context.BookSeries.Any())
+            if (!context.BookSeries.Any())
             {
                 var bookseriesData = File.ReadAllText("Data/DB/SeedDB/bookseries.json");
                 var bookseries = JsonSerializer.Deserialize<List<BookSeries>>(bookseriesData);
                 context.BookSeries.AddRange(bookseries);
-            }
-
-            if (!context.BookLanguage.Any())
-            {
-                var booklanguageData = File.ReadAllText("Data/DB/SeedDB/bookLanguages.json");
-                var booklanguage = JsonSerializer.Deserialize<List<BookLanguage>>(booklanguageData);
-                context.BookLanguage.AddRange(booklanguage);
             }
 
             if (!context.Author.Any())
