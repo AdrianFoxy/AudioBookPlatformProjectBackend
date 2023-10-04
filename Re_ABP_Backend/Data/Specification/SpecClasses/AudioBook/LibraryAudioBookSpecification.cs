@@ -7,6 +7,7 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks
         public LibraryAudioBookSpecification(ABSpecParams abParams)
             : base(x =>
                 (string.IsNullOrEmpty(abParams.Search) || x.Name.ToLower().Contains(abParams.Search)) &&
+                (x.Rating >= abParams.LowerRating && x.Rating <= abParams.HighRating) &&
 
                 (abParams.AuthorIds == null || abParams.AuthorIds.Count == 0 || x.Author.Any(x => abParams.AuthorIds.Contains(x.Id))) &&
                 (abParams.GenreIds == null || abParams.GenreIds.Count == 0 || x.Genre.Any(x => abParams.GenreIds.Contains(x.Id))) &&
@@ -19,6 +20,7 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks
                 (abParams.ExceptBookSeriesIds == null || !abParams.ExceptBookSeriesIds.Contains(x.BookSeriesId)) &&
                 (abParams.ExceptBookLanguageIds == null || !abParams.ExceptBookLanguageIds.Contains(x.BookLanguageId)) &&
                 (abParams.ExceptNarratorIds == null || !abParams.ExceptNarratorIds.Contains(x.NarratorId))
+
             )
         {
             AddInclude(x => x.Author);
@@ -38,6 +40,12 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks
                         break;
                     case "rateDesc":
                         AddOrderByDescending(p => p.Rating);
+                        break;
+                    case "durAsc":
+                        AddOrderBy(p => p.BookDuration);
+                        break;
+                    case "durDesc":
+                        AddOrderByDescending(p => p.BookDuration);
                         break;
                     default:
                         AddOrderBy(p => p.Name);
