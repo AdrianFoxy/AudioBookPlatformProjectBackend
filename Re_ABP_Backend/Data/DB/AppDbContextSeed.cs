@@ -62,7 +62,7 @@ namespace Re_ABP_Backend.Data.DB
                 var audioBookGenre = JsonSerializer.Deserialize<List<AudioBookGenre>>(audioBooksGenresDat);
                 context.AudioBookGenre.AddRange(audioBookGenre);
             }
-/*
+
             if (!context.BookAudioFile.Any())
             {
                 var audioFilesData = File.ReadAllText("Data/DB/SeedDB/audioFiles.json");
@@ -75,7 +75,7 @@ namespace Re_ABP_Backend.Data.DB
                 var audioBooksAudioFilesData = File.ReadAllText("Data/DB/SeedDB/audiobook-audiofile.json");
                 var audioBooksAudioFiles = JsonSerializer.Deserialize<List<AudioBookAudioFile>>(audioBooksAudioFilesData);
                 context.AudioBookAudioFile.AddRange(audioBooksAudioFiles);
-            }*/
+            }
 
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
