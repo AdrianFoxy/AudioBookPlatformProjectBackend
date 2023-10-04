@@ -24,6 +24,8 @@ namespace Re_ABP_Backend.Data.Specification
         public List<int>? ExceptBookSeriesIds { get; set; }
         public List<int>? ExceptBookLanguageIds { get; set; }
         public List<int>? ExceptNarratorIds { get; set; }
+        public string? LowerDuration { get; set; }
+        public string? HighDuration { get; set; }
         public int LowerRating  { get; set; }
         public int HighRating { get; set; }
 

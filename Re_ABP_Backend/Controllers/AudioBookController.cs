@@ -51,6 +51,17 @@ namespace Re_ABP_Backend.Controllers
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
+/*
+            int totalSeconds = 2147483647; 
+
+            int hours = totalSeconds / 3600;
+            int minutes = (totalSeconds % 3600) / 60;
+            int seconds = totalSeconds % 60;
+
+            string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
+
+            Console.WriteLine(formattedTime);*/
+
             return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageIndex,
                 abParams.PageSize, totalItems, data));
         }

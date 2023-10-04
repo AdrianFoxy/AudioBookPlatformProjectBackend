@@ -30,10 +30,10 @@ namespace Re_ABP_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan>("BookDuration")
+                    b.Property<int>("BookDuration")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValueSql("'00:00:00'");
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("BookLanguageId")
                         .HasColumnType("int");
@@ -208,10 +208,10 @@ namespace Re_ABP_Backend.Migrations
                         .HasColumnType("DateTime")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<TimeSpan>("Duration")
+                    b.Property<int>("Duration")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("time")
-                        .HasDefaultValueSql("'00:00:00'");
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Name")
                         .IsRequired()

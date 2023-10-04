@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AnotherNewInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,7 +38,7 @@ namespace Re_ABP_Backend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AudioFileUrl = table.Column<string>(type: "text", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false, defaultValueSql: "'00:00:00'"),
+                    Duration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -138,7 +138,7 @@ namespace Re_ABP_Backend.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
-                    BookDuration = table.Column<TimeSpan>(type: "time", nullable: false, defaultValueSql: "'00:00:00'"),
+                    BookDuration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     BookLanguageId = table.Column<int>(type: "int", nullable: false),
                     NarratorId = table.Column<int>(type: "int", nullable: false),
                     BookSeriesId = table.Column<int>(type: "int", nullable: false),
