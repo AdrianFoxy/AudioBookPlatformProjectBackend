@@ -13,7 +13,10 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.Property(p => p.Description).IsRequired().HasColumnType("text");
             builder.Property(p => p.PictureUrl).IsRequired().HasColumnType("text");
             builder.Property(p => p.Rating).IsRequired().HasColumnType("float").HasDefaultValue(0);
-            builder.Property(p => p.BookDuration).IsRequired().HasColumnType("time").HasDefaultValueSql("'00:00:00'");
+            builder.Property(p => p.BookDuration)
+                   .IsRequired()
+                   .HasColumnType("int")
+                   .HasDefaultValue(0);
             builder.HasOne(p => p.BookLanguage).WithMany()
                 .HasForeignKey(p => p.BookLanguageId)
                 .OnDelete(DeleteBehavior.Restrict);

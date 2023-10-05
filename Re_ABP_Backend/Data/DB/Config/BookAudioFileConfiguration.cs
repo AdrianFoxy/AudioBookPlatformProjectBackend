@@ -11,7 +11,10 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
             builder.Property(p => p.AudioFileUrl).IsRequired().HasColumnType("text");
-            builder.Property(p => p.Duration).IsRequired().HasColumnType("time").HasDefaultValueSql("'00:00:00'");
+            builder.Property(p => p.Duration)
+                   .IsRequired()
+                   .HasColumnType("int")
+                   .HasDefaultValue(0);
         }
     }
 }

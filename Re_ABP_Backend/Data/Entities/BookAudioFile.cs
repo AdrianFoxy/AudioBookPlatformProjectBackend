@@ -8,8 +8,7 @@ namespace Re_ABP_Backend.Data.Entities
     {
         public string Name { get; set; }
         public string AudioFileUrl { get; set; }
-        [Column(TypeName = "TIME")]
-        public TimeSpan Duration { get; set; }
+        public int Duration { get; set; }
         [JsonIgnore]
 
         public List<AudioBook> AudioBook { get; set; }

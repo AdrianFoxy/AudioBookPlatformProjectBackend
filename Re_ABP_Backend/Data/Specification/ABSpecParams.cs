@@ -1,4 +1,6 @@
-﻿namespace Re_ABP_Backend.Data.Specification
+﻿using Re_ABP_Backend.Data.Helpers;
+
+namespace Re_ABP_Backend.Data.Specification
 {
     public class ABSpecParams
     {
@@ -17,12 +19,15 @@
         public List<int>? BookSeriesIds { get; set; }
         public List<int>? BookLanguageIds { get; set; }
         public List<int>? NarratorIds { get; set; }
-
         public List<int>? ExceptAuthorIds { get; set; }
         public List<int>? ExceptGenreIds { get; set; }
         public List<int>? ExceptBookSeriesIds { get; set; }
         public List<int>? ExceptBookLanguageIds { get; set; }
         public List<int>? ExceptNarratorIds { get; set; }
+        public int LowerRating  { get; set; }
+        public int HighRating { get; set; }
+        public int LowerDuration { get; set; }
+        public int HighDuration { get; set; }
 
         private string _search;
         public string? Search 
