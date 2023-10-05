@@ -79,7 +79,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-bookSeries")]
-        public async Task<ActionResult<BookSeriesDto>> GetFilteringBookSeriesAsync()
+        public async Task<ActionResult<BookSeriesFilteringDto>> GetFilteringBookSeriesAsync()
         {
             var result = await _bookSeriesRepo.GetListAllAsync();
             if (result == null)
@@ -89,7 +89,7 @@ namespace Re_ABP_Backend.Controllers
             }
 
             return Ok(_mapper
-                   .Map<IReadOnlyList<BookSeries>, IReadOnlyList<BookSeriesDto>>(result));
+                   .Map<IReadOnlyList<BookSeries>, IReadOnlyList<BookSeriesFilteringDto>>(result));
         }
 
         [HttpGet("filter-narrator")]

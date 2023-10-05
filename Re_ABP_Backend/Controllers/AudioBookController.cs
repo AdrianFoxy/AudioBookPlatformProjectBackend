@@ -51,16 +51,6 @@ namespace Re_ABP_Backend.Controllers
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
-/*
-            int totalSeconds = 2147483647; 
-
-            int hours = totalSeconds / 3600;
-            int minutes = (totalSeconds % 3600) / 60;
-            int seconds = totalSeconds % 60;
-
-            string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
-
-            Console.WriteLine(formattedTime);*/
 
             return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageIndex,
                 abParams.PageSize, totalItems, data));
@@ -69,7 +59,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AudioBook>> GetBookAsync(int id)
+        public async Task<ActionResult<SingleAudioBookDto>> GetBookAsync(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
             var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
@@ -79,7 +69,10 @@ namespace Re_ABP_Backend.Controllers
                 Log.Error("Request to get audiobook by id failed, book with id {Id} does not exists.", id);
                 return NotFound(new ApiResponse(404));
             }
-            return Ok(aidiobook);
+
+            var data = _mapper
+                  .Map<AudioBook, SingleAudioBookDto>(aidiobook);
+            return Ok(data);
         }
 
         [HttpGet("recommedation")]

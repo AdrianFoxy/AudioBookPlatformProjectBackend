@@ -10,7 +10,7 @@ namespace Re_ABP_Backend.Data.Dtos
         public string Name { get; set; }
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
-        public int BookDuration { get; set; }
+        public string BookDuration { get; set; }
         public List<AuthorFilteringDto> Author { get; set; }
     }
 }

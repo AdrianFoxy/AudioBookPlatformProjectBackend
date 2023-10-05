@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
-    public class AudioBookUrlResolver : IValueResolver<AudioBook, AudioBookInLibraryDto, string>
+    public class AudioBookUrlResolver<TDestination> : IValueResolver<AudioBook, TDestination, string>
     {
         private readonly IConfiguration _config;
 
@@ -14,7 +14,7 @@ namespace Re_ABP_Backend.Data.Helpers
             _config = config;
         }
 
-        public string Resolve(AudioBook source, AudioBookInLibraryDto destination, string destMember, ResolutionContext context)
+        public string Resolve(AudioBook source, TDestination destination, string destMember, ResolutionContext context)
         {
             if(!string.IsNullOrEmpty(source.PictureUrl))
             {
