@@ -12,9 +12,9 @@ namespace Re_ABP_Backend.Data.Dtos
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
         public string BookDuration { get; set; }
-        public List<Genre> Genre { get; set; }
-        public List<Author> Author { get; set; }
-        public List<BookAudioFile> BookAudioFile { get; set; }
+        public List<GenreFilteringDto> Genre { get; set; }
+        public List<AuthorFilteringDto> Author { get; set; }
+        public List<BookAudioFileDto> BookAudioFile { get; set; }
         public BookLanguage BookLanguage { get; set; }
         public Narrator Narrator { get; set; }
         public BookSeries BookSeries { get; set; }
