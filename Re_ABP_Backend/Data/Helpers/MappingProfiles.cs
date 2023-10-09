@@ -29,6 +29,9 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<BookLanguage, BookLanguageFilteringDto>();
             CreateMap<Narrator, NarratorFilteringDto>();
             CreateMap<BookSeries, BookSeriesFilteringDto>();
+            CreateMap<BookAudioFile, BookAudioFileDto>();
+
+            
         }
     }
 }
