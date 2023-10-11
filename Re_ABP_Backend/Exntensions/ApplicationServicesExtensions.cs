@@ -12,9 +12,10 @@ namespace Re_ABP_Backend.Exntensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services
             , IConfiguration config)
         {
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddDbContext<AppDBContext>(options =>
+
+/*            services.AddDbContext<AppDBContext>(options =>
             options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+*/
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
 
