@@ -12,6 +12,7 @@ namespace Re_ABP_Backend.Data.Dtos
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
         public string BookDuration { get; set; }
+        public int ViewCount { get; set; }
         public List<GenreFilteringDto> Genre { get; set; }
         public List<AuthorFilteringDto> Author { get; set; }
         public List<BookAudioFileDto> BookAudioFile { get; set; }

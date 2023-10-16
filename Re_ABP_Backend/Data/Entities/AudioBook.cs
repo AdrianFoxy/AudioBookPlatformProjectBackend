@@ -10,6 +10,7 @@ namespace Re_ABP_Backend.Data.Entities
         public string PictureUrl { get; set; }
         public float Rating { get; set; }
         public int BookDuration { get; set; }
+        public int ViewCount { get; set; }
 
         // Other tables, relationships, 1:1, 1:n, n:n
         [JsonIgnore]
