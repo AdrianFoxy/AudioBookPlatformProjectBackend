@@ -11,6 +11,7 @@ using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 
+
 namespace Re_ABP_Backend.Controllers
 {
     [Route("api/[controller]")]
@@ -20,16 +21,19 @@ namespace Re_ABP_Backend.Controllers
         private readonly IGenericRepository<AudioBook> _audioBookRepo;
         private readonly IGenericRepository<Genre> _genreRepo;
         private readonly IGenericRepository<Author> _authorRepo;
+        private readonly IAudioBookRepository _audioBookRepository;
         private readonly IMapper _mapper;
 
         public AudioBookController(IGenericRepository<AudioBook> audioBookRepo,
                                    IGenericRepository<Genre> genreRepo,
                                    IGenericRepository<Author> authorRepo,
+                                   IAudioBookRepository audioBookRepository,
                                    IMapper mapper)
         {
             _audioBookRepo = audioBookRepo;
             _genreRepo = genreRepo;
             _authorRepo = authorRepo;
+            _audioBookRepository = audioBookRepository;
             _mapper = mapper;
         }
 
@@ -91,6 +95,15 @@ namespace Re_ABP_Backend.Controllers
             return Ok(_mapper
                    .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(result));
         }
+
+        [HttpPut("increment-viewcount/{id}")]
+        public async Task<ActionResult> IncrementViewCount(int id)
+        {
+            var response = await _audioBookRepository.IncreaseViewCountAsync(id);
+            return Ok(response);
+        }
+
+
 
     }
 }
