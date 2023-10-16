@@ -17,6 +17,10 @@ namespace Re_ABP_Backend.Data.DB.Config
                    .IsRequired()
                    .HasColumnType("int")
                    .HasDefaultValue(0);
+            builder.Property(p => p.ViewCount)
+                   .IsRequired()
+                   .HasColumnType("int")
+                   .HasDefaultValue(0);
             builder.HasOne(p => p.BookLanguage).WithMany()
                 .HasForeignKey(p => p.BookLanguageId)
                 .OnDelete(DeleteBehavior.Restrict);
