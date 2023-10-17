@@ -4,8 +4,8 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec
 {
     public class AuthorBooksSpecification : BaseSpecification<AudioBook>
     {
-        public AuthorBooksSpecification (AuthorBooksParam abParams):
-            base(x => (x.Author.Any(a => a.Id == abParams.AuthorId)))
+        public AuthorBooksSpecification (ABOfSomethingParams abParams):
+            base(x => (x.Author.Any(a => a.Id == abParams.Id)))
         {
             AddInclude(x => x.Author);
             ApplyPaging(abParams.PageSize * (abParams.PageIndex - 1),

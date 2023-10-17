@@ -14,6 +14,5 @@ namespace Re_ABP_Backend.Data.Entities
 
         public List<AudioBookSelection> AudioBookSelection { get; set; }
 
-
     }
 }
