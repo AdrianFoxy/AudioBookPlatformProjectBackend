@@ -42,7 +42,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _genreRepo.GetListAllAsync();
             if(result == null)
             {
-                Log.Error("Request to get genres for filtering is failed, there are no data");
+                Log.Error("Request to get genres for filtering is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 
@@ -56,7 +56,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _authorRepo.GetListAllAsync();
             if (result == null)
             {
-                Log.Error("Request to get authors for filtering is failed, there are no data");
+                Log.Error("Request to get authors for filtering is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 
@@ -70,7 +70,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _bookLanguageRepo.GetListAllAsync();
             if (result == null)
             {
-                Log.Error("Request to get book languages for filtering is failed, there are no data");
+                Log.Error("Request to get book languages for filtering is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 
@@ -84,7 +84,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _bookSeriesRepo.GetListAllAsync();
             if (result == null)
             {
-                Log.Error("Request to get bookSeries for filtering is failed, there are no data");
+                Log.Error("Request to get bookSeries for filtering is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 
@@ -98,7 +98,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _narratorRepo.GetListAllAsync();
             if (result == null)
             {
-                Log.Error("Request to get narrators for filtering is failed, there are no data");
+                Log.Error("Request to get narrators for filtering is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 

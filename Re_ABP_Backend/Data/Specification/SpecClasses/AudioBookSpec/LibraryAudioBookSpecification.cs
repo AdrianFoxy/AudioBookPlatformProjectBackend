@@ -48,6 +48,9 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks
                     case "durDesc":
                         AddOrderByDescending(p => p.BookDuration);
                         break;
+                    case "popularity":
+                        AddOrderByDescending(p => p.ViewCount);
+                        break;
                     default:
                         AddOrderBy(p => p.Name);
                         break;
