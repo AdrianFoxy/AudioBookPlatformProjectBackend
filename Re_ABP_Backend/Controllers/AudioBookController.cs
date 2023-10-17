@@ -6,11 +6,9 @@ using Re_ABP_Backend.Errors;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using Re_ABP_Backend.Data.Specification;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
-
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -47,11 +45,6 @@ namespace Re_ABP_Backend.Controllers
             var totalItems = await _audioBookRepo.CountAsync(countSpec);
 
             var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
-            if (abooks == null)
-            {
-                Log.Error("Request to get audiobooks for libraby is failed, there are no data");
-                return NotFound(new ApiResponse(404));
-            }
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
@@ -88,7 +81,7 @@ namespace Re_ABP_Backend.Controllers
             var result = await _audioBookRepo.GetListWithSpecAsync(spec);
             if (result == null)
             {
-                Log.Error("Request to get recommedation is failed, there are no data");
+                Log.Error("Request to get recommedation is failed, there is no data");
                 return NotFound(new ApiResponse(404));
             }
 
