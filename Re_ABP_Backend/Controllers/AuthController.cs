@@ -32,6 +32,13 @@ namespace Re_ABP_Backend.Controllers
             return "Hi auth user!";
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("auth-test-admin")]
+        public string GetTestTest()
+        {
+            return "Hi admin!";
+        }
+
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginDto model)
         {
@@ -53,7 +60,7 @@ namespace Re_ABP_Backend.Controllers
             var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserName) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserName), new Claim(ClaimTypes.Role, user.Role) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
@@ -82,7 +89,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterDto model)
         {
-            var user = new User { UserName = model.UserName, Email = model.Email };
+            var user = new User { UserName = model.UserName, Email = model.Email, Role = model.Role };
 
             if (model.ConfirmPassword == model.Password)
             {
