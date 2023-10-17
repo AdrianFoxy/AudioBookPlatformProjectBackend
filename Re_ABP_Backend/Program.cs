@@ -1,15 +1,20 @@
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
+using Microsoft.IdentityModel.Tokens;
+using Re_ABP_Backend;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Exntensions;
 using Re_ABP_Backend.Middleware;
 using Serilog;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -17,6 +22,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCorsConfiguration();
 
+builder.Services.Configure<AppSettings>(
+    builder.Configuration.GetSection("ApplicationSettings"));
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -46,6 +53,23 @@ if (builder.Environment.IsDevelopment())
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["ApplicationSettings:Secret"])),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,6 +88,7 @@ app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
