@@ -4,7 +4,7 @@ namespace Re_ABP_Backend.Data.Interfraces
 {
     public interface IAudioBookRepository
     {
-        Task<AudioBook> GetAudioBookByIdAsync(int id);
+        Task<AudioBook?> GetAudioBookByIdAsync(int id);
         Task<IReadOnlyList<AudioBook>> GetAudioBooksAsync();
         Task<bool> IncreaseViewCountAsync(int audioBookId);
 

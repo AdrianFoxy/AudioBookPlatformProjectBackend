@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using Re_ABP_Backend.Data.Entities.Base;
+using Re_ABP_Backend.Data.Entities.Identity;
 
 namespace Re_ABP_Backend.Data.DB
 {
@@ -69,6 +71,8 @@ namespace Re_ABP_Backend.Data.DB
         public DbSet<AudioBookGenre> AudioBookGenre { get; set; }
         public DbSet<AudioBookAudioFile> AudioBookAudioFile { get; set; }
         public DbSet<AudioBookSelection> AudioBookSelection { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
 
 
     }

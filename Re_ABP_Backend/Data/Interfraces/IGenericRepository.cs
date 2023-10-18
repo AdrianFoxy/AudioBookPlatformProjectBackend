@@ -1,4 +1,4 @@
-﻿using Re_ABP_Backend.Data.Entities;
+﻿using Re_ABP_Backend.Data.Entities.Base;
 using Re_ABP_Backend.Data.Specification;
 
 namespace Re_ABP_Backend.Data.Interfraces

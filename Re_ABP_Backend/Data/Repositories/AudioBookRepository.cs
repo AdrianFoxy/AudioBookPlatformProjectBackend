@@ -14,7 +14,7 @@ namespace Re_ABP_Backend.Data.Repositories
         {
             _context = context;
         }
-        public async Task<AudioBook> GetAudioBookByIdAsync(int id)
+        public async Task<AudioBook?> GetAudioBookByIdAsync(int id)
         {
             return await _context.AudioBook.FindAsync(id);
         }

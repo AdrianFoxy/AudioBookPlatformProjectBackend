@@ -16,9 +16,10 @@
             {
                 400 => "Bad Request",
                 401 => "Authorized Error",
+                403 => "You are not allowed here",
                 404 => "Resource not found",
                 500 => "Server error",
-                _ => null
+                _ => "Unknown Status Code"
             };
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Re_ABP_Backend.Data.Entities
+﻿using Re_ABP_Backend.Data.Entities.Base;
+
+namespace Re_ABP_Backend.Data.Entities
 {
     public class BookLanguage : BaseEntity
     {

@@ -1,8 +1,8 @@
 ﻿using Re_ABP_Backend.Data.DB;
-using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification;
 using Microsoft.EntityFrameworkCore;
+using Re_ABP_Backend.Data.Entities.Base;
 
 namespace Re_ABP_Backend.Data.Repositories
 {

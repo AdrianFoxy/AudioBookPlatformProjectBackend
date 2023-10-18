@@ -1,5 +1,5 @@
-﻿using Re_ABP_Backend.Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Re_ABP_Backend.Data.Entities.Base;
 
 namespace Re_ABP_Backend.Data.Specification
 {
