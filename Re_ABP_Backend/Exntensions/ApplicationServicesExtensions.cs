@@ -4,6 +4,7 @@ using Re_ABP_Backend.Data.Repositories;
 using Re_ABP_Backend.Errors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Re_ABP_Backend.Data.Services;
 
 namespace Re_ABP_Backend.Exntensions
 {
@@ -18,7 +19,7 @@ namespace Re_ABP_Backend.Exntensions
 */
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
-
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Entities;
+using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Errors;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,12 +20,9 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private static List<User> UserList = new List<User>();
-        private readonly AppSettings _applicationSettings;
-
-        public AuthController(IOptions<AppSettings> applicationSettings)
-        {
-            _applicationSettings = applicationSettings.Value;
+        private readonly IUserService _userService;
+        public AuthController(IUserService userService) {
+            _userService = userService;
         }
 
         [Authorize]
@@ -40,73 +40,33 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] LoginDto model)
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
-            var user = UserList.Where(x => x.UserName == model.UserName).FirstOrDefault();
+            var user = await _userService.GetUserByUserName(model.UserName);
+            if (user == null) return Unauthorized(new ApiResponse(401));
 
-            if (user == null)
-            {
-                return BadRequest("Username Or Password Was Invalid");
-            }
-
-            var match = CheckPassword(model.Password, user);
-
+            var match =  _userService.CheckPassword(model.Password, user);
             if (!match)
-            {
-                return BadRequest("Username Or Password Was Invalid");
-            }
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Passwords do not match" } });
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserName), new Claim(ClaimTypes.Role, user.Role) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var encrypterToken = tokenHandler.WriteToken(token);
-
-            return Ok(new { token = encrypterToken, username = user.UserName });
-
-        }
-
-
-
-        private bool CheckPassword(string password, User user)
-        {
-            bool result;
-
-            using (HMACSHA512? hmac = new HMACSHA512(user.PasswordSalt))
-            {
-                var compute = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                result = compute.SequenceEqual(user.PasswordHash);
-            }
-
-            return result;
+            return Ok(new { token =  _userService.CreateToken(user), username = user.UserName });
         }
 
         [HttpPost("Register")]
-        public IActionResult Register([FromBody] RegisterDto model)
+        public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            var user = new User { UserName = model.UserName, Email = model.Email, Role = model.Role };
+            var userEmail = await _userService.CheckEmailExistsAsync(model.Email);
+            if (userEmail)
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } });
+            var userName = await _userService.CheckUserNameExistsAsync(model.UserName);
+            if (userName)
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is in use" } });
 
-            if (model.ConfirmPassword == model.Password)
-            {
-                using (HMACSHA512? hmac = new HMACSHA512())
-                {
-                    user.PasswordSalt = hmac.Key;
-                    user.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
-                }
-            }
-            else
-            {
-                return BadRequest("Passwords Dont Match");
-            }
+            var response = await _userService.AddUserAsync(model);
+            if(response == false) return BadRequest(new ApiResponse(400));
 
-            UserList.Add(user);
-
-            return Ok(user);
+            var user = await _userService.GetUserByUserName(model.UserName);
+            return Ok(new { token = _userService.CreateToken(user), username = user.UserName });
         }
 
     }

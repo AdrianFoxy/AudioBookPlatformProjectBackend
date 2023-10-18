@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Re_ABP_Backend.Data.Entities.Base;
 
 namespace Re_ABP_Backend.Data.Entities
 {

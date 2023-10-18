@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Re_ABP_Backend.Data.Entities
+namespace Re_ABP_Backend.Data.Entities.Base
 {
     public class BaseEntity
     {
