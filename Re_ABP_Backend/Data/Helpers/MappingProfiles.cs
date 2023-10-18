@@ -2,6 +2,8 @@
 using Re_ABP_Backend.Data.Entities;
 using AutoMapper;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
+using Re_ABP_Backend.Data.Dtos.AuthDtos;
+using Re_ABP_Backend.Data.Entities.Identity;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -31,7 +33,11 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<BookSeries, BookSeriesFilteringDto>();
             CreateMap<BookAudioFile, BookAudioFileDto>();
 
-            
+            CreateMap<User, UserDto>()
+               .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+
+
+
         }
     }
 }

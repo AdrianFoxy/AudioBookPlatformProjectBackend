@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using Re_ABP_Backend.Data.Dtos;
+using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities;
+using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
 using Serilog;
@@ -21,8 +25,13 @@ namespace Re_ABP_Backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
-        public AuthController(IUserService userService) {
+        private readonly IMapper _mapper;
+
+        public AuthController(IUserService userService, IMapper mapper)
+        {
+
             _userService = userService;
+            _mapper = mapper;
         }
 
         [Authorize]
@@ -37,6 +46,21 @@ namespace Re_ABP_Backend.Controllers
         public string GetTestTest()
         {
             return "Hi admin!";
+        }
+
+        [Authorize]
+        [HttpGet("get-current-user")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var username = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByUserName(username);
+            return Ok(_mapper.Map<User, UserDto>(user));
+        }
+
+        [HttpGet("emailexists")]
+        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+        {
+            return await _userService.CheckEmailExistsAsync(email);
         }
 
         [HttpPost("Login")]

@@ -1,4 +1,4 @@
-﻿using Re_ABP_Backend.Data.Dtos;
+﻿using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 
 namespace Re_ABP_Backend.Data.Interfraces

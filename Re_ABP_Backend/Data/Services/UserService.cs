@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Re_ABP_Backend.Data.DB;
-using Re_ABP_Backend.Data.Dtos;
+using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
@@ -31,7 +31,7 @@ namespace Re_ABP_Backend.Data.Services
             var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserName), new Claim(ClaimTypes.Role, user.Role.Name) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.UserName), new Claim(ClaimTypes.Email, user.Email), new Claim(ClaimTypes.Role, user.Role.Name) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
