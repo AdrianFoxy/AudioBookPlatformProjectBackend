@@ -63,7 +63,7 @@ namespace Re_ABP_Backend.Controllers
             return await _userService.CheckEmailExistsAsync(email);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
             var user = await _userService.GetUserByUserName(model.UserName);
@@ -73,10 +73,10 @@ namespace Re_ABP_Backend.Controllers
             if (!match)
                 return Unauthorized(new ApiResponse(401));
 
-            return Ok(new { token =  _userService.CreateToken(user), username = user.UserName });
+            return Ok(new { token =  _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             var userEmail = await _userService.CheckEmailExistsAsync(model.Email);
@@ -94,7 +94,7 @@ namespace Re_ABP_Backend.Controllers
             if(response == false) return BadRequest(new ApiResponse(400));
 
             var user = await _userService.GetUserByUserName(model.UserName);
-            return Ok(new { token = _userService.CreateToken(user), username = user.UserName });
+            return Ok(new { token = _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
     }
