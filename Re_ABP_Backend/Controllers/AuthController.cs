@@ -71,7 +71,7 @@ namespace Re_ABP_Backend.Controllers
 
             var match =  _userService.CheckPassword(model.Password, user);
             if (!match)
-                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Passwords do not match" } });
+                return Unauthorized(new ApiResponse(401));
 
             return Ok(new { token =  _userService.CreateToken(user), username = user.UserName });
         }
@@ -82,9 +82,13 @@ namespace Re_ABP_Backend.Controllers
             var userEmail = await _userService.CheckEmailExistsAsync(model.Email);
             if (userEmail)
                 return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } });
+
             var userName = await _userService.CheckUserNameExistsAsync(model.UserName);
             if (userName)
                 return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is in use" } });
+
+            if (model.Password != model.ConfirmPassword)
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Password confirm is wrong" } });
 
             var response = await _userService.AddUserAsync(model);
             if(response == false) return BadRequest(new ApiResponse(400));
