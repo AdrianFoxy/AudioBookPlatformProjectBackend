@@ -82,6 +82,7 @@ namespace Re_ABP_Backend.Data.Services
                     UserName = model.UserName,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    DateOfBirth = model.DateOfBirth,
                     RoleId = 2
                 };
 

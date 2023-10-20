@@ -63,6 +63,12 @@ namespace Re_ABP_Backend.Controllers
             return await _userService.CheckEmailExistsAsync(email);
         }
 
+        [HttpGet("usernameexists")]
+        public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string username)
+        {
+            return await _userService.CheckUserNameExistsAsync(username);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
