@@ -63,7 +63,13 @@ namespace Re_ABP_Backend.Controllers
             return await _userService.CheckEmailExistsAsync(email);
         }
 
-        [HttpPost("Login")]
+        [HttpGet("usernameexists")]
+        public async Task<ActionResult<bool>> CheckUserNameExistsAsync([FromQuery] string username)
+        {
+            return await _userService.CheckUserNameExistsAsync(username);
+        }
+
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
             var user = await _userService.GetUserByUserName(model.UserName);
@@ -71,26 +77,30 @@ namespace Re_ABP_Backend.Controllers
 
             var match =  _userService.CheckPassword(model.Password, user);
             if (!match)
-                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Passwords do not match" } });
+                return Unauthorized(new ApiResponse(401));
 
-            return Ok(new { token =  _userService.CreateToken(user), username = user.UserName });
+            return Ok(new { token =  _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             var userEmail = await _userService.CheckEmailExistsAsync(model.Email);
             if (userEmail)
                 return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } });
+
             var userName = await _userService.CheckUserNameExistsAsync(model.UserName);
             if (userName)
                 return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is in use" } });
+
+            if (model.Password != model.ConfirmPassword)
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Password confirm is wrong" } });
 
             var response = await _userService.AddUserAsync(model);
             if(response == false) return BadRequest(new ApiResponse(400));
 
             var user = await _userService.GetUserByUserName(model.UserName);
-            return Ok(new { token = _userService.CreateToken(user), username = user.UserName });
+            return Ok(new { token = _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
     }
