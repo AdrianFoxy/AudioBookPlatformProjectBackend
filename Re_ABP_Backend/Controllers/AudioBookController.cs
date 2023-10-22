@@ -52,7 +52,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageIndex,
                 abParams.PageSize, totalItems, data));
         }
-        [Authorize]
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
