@@ -79,7 +79,8 @@ namespace Re_ABP_Backend.Controllers
             if (!match)
                 return Unauthorized(new ApiResponse(401));
 
-            return Ok(new { token =  _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            _userService.CreateToken(user);
+            return Ok(new { fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpPost("register")]
@@ -100,8 +101,24 @@ namespace Re_ABP_Backend.Controllers
             if(response == false) return BadRequest(new ApiResponse(400));
 
             var user = await _userService.GetUserByUserName(model.UserName);
-            return Ok(new { token = _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            _userService.CreateToken(user);
+            return Ok(new { fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
+
+        [HttpDelete("logout")]
+        public async Task<IActionResult> LogOut()
+        {
+            Response.Cookies.Delete("token", new CookieOptions
+            {
+                Expires = DateTime.Now.AddMinutes(-1),
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.None
+            });
+            return Ok();
+        }
+
 
     }
 }

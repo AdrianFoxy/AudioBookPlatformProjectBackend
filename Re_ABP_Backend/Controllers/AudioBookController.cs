@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -51,7 +52,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(new Pagination<AudioBookInLibraryDto>(abParams.PageIndex,
                 abParams.PageSize, totalItems, data));
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]

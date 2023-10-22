@@ -57,6 +57,10 @@ builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddCookie(x =>
+{
+    x.Cookie.Name = "token";
+
 }).AddJwtBearer(x =>
 {
     x.RequireHttpsMetadata = false;
@@ -68,6 +72,15 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false,
         ValidateAudience = false
     };
+    x.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            context.Token = context.Request.Cookies["token"];
+            return Task.CompletedTask;
+        }
+    };
+
 });
 
 var app = builder.Build();

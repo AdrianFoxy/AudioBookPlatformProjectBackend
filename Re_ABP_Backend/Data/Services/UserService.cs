@@ -18,11 +18,13 @@ namespace Re_ABP_Backend.Data.Services
     {
         private AppDBContext _context;
         private readonly AppSettings _applicationSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(AppDBContext context, IOptions<AppSettings> applicationSettings)
+        public UserService(AppDBContext context, IOptions<AppSettings> applicationSettings, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _applicationSettings = applicationSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string CreateToken(User user)
@@ -37,6 +39,17 @@ namespace Re_ABP_Backend.Data.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encrypterToken = tokenHandler.WriteToken(token);
+
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("token", encrypterToken,
+             new CookieOptions
+             {
+                 Expires = DateTime.Now.AddDays(7),
+                 HttpOnly = true,
+                 Secure = true,
+                 IsEssential = true,
+                 SameSite = SameSiteMode.None
+             });
+
             return encrypterToken;
         }
         public async Task<User?> GetUserByUserName(string username)
