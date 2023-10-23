@@ -145,7 +145,6 @@ namespace Re_ABP_Backend.Data.Services
                 CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 var user = new User
                 {
-                    FullName = model.UserName,
                     Email = model.Email,
                     UserName = model.UserName,
                     PasswordHash = passwordHash,

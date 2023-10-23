@@ -8,7 +8,6 @@ namespace Re_ABP_Backend.Data.DB.Config
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(p => p.FullName).IsRequired().HasMaxLength(256);
             builder.Property(p => p.Email).IsRequired().HasMaxLength(256);
             builder.Property(p => p.UserName).IsRequired().HasMaxLength(256);
             builder.Property(p => p.PasswordHash).IsRequired().HasMaxLength(256);
@@ -18,6 +17,10 @@ namespace Re_ABP_Backend.Data.DB.Config
                         .OnDelete(DeleteBehavior.Restrict);
             builder.Property(p => p.CreatedAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(p => p.UpdatedAt).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
+            builder.Property(p => p.Token).IsRequired().HasDefaultValue(string.Empty);
+            builder.Property(p => p.TokenCreated).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
+            builder.Property(p => p.TokenExpires).IsRequired().HasDefaultValueSql("CURRENT_TIMESTAMP");
+
         }
     }
 }

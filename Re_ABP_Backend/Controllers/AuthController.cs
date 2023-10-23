@@ -39,7 +39,6 @@ namespace Re_ABP_Backend.Controllers
             return "Hi admin!";
         }
 
-        [Authorize]
         [HttpGet("get-current-user")]
         public async Task<IActionResult> GetCurrentUser()
         {
@@ -72,6 +71,8 @@ namespace Re_ABP_Backend.Controllers
             }
             _userService.CreateToken(user);
 
+/*            return Unauthorized();
+*/
             return Ok();
         }
 
@@ -86,7 +87,7 @@ namespace Re_ABP_Backend.Controllers
                 return Unauthorized(new ApiResponse(401));
 
             _userService.CreateToken(user);
-            return Ok(new { fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(new { username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpPost("register")]
@@ -108,13 +109,13 @@ namespace Re_ABP_Backend.Controllers
 
             var user = await _userService.GetUserByUserName(model.UserName);
             _userService.CreateToken(user);
-            return Ok(new { fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(new { username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpDelete("logout")]
         public async Task<IActionResult> LogOut()
         {
-            Response.Cookies.Delete("token", new CookieOptions
+            Response.Cookies.Delete("X-Acces-Token", new CookieOptions
             {
                 Expires = DateTime.Now.AddMinutes(-1),
                 HttpOnly = true,
@@ -126,9 +127,12 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpDelete("revokeToken")]
-        public async Task<IActionResult> RevokeToken(string username)
+        public async Task<IActionResult> RevokeToken()
         {
-            _userService.RevokeToken(username);
+            var refreshToken = Request.Cookies["X-Refresh-Token"];
+            var user = await _userService.GetUserByRefreshToken(refreshToken);
+
+            _userService.RevokeToken(user.UserName);
             return Ok();
         }
 
