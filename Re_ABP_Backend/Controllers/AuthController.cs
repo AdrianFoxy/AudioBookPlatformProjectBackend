@@ -125,12 +125,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpDelete("revokeToken")]
-        public async Task<IActionResult> RevokeToken()
+        public async Task<IActionResult> RevokeToken(string username)
         {
-            var refreshToken = Request.Cookies["X-Refresh-Token"];
-            var user = await _userService.GetUserByRefreshToken(refreshToken);
-
-            _userService.RevokeToken(user.UserName);
+            _userService.RevokeToken(username);
             return Ok();
         }
 
