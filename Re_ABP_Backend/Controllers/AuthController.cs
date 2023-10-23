@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
-using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
-using Serilog;
 using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
@@ -87,7 +85,7 @@ namespace Re_ABP_Backend.Controllers
                 return Unauthorized(new ApiResponse(401));
 
             _userService.CreateToken(user);
-            return Ok(new { username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpPost("register")]
@@ -109,7 +107,7 @@ namespace Re_ABP_Backend.Controllers
 
             var user = await _userService.GetUserByUserName(model.UserName);
             _userService.CreateToken(user);
-            return Ok(new { username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpDelete("logout")]
