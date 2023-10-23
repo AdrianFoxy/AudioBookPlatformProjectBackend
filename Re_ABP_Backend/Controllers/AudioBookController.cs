@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Re_ABP_Backend.Controllers
 {

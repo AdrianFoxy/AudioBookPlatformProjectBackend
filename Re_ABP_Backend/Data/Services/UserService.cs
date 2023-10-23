@@ -18,11 +18,13 @@ namespace Re_ABP_Backend.Data.Services
     {
         private AppDBContext _context;
         private readonly AppSettings _applicationSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(AppDBContext context, IOptions<AppSettings> applicationSettings)
+        public UserService(AppDBContext context, IOptions<AppSettings> applicationSettings, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _applicationSettings = applicationSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string CreateToken(User user)
@@ -37,8 +39,74 @@ namespace Re_ABP_Backend.Data.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encrypterToken = tokenHandler.WriteToken(token);
+
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("X-Acces-Token", encrypterToken,
+             new CookieOptions
+             {
+                 Expires = DateTime.Now.AddMinutes(15),
+                 HttpOnly = true,
+                 Secure = true,
+                 IsEssential = true,
+                 SameSite = SameSiteMode.None
+             });
+
+            var refreshToken = GenerateRefreshToken();
+            SetRefreshToken(refreshToken, user);
+
             return encrypterToken;
         }
+
+        public void SetRefreshToken(RefreshToken refreshToken, User user)
+        {
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("X-Refresh-Token", refreshToken.Token,
+                new CookieOptions
+                {
+                    Expires = refreshToken.Expires,
+                    HttpOnly = true,
+                    Secure = true,
+                    IsEssential = true,
+                    SameSite = SameSiteMode.None
+                });
+
+            var existingUser = _context.User.FirstOrDefault(u => u.UserName == user.UserName);
+
+            if (existingUser !=null)
+            {
+                existingUser.Token = refreshToken.Token;
+                existingUser.TokenCreated = refreshToken.Created;
+                existingUser.TokenExpires = refreshToken.Expires;
+                _context.SaveChanges();
+            }
+        }
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken()
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now
+            };
+
+            return refreshToken;
+        }
+
+        public void RevokeToken(string username)
+        {
+            var user = _context.User.FirstOrDefault(x => x.UserName == username);
+            if (user != null)
+            {
+                user.Token = string.Empty;
+                _context.SaveChanges();
+            }
+
+        }
+
+        public async Task<User> GetUserByRefreshToken(string refreshToken)
+        {
+            return await _context.User.Where(x => x.Token == refreshToken).Include(u => u.Role).FirstOrDefaultAsync();
+        }
+
         public async Task<User?> GetUserByUserName(string username)
         {
             return await _context.User
@@ -77,7 +145,6 @@ namespace Re_ABP_Backend.Data.Services
                 CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 var user = new User
                 {
-                    FullName = model.UserName,
                     Email = model.Email,
                     UserName = model.UserName,
                     PasswordHash = passwordHash,

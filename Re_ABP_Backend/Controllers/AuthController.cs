@@ -1,22 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
-using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
-using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
-using Serilog;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -48,7 +37,6 @@ namespace Re_ABP_Backend.Controllers
             return "Hi admin!";
         }
 
-        [Authorize]
         [HttpGet("get-current-user")]
         public async Task<IActionResult> GetCurrentUser()
         {
@@ -69,6 +57,23 @@ namespace Re_ABP_Backend.Controllers
             return await _userService.CheckUserNameExistsAsync(username);
         }
 
+        [HttpGet("refreshToken")]
+        public async Task<ActionResult<string>> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["X-Refresh-Token"];
+            var user = await _userService.GetUserByRefreshToken(refreshToken);
+
+            if(user == null || user.TokenExpires < DateTime.Now)
+            {
+                return Unauthorized(new ApiResponse(401));
+            }
+            _userService.CreateToken(user);
+
+/*            return Unauthorized();
+*/
+            return Ok();
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
@@ -79,7 +84,8 @@ namespace Re_ABP_Backend.Controllers
             if (!match)
                 return Unauthorized(new ApiResponse(401));
 
-            return Ok(new { token =  _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            _userService.CreateToken(user);
+            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
         [HttpPost("register")]
@@ -100,8 +106,31 @@ namespace Re_ABP_Backend.Controllers
             if(response == false) return BadRequest(new ApiResponse(400));
 
             var user = await _userService.GetUserByUserName(model.UserName);
-            return Ok(new { token = _userService.CreateToken(user), fullName = user.FullName, username = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            _userService.CreateToken(user);
+            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
         }
 
+        [HttpDelete("logout")]
+        public async Task<IActionResult> LogOut()
+        {
+            Response.Cookies.Delete("X-Acces-Token", new CookieOptions
+            {
+                Expires = DateTime.Now.AddMinutes(-1),
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.None
+            });
+            return Ok();
+        }
+
+        [HttpDelete("revokeToken")]
+        public async Task<IActionResult> RevokeToken(string username)
+        {
+            _userService.RevokeToken(username);
+            return Ok();
+        }
+
+        
     }
 }

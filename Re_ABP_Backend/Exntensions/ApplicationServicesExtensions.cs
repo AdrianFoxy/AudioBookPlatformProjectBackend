@@ -19,6 +19,7 @@ namespace Re_ABP_Backend.Exntensions
 */
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
+            services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

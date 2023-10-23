@@ -6,7 +6,6 @@ namespace Re_ABP_Backend.Data.Entities.Identity
     public class User
     {
         public int Id { get; set; }
-        public string FullName { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -20,6 +19,9 @@ namespace Re_ABP_Backend.Data.Entities.Identity
 
         [Column(TypeName = "DateTime")]
         public DateTime UpdatedAt { get; set; }
+        public string Token { get; set; }
+        public DateTime TokenCreated { get; set; }
+        public DateTime TokenExpires { get; set; }
 
     }
 }
