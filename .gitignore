@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+/Re_ABP_Backend/appsettings.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -475,3 +477,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/Re_ABP_Backend/appsettings.Production.json
+/Re_ABP_Backend/appsettings.json
