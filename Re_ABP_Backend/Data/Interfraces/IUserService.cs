@@ -6,6 +6,7 @@ namespace Re_ABP_Backend.Data.Interfraces
     public interface IUserService
     {
         Task<User?> GetUserByUserName(string username);
+        Task<User?> GetUserByEmail(string email);
         Task<User> GetUserByRefreshToken(string refreshToken);
         void RevokeToken(string username);
         bool CheckPassword(string password, User user);
