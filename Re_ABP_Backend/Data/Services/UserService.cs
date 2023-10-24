@@ -114,6 +114,13 @@ namespace Re_ABP_Backend.Data.Services
                 .FirstOrDefaultAsync(u => u.UserName == username);
         }
 
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await _context.User
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
         public bool CheckPassword(string password, User user)
         {
             bool result;

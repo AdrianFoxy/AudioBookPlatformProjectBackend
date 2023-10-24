@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
@@ -15,12 +17,14 @@ namespace Re_ABP_Backend.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly AppSettings _applicationSettings;
 
-        public AuthController(IUserService userService, IMapper mapper)
+        public AuthController(IUserService userService, IMapper mapper, IOptions<AppSettings> applicationSettings)
         {
 
             _userService = userService;
             _mapper = mapper;
+            _applicationSettings = applicationSettings.Value;
         }
 
         [Authorize]
@@ -86,6 +90,29 @@ namespace Re_ABP_Backend.Controllers
 
             _userService.CreateToken(user);
             return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+        }
+
+        [HttpPost("loginWithGoogle")]
+        public async Task<IActionResult> LoginWithGoogle([FromBody] string credential)
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string> { this._applicationSettings.GoogleClientId }
+            };
+
+            var payload = await GoogleJsonWebSignature.ValidateAsync(credential, settings);
+
+            var user = await _userService.GetUserByEmail(payload.Email);
+
+            if (user != null)
+            {
+                _userService.CreateToken(user);
+                return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("register")]
