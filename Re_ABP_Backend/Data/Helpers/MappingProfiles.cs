@@ -33,6 +33,9 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<BookSeries, BookSeriesFilteringDto>();
             CreateMap<BookAudioFile, BookAudioFileDto>();
 
+            CreateMap<Author, SingleAuthorDto>()
+                .ForMember(d => d.ImageUrl, o => o.MapFrom<AuthorUrlResolver<SingleAuthorDto>>());
+
             CreateMap<User, UserDto>()
                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
 
