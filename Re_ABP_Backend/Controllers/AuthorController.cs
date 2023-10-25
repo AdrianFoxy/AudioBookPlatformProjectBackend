@@ -44,7 +44,8 @@ namespace Re_ABP_Backend.Controllers
                 return NotFound(new ApiResponse(404));
             }
 
-            return Ok(author);
+            return Ok(_mapper
+                    .Map<Author, SingleAuthorDto>(author));
         }
 
         [HttpGet("author-books")]

@@ -1,7 +1,5 @@
-﻿using Re_ABP_Backend.Data.Dtos;
-using Re_ABP_Backend.Data.Entities;
+﻿using Re_ABP_Backend.Data.Entities;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
