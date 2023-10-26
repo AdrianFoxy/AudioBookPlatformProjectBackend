@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using Re_ABP_Backend.Data.Entities;
 
-namespace Re_ABP_Backend.Data.Helpers
+namespace Re_ABP_Backend.Data.Helpers.UrlResolvers
 {
-    public class AuthorUrlResolver<TDestination> : IValueResolver<Author, TDestination, string>
+    public class SelectionUrlResolver<TDestination> : IValueResolver<BookSelection, TDestination, string>
     {
         private readonly IConfiguration _config;
 
-        public AuthorUrlResolver(IConfiguration config)
+        public SelectionUrlResolver(IConfiguration config)
         {
             _config = config;
         }
 
-        public string Resolve(Author source, TDestination destination, string destMember, ResolutionContext context)
+        public string Resolve(BookSelection source, TDestination destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.ImageUrl))
             {
@@ -21,6 +21,5 @@ namespace Re_ABP_Backend.Data.Helpers
 
             return null;
         }
-
     }
 }

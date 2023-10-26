@@ -1,7 +1,7 @@
 ﻿using Re_ABP_Backend.Data.Entities;
 using AutoMapper;
 
-namespace Re_ABP_Backend.Data.Helpers
+namespace Re_ABP_Backend.Data.Helpers.UrlResolvers
 {
     public class AudioBookUrlResolver<TDestination> : IValueResolver<AudioBook, TDestination, string>
     {
@@ -14,7 +14,7 @@ namespace Re_ABP_Backend.Data.Helpers
 
         public string Resolve(AudioBook source, TDestination destination, string destMember, ResolutionContext context)
         {
-            if(!string.IsNullOrEmpty(source.PictureUrl))
+            if (!string.IsNullOrEmpty(source.PictureUrl))
             {
                 return _config["ApiUrl"] + source.PictureUrl;
             }
