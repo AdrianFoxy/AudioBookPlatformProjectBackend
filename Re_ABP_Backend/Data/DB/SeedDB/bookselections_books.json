@@ -1,0 +1,54 @@
+[
+  {
+    "AudioBookId": 10,
+    "BookSelectionId": 1
+  },
+  {
+    "AudioBookId": 7,
+    "BookSelectionId": 1
+  },
+  {
+    "AudioBookId": 9,
+    "BookSelectionId": 1
+  },
+  {
+    "AudioBookId": 3,
+    "BookSelectionId": 2
+  },
+  {
+    "AudioBookId": 4,
+    "BookSelectionId": 2
+  },
+  {
+    "AudioBookId": 5,
+    "BookSelectionId": 2
+  },
+  {
+    "AudioBookId": 11,
+    "BookSelectionId": 3
+  },
+  {
+    "AudioBookId": 13,
+    "BookSelectionId": 3
+  },
+  {
+    "AudioBookId": 14,
+    "BookSelectionId": 3
+  },
+  {
+    "AudioBookId": 1,
+    "BookSelectionId": 4
+  },
+  {
+    "AudioBookId": 2,
+    "BookSelectionId": 4
+  },
+  {
+    "AudioBookId": 6,
+    "BookSelectionId": 4
+  },
+  {
+    "AudioBookId": 9,
+    "BookSelectionId": 4
+  }
+]

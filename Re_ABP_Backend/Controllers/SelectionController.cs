@@ -32,18 +32,38 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<BookSelection>> GetSelectionAsync()
+        public async Task<ActionResult<IEnumerable<SingleSelectionDto>>> GetSelectionAsync()
         {
             var selection = await _bookSelectionRepo.GetListAllAsync();
 
             if (selection.Count == 0)
             {
-                Log.Error("Request to get selections is failed, there is no data.");
+                Log.Error("Request to get selections has failed, there is no data.");
                 return NotFound(new ApiResponse(404));
             }
 
-            return Ok(selection);
+            var selectionDtos = selection.Select(s => _mapper.Map<BookSelection, SingleSelectionDto>(s)).ToList();
+
+            return Ok(selectionDtos);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Author>> GetBookSelection(int id)
+        {
+            var selection = await _bookSelectionRepo.GetByIdAsync(id);
+
+            if (selection == null)
+            {
+                Log.Error("Request to get selection by id failed, selection with id {Id} does not exists.", id);
+                return NotFound(new ApiResponse(404));
+            }
+
+            return Ok(_mapper
+                    .Map<BookSelection, SingleSelectionDto>(selection));
+        }
+
 
         [HttpGet("selection-books")]
         [ProducesResponseType(StatusCodes.Status200OK)]

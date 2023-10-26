@@ -4,6 +4,7 @@ using AutoMapper;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
+using Re_ABP_Backend.Data.Helpers.UrlResolvers;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -35,6 +36,8 @@ namespace Re_ABP_Backend.Data.Helpers
 
             CreateMap<Author, SingleAuthorDto>()
                 .ForMember(d => d.ImageUrl, o => o.MapFrom<AuthorUrlResolver<SingleAuthorDto>>());
+            CreateMap<BookSelection, SingleSelectionDto>()
+                .ForMember(d => d.ImageUrl, o => o.MapFrom<SelectionUrlResolver<SingleSelectionDto>>());
 
             CreateMap<User, UserDto>()
                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));

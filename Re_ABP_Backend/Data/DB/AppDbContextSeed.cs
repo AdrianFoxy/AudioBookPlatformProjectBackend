@@ -77,6 +77,20 @@ namespace Re_ABP_Backend.Data.DB
                 context.AudioBookAudioFile.AddRange(audioBooksAudioFiles);
             }
 
+            if (!context.BookSelection.Any())
+            {
+                var bookSelection = File.ReadAllText("Data/DB/SeedDB/selections.json");
+                var bookSelections = JsonSerializer.Deserialize<List<BookSelection>>(bookSelection);
+                context.BookSelection.AddRange(bookSelections);
+            }
+
+            if (!context.AudioBookSelection.Any())
+            {
+                var bookSelection_audiobook = File.ReadAllText("Data/DB/SeedDB/bookselections_books.json");
+                var bookSelections_audiobook = JsonSerializer.Deserialize<List<AudioBookSelection>>(bookSelection_audiobook);
+                context.AudioBookSelection.AddRange(bookSelections_audiobook);
+            }
+
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
     }
