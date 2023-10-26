@@ -84,6 +84,7 @@ namespace Re_ABP_Backend.Controllers
         {
             var user = await _userService.GetUserByUserName(model.UserName);
             if (user == null) return Unauthorized(new ApiResponse(401));
+            if (model.Password == string.Empty) return Unauthorized(new ApiResponse(401));
 
             var match =  _userService.CheckPassword(model.Password, user);
             if (!match)
@@ -112,7 +113,20 @@ namespace Re_ABP_Backend.Controllers
             }
             else
             {
-                return BadRequest();
+                var newuser = new RegisterDto
+                {
+                    UserName = payload.Name,
+                    Email = payload.Email,
+                    DateOfBirth = DateTime.MinValue,
+                    Password = string.Empty,
+                    ConfirmPassword = string.Empty
+                };
+                var response = await _userService.AddUserAsync(newuser);
+                if (response == false) return BadRequest(new ApiResponse(400));
+                var user_reg = await _userService.GetUserByEmail(payload.Email);
+                _userService.CreateToken(user_reg);
+
+                return Ok(new { userName = user_reg.UserName, email = user_reg.Email, dateOfBirth = user_reg.DateOfBirth });
             }
         }
 
