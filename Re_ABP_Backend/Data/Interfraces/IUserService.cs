@@ -1,4 +1,5 @@
 ﻿using Re_ABP_Backend.Data.Dtos.AuthDtos;
+using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 
 namespace Re_ABP_Backend.Data.Interfraces
@@ -7,6 +8,7 @@ namespace Re_ABP_Backend.Data.Interfraces
     {
         Task<User?> GetUserByUserName(string username);
         Task<User?> GetUserByEmail(string email);
+        Task<User?> GetUserById(int id);
         Task<User> GetUserByRefreshToken(string refreshToken);
         void RevokeToken(string username);
         bool CheckPassword(string password, User user);
@@ -14,5 +16,6 @@ namespace Re_ABP_Backend.Data.Interfraces
         Task<bool> CheckEmailExistsAsync(string email);
         Task<bool> CheckUserNameExistsAsync(string username);
         Task<bool> AddUserAsync(RegisterDto model);
+        Task<bool> EditUserAsync(UserDto user);
     }
 }

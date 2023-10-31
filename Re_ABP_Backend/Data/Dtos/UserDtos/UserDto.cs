@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Re_ABP_Backend.Data.Entities.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Re_ABP_Backend.Data.Dtos.AuthDtos
+﻿namespace Re_ABP_Backend.Data.Dtos.UserDtos
 {
     public class UserDto
     {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
+using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
@@ -45,9 +46,16 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet("get-current-user")]
         public async Task<IActionResult> GetCurrentUser()
         {
-            var username = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByUserName(username);
-            return Ok(_mapper.Map<User, UserDto>(user));
+            var userIdentifier = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(userIdentifier, out int userId))
+            {
+                var user = await _userService.GetUserById(userId);
+                return Ok(_mapper.Map<User, UserDto>(user));
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         [HttpGet("emailexists")]
@@ -74,8 +82,6 @@ namespace Re_ABP_Backend.Controllers
             }
             _userService.CreateToken(user);
 
-/*            return Unauthorized();
-*/
             return Ok();
         }
 
@@ -91,7 +97,7 @@ namespace Re_ABP_Backend.Controllers
                 return Unauthorized(new ApiResponse(401));
 
             _userService.CreateToken(user);
-            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(_mapper.Map<User, UserDto>(user));
         }
 
         [HttpPost("loginWithGoogle")]
@@ -109,7 +115,7 @@ namespace Re_ABP_Backend.Controllers
             if (user != null)
             {
                 _userService.CreateToken(user);
-                return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+                return Ok(_mapper.Map<User, UserDto>(user));
             }
             else
             {
@@ -126,7 +132,7 @@ namespace Re_ABP_Backend.Controllers
                 var user_reg = await _userService.GetUserByEmail(payload.Email);
                 _userService.CreateToken(user_reg);
 
-                return Ok(new { userName = user_reg.UserName, email = user_reg.Email, dateOfBirth = user_reg.DateOfBirth });
+                return Ok(_mapper.Map<User, UserDto>(user));
             }
         }
 
@@ -149,7 +155,7 @@ namespace Re_ABP_Backend.Controllers
 
             var user = await _userService.GetUserByUserName(model.UserName);
             _userService.CreateToken(user);
-            return Ok(new { userName = user.UserName, email = user.Email, dateOfBirth = user.DateOfBirth });
+            return Ok(_mapper.Map<User, UserDto>(user));
         }
 
         [HttpDelete("logout")]
