@@ -123,16 +123,16 @@ namespace Re_ABP_Backend.Controllers
                 {
                     UserName = payload.Name,
                     Email = payload.Email,
-                    DateOfBirth = DateTime.MinValue,
+                    DateOfBirth = new DateTime(1900, 1, 1),
                     Password = string.Empty,
                     ConfirmPassword = string.Empty
                 };
                 var response = await _userService.AddUserAsync(newuser);
                 if (response == false) return BadRequest(new ApiResponse(400));
                 var user_reg = await _userService.GetUserByEmail(payload.Email);
-                _userService.CreateToken(user_reg);
 
-                return Ok(_mapper.Map<User, UserDto>(user));
+                _userService.CreateToken(user_reg);
+                return Ok(_mapper.Map<User, UserDto>(user_reg));
             }
         }
 

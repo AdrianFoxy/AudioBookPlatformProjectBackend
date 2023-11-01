@@ -10,6 +10,8 @@ namespace Re_ABP_Backend.Data.DB.Config
         {
             builder.Property(p => p.Email).IsRequired().HasMaxLength(256);
             builder.Property(p => p.UserName).IsRequired().HasMaxLength(256);
+            builder.Property(p => p.About).IsRequired().HasMaxLength(256);
+            builder.Property(p => p.SocialAuth).IsRequired().HasDefaultValue(false);
             builder.Property(p => p.PasswordHash).IsRequired().HasMaxLength(256);
             builder.Property(p => p.PasswordSalt).IsRequired().HasMaxLength(256);
             builder.HasOne(p => p.Role).WithMany()

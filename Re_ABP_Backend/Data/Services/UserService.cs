@@ -165,8 +165,10 @@ namespace Re_ABP_Backend.Data.Services
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     DateOfBirth = model.DateOfBirth,
-                    RoleId = 2
+                    RoleId = 2,
+                    About = string.Empty
                 };
+                if (model.Password.IsNullOrEmpty()) user.SocialAuth = true;
 
                 await _context.User.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -190,9 +192,16 @@ namespace Re_ABP_Backend.Data.Services
                     return false;
                 }
 
+                if(dbUser.Email != user.Email && dbUser.SocialAuth == true) 
+                {
+                    Log.Error("Cannot update user email, what auth wia social media (Google). {user.Email}", user.Email);
+                    return false;
+                }
+
                 dbUser.UserName = user.UserName;
                 dbUser.Email = user.Email;
                 dbUser.DateOfBirth = user.DateOfBirth;
+                dbUser.About = user.About;
 
                 await _context.SaveChangesAsync();
                 return true;
