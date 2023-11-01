@@ -2,9 +2,9 @@
 using Re_ABP_Backend.Data.Entities;
 using AutoMapper;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
-using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Helpers.UrlResolvers;
+using Re_ABP_Backend.Data.Dtos.UserDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {

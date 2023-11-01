@@ -3,9 +3,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
+using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Errors;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -33,7 +35,7 @@ namespace Re_ABP_Backend.Data.Services
             var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.UserName), new Claim(ClaimTypes.Email, user.Email), new Claim(ClaimTypes.Role, user.Role.Name) }),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), new Claim(ClaimTypes.Name, user.UserName), new Claim(ClaimTypes.Email, user.Email), new Claim(ClaimTypes.Role, user.Role.Name) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
@@ -43,7 +45,7 @@ namespace Re_ABP_Backend.Data.Services
             _httpContextAccessor.HttpContext.Response.Cookies.Append("X-Acces-Token", encrypterToken,
              new CookieOptions
              {
-                 Expires = DateTime.Now.AddMinutes(15),
+                 Expires = DateTime.Now.AddHours(6),
                  HttpOnly = true,
                  Secure = true,
                  IsEssential = true,
@@ -120,6 +122,12 @@ namespace Re_ABP_Backend.Data.Services
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
+        public async Task<User?> GetUserById(int id)
+        {
+            return await _context.User
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
 
         public bool CheckPassword(string password, User user)
         {
@@ -157,8 +165,10 @@ namespace Re_ABP_Backend.Data.Services
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
                     DateOfBirth = model.DateOfBirth,
-                    RoleId = 2
+                    RoleId = 2,
+                    About = string.Empty
                 };
+                if (model.Password.IsNullOrEmpty()) user.SocialAuth = true;
 
                 await _context.User.AddAsync(user);
                 await _context.SaveChangesAsync();
@@ -171,6 +181,38 @@ namespace Re_ABP_Backend.Data.Services
             }
         }
 
+        public async Task<bool> EditUserAsync(UserDto user)
+        {
+            try
+            {
+                var dbUser = await _context.User.FindAsync(user.Id);
+                if(dbUser == null)
+                {
+                    Log.Error("Request to get user by id failed, user with id {user.Id} does not exists.", user.Id);
+                    return false;
+                }
+
+                if(dbUser.Email != user.Email && dbUser.SocialAuth == true) 
+                {
+                    Log.Error("Cannot update user email, what auth wia social media (Google). {user.Email}", user.Email);
+                    return false;
+                }
+
+                dbUser.UserName = user.UserName;
+                dbUser.Email = user.Email;
+                dbUser.DateOfBirth = user.DateOfBirth;
+                dbUser.About = user.About;
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                Log.Error("EditUserAsync METHOD: Can't update user information. {ex}", ex);
+                return false;
+            }
+        }
+
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -179,5 +221,6 @@ namespace Re_ABP_Backend.Data.Services
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+
     }
 }

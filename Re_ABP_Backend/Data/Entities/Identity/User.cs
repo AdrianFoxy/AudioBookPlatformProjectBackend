@@ -9,6 +9,8 @@ namespace Re_ABP_Backend.Data.Entities.Identity
         public string Email { get; set; }
         public string UserName { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string About { get; set; }
+        public bool SocialAuth { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public Role Role { get; set; }
