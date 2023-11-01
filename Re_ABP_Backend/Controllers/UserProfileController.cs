@@ -43,9 +43,27 @@ namespace Re_ABP_Backend.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDto>> UpdateUser(UserDto userUpdate)
         {
+            var user = await _userService.GetUserById(userUpdate.Id);
+
+            if (user.Email != userUpdate.Email)
+            {
+                var userEmail = await _userService.CheckEmailExistsAsync(userUpdate.Email);
+                if (userEmail)
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is taken" } });
+            }
+
+            if (user.UserName != userUpdate.UserName)
+            {
+                var userName = await _userService.CheckUserNameExistsAsync(userUpdate.UserName);
+                if (userName)
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is taken" } });
+            }
+
             if (!(await _userService.EditUserAsync(userUpdate)))
                 return BadRequest(new ApiResponse(400));
-            var user = await _userService.GetUserById(userUpdate.Id);
+
+            user = await _userService.GetUserById(userUpdate.Id);
+
             if (user == null)
             {
                 Log.Error("Request to get user by id failed, user with id {userUpdate.Id} does not exists.", userUpdate.Id);
