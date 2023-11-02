@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
@@ -37,6 +35,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-genres")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<GenreFilteringDto>> GetFilteringGenresAsync()
         {
             var result = await _genreRepo.GetListAllAsync();
@@ -51,6 +52,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-authors")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<AuthorFilteringDto>> GetFilteringAuthorsAsync()
         {
             var result = await _authorRepo.GetListAllAsync();
@@ -65,6 +69,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-bookLanguage")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<BookLanguageFilteringDto>> GetFilteringBookLanguagesAsync()
         {
             var result = await _bookLanguageRepo.GetListAllAsync();
@@ -79,6 +86,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-bookSeries")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<BookSeriesFilteringDto>> GetFilteringBookSeriesAsync()
         {
             var result = await _bookSeriesRepo.GetListAllAsync();
@@ -93,6 +103,9 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("filter-narrator")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<NarratorFilteringDto>> GetFilteringNarratorsAsync()
         {
             var result = await _narratorRepo.GetListAllAsync();

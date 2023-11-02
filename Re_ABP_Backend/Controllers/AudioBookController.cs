@@ -17,20 +17,14 @@ namespace Re_ABP_Backend.Controllers
     public class AudioBookController : ControllerBase
     {
         private readonly IGenericRepository<AudioBook> _audioBookRepo;
-        private readonly IGenericRepository<Genre> _genreRepo;
-        private readonly IGenericRepository<Author> _authorRepo;
         private readonly IAudioBookRepository _audioBookRepository;
         private readonly IMapper _mapper;
 
         public AudioBookController(IGenericRepository<AudioBook> audioBookRepo,
-                                   IGenericRepository<Genre> genreRepo,
-                                   IGenericRepository<Author> authorRepo,
                                    IAudioBookRepository audioBookRepository,
                                    IMapper mapper)
         {
             _audioBookRepo = audioBookRepo;
-            _genreRepo = genreRepo;
-            _authorRepo = authorRepo;
             _audioBookRepository = audioBookRepository;
             _mapper = mapper;
         }
