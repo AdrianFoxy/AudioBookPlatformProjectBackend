@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
@@ -24,15 +21,15 @@ namespace Re_ABP_Backend.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserDto>> GetUserByEmail(int id)
+        public async Task<ActionResult<UserDto>> GetUserByUserName(string username)
         {
-            var user = await _userService.GetUserById(id);
+            var user = await _userService.GetUserByUserName(username);
             if (user == null)
             {
-                Log.Error("Request to get user by id failed, user with id {id} does not exists.", id);
+                Log.Error("Request to get user by username failed, user with username {username} does not exists.", username);
                 return NotFound(new ApiResponse(404));
             }
             return Ok(_mapper.Map<User, UserDto>(user));
