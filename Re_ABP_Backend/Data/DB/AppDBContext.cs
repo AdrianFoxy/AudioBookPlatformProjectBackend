@@ -15,6 +15,9 @@ namespace Re_ABP_Backend.Data.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Review>()
+                 .ToTable(tb => tb.HasTrigger("UpdateAudioBookRating"));
+
             base.OnModelCreating(modelBuilder);
 
             // Get all Entities that inherited from BaseEntity
