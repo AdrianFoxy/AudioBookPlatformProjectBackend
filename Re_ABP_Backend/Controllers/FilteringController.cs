@@ -12,25 +12,13 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class FilteringController : ControllerBase
     {
-        private readonly IGenericRepository<Genre> _genreRepo;
-        private readonly IGenericRepository<Author> _authorRepo;
-        private readonly IGenericRepository<BookLanguage> _bookLanguageRepo;
-        private readonly IGenericRepository<BookSeries> _bookSeriesRepo;
-        private readonly IGenericRepository<Narrator> _narratorRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public FilteringController(IGenericRepository<Genre> genreRepo,
-                           IGenericRepository<Author> authorRepo,
-                           IGenericRepository<BookLanguage> bookLanguageRepo,
-                           IGenericRepository<BookSeries> bookSeriesRepo,
-                           IGenericRepository<Narrator> narratorRepo,
-                           IMapper mapper)
+        public FilteringController(IUnitOfWork unitOfWork,
+                                   IMapper mapper)
         {
-            _genreRepo = genreRepo;
-            _authorRepo = authorRepo;
-            _bookLanguageRepo = bookLanguageRepo;
-            _bookSeriesRepo = bookSeriesRepo;
-            _narratorRepo = narratorRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -40,7 +28,7 @@ namespace Re_ABP_Backend.Controllers
 
         public async Task<ActionResult<GenreFilteringDto>> GetFilteringGenresAsync()
         {
-            var result = await _genreRepo.GetListAllAsync();
+            var result = await _unitOfWork.Repository<Genre>().GetListAllAsync();
             if(result == null)
             {
                 Log.Error("Request to get genres for filtering is failed, there is no data");
@@ -57,7 +45,7 @@ namespace Re_ABP_Backend.Controllers
 
         public async Task<ActionResult<AuthorFilteringDto>> GetFilteringAuthorsAsync()
         {
-            var result = await _authorRepo.GetListAllAsync();
+            var result = await _unitOfWork.Repository<Author>().GetListAllAsync();
             if (result == null)
             {
                 Log.Error("Request to get authors for filtering is failed, there is no data");
@@ -74,7 +62,7 @@ namespace Re_ABP_Backend.Controllers
 
         public async Task<ActionResult<BookLanguageFilteringDto>> GetFilteringBookLanguagesAsync()
         {
-            var result = await _bookLanguageRepo.GetListAllAsync();
+            var result = await _unitOfWork.Repository<BookLanguage>().GetListAllAsync();
             if (result == null)
             {
                 Log.Error("Request to get book languages for filtering is failed, there is no data");
@@ -91,7 +79,7 @@ namespace Re_ABP_Backend.Controllers
 
         public async Task<ActionResult<BookSeriesFilteringDto>> GetFilteringBookSeriesAsync()
         {
-            var result = await _bookSeriesRepo.GetListAllAsync();
+            var result = await _unitOfWork.Repository<BookSeries>().GetListAllAsync();
             if (result == null)
             {
                 Log.Error("Request to get bookSeries for filtering is failed, there is no data");
@@ -108,7 +96,7 @@ namespace Re_ABP_Backend.Controllers
 
         public async Task<ActionResult<NarratorFilteringDto>> GetFilteringNarratorsAsync()
         {
-            var result = await _narratorRepo.GetListAllAsync();
+            var result = await _unitOfWork.Repository<Narrator>().GetListAllAsync();
             if (result == null)
             {
                 Log.Error("Request to get narrators for filtering is failed, there is no data");

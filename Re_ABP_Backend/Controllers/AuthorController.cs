@@ -16,16 +16,14 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class AuthorController : ControllerBase
     {
-        private readonly IGenericRepository<AudioBook> _audioBookRepo;
-        private readonly IGenericRepository<Author> _authorRepo;
+        private readonly IUnitOfWork _unitOfWork;
+
         private readonly IMapper _mapper;
 
-        public AuthorController(IGenericRepository<Author> authorRepo,
-                                IGenericRepository<AudioBook> audioBookRepo,
+        public AuthorController(IUnitOfWork unitOfWork,
                                 IMapper mapper)
         {
-            _authorRepo = authorRepo;
-            _audioBookRepo = audioBookRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -35,7 +33,7 @@ namespace Re_ABP_Backend.Controllers
         public async Task<ActionResult<Author>> GetAuthorAsync(int id)
         {
             var spec = new AuthorSpecification(id);
-            var author = await _authorRepo.GetEntityWithSpec(spec);
+            var author = await _unitOfWork.Repository<Author>().GetEntityWithSpec(spec);
 
             if (author == null)
             {
@@ -55,9 +53,9 @@ namespace Re_ABP_Backend.Controllers
             var spec = new AuthorBooksSpecification(abParams);
             var countSpec = new AuthorBooksCountSpecification(abParams);
 
-            var totalItems = await _audioBookRepo.CountAsync(countSpec);
+            var totalItems = await _unitOfWork.Repository<AudioBook>().CountAsync(countSpec);
 
-            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
+            var abooks = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
             if (abooks.Count == 0)
             {
                 Log.Error("Request to get audiobooks by author {id} is failed, there is no data", abParams.Id);
