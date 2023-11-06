@@ -15,14 +15,13 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class SelectionController : ControllerBase
     {
-        private readonly IGenericRepository<AudioBook> _audioBookRepo;
-        private readonly IGenericRepository<BookSelection> _bookSelectionRepo;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public SelectionController(IGenericRepository<AudioBook> audioBookRepo, IGenericRepository<BookSelection> bookSelectionRepo, IMapper mapper)
+        public SelectionController(IUnitOfWork unitOfWork, 
+                                   IMapper mapper)
         {
-            _audioBookRepo = audioBookRepo;
-            _bookSelectionRepo = bookSelectionRepo;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -31,7 +30,7 @@ namespace Re_ABP_Backend.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<SingleSelectionDto>>> GetSelectionAsync()
         {
-            var selection = await _bookSelectionRepo.GetListAllAsync();
+            var selection = await _unitOfWork.Repository<BookSelection>().GetListAllAsync();
 
             if (selection.Count == 0)
             {
@@ -49,7 +48,7 @@ namespace Re_ABP_Backend.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Author>> GetBookSelection(int id)
         {
-            var selection = await _bookSelectionRepo.GetByIdAsync(id);
+            var selection = await _unitOfWork.Repository<BookSelection>().GetByIdAsync(id);
 
             if (selection == null)
             {
@@ -70,9 +69,9 @@ namespace Re_ABP_Backend.Controllers
             var spec = new BooksOfSelectsSpecification(abParams);
             var countSpec = new BooksOfSelectsCountSpecification(abParams);
 
-            var totalItems = await _audioBookRepo.CountAsync(countSpec);
+            var totalItems = await _unitOfWork.Repository<AudioBook>().CountAsync(countSpec);
 
-            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
+            var abooks = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
             if (abooks.Count == 0)
             {
                 Log.Error("Request to get audiobooks by selection {id} is failed, there is no data", abParams.Id);

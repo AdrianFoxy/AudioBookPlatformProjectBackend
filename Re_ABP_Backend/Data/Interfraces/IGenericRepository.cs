@@ -10,6 +10,9 @@ namespace Re_ABP_Backend.Data.Interfraces
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
         Task<IReadOnlyList<T>> GetListWithSpecAsync(ISpecification<T> spec);
         Task<int> CountAsync(ISpecification<T> spec);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
 
     }
 }

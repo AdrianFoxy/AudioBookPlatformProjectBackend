@@ -14,14 +14,13 @@ namespace Re_ABP_Backend.Exntensions
             , IConfiguration config)
         {
 
-/*            services.AddDbContext<AppDBContext>(options =>
-            options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
-*/
+            services.AddHttpContextAccessor();
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
-            services.AddHttpContextAccessor();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // ErrorsHandler

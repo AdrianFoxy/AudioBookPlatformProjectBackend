@@ -16,17 +16,17 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class AudioBookController : ControllerBase
     {
-        private readonly IGenericRepository<AudioBook> _audioBookRepo;
         private readonly IAudioBookRepository _audioBookRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public AudioBookController(IGenericRepository<AudioBook> audioBookRepo,
+        public AudioBookController(IUnitOfWork unitOfWork,
                                    IAudioBookRepository audioBookRepository,
                                    IMapper mapper)
         {
-            _audioBookRepo = audioBookRepo;
             _audioBookRepository = audioBookRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -36,9 +36,9 @@ namespace Re_ABP_Backend.Controllers
             var spec = new LibraryAudioBookSpecification(abParams);
             var countSpec = new LibraryAudioBookForCountSpecification(abParams);
 
-            var totalItems = await _audioBookRepo.CountAsync(countSpec);
+            var totalItems = await _unitOfWork.Repository<AudioBook>().CountAsync(countSpec);
 
-            var abooks = await _audioBookRepo.GetListWithSpecAsync(spec);
+            var abooks = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
 
             var data = _mapper
                 .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
@@ -53,7 +53,7 @@ namespace Re_ABP_Backend.Controllers
         public async Task<ActionResult<SingleAudioBookDto>> GetBookAsync(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
-            var aidiobook = await _audioBookRepo.GetEntityWithSpec(spec);
+            var aidiobook = await _unitOfWork.Repository<AudioBook>().GetEntityWithSpec(spec);
 
             if (aidiobook == null) 
             {
@@ -72,7 +72,7 @@ namespace Re_ABP_Backend.Controllers
 
             var spec = new RecommedantionsSpecification();
 
-            var result = await _audioBookRepo.GetListWithSpecAsync(spec);
+            var result = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
             if (result == null)
             {
                 Log.Error("Request to get recommedation is failed, there is no data");
@@ -89,7 +89,6 @@ namespace Re_ABP_Backend.Controllers
             var response = await _audioBookRepository.IncreaseViewCountAsync(id);
             return Ok(response);
         }
-
 
 
     }
