@@ -15,7 +15,9 @@ namespace Re_ABP_Backend.Data.Interfraces
         string CreateToken(User user);
         Task<bool> CheckEmailExistsAsync(string email);
         Task<bool> CheckUserNameExistsAsync(string username);
+        Task<bool> NewReviewAllowed(int audioBookId, int userId);
         Task<bool> AddUserAsync(RegisterDto model);
         Task<bool> EditUserAsync(UserDto user);
+
     }
 }

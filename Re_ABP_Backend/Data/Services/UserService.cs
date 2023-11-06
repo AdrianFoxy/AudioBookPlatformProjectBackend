@@ -152,6 +152,11 @@ namespace Re_ABP_Backend.Data.Services
             var userName = await _context.User.FirstOrDefaultAsync(u => u.UserName == username);
             return userName != null;
         }
+        public async Task<bool> NewReviewAllowed(int audioBookId, int userId)
+        {
+            var reviewExists = await _context.Review.FirstOrDefaultAsync(r => r.AudioBookId == audioBookId && r.UserId == userId);
+            return reviewExists != null;
+        }
 
         public async Task<bool> AddUserAsync(RegisterDto model)
         {
