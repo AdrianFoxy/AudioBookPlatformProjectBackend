@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.SpecClasses;
-using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec;
-using Re_ABP_Backend.Data.Specification.SpecClasses.AuthorSpec;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
 using Serilog;
@@ -20,12 +16,16 @@ namespace Re_ABP_Backend.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public ReviewController(IUnitOfWork unitOfWork, IMapper mapper)
+        public ReviewController(IUnitOfWork unitOfWork,
+                                IMapper mapper,
+                                IUserService userService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -50,6 +50,13 @@ namespace Re_ABP_Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<ReviewDto>> CreateReview(ReviewCreateDto createReviewDto)
         {
+            var reviewExists = await _userService.NewReviewAllowed(createReviewDto.AudioBookId, createReviewDto.UserId);
+            if (reviewExists)
+            {
+                Log.Error("Problem creating review. UserId: {createReviewDto.UserId} alredy has a review for this audiobook.", createReviewDto.UserId);
+                return BadRequest(new ApiResponse(400, "Problem creating review. The user alredy has a review."));
+            }
+
             var review = _mapper.Map<ReviewCreateDto, Review>(createReviewDto);
 
             _unitOfWork.Repository<Review>().Add(review);
