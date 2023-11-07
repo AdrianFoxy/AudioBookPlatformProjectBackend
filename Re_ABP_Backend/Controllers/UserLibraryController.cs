@@ -54,7 +54,7 @@ namespace Re_ABP_Backend.Controllers
 
                 return Ok();
             } 
-            return NotFound(new ApiResponse(401, "You cannot manage someone else's library"));
+            return Unauthorized(new ApiResponse(401, "You cannot manage someone else's library"));
         }
     }
 }
