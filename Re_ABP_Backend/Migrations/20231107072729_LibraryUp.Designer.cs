@@ -12,8 +12,8 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231016052911_View-Update-2")]
-    partial class ViewUpdate2
+    [Migration("20231107072729_LibraryUp")]
+    partial class LibraryUp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -286,6 +286,15 @@ namespace Re_ABP_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("EnDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -371,6 +380,144 @@ namespace Re_ABP_Backend.Migrations
                     b.ToTable("Genre");
                 });
 
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("About")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varbinary(256)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varbinary(256)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("SocialAuth")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("");
+
+                    b.Property<DateTime>("TokenCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime>("TokenExpires")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.LibraryStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LibraryStatus");
+                });
+
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Narrator", b =>
                 {
                     b.Property<int>("Id")
@@ -401,6 +548,79 @@ namespace Re_ABP_Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Narrator");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Review", t =>
+                        {
+                            t.HasTrigger("UpdateAudioBookRating");
+                        });
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
+                {
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("LibraryStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("DateTime")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.HasKey("AudioBookId", "UserId");
+
+                    b.HasIndex("LibraryStatusId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLibrary");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBook", b =>
@@ -506,6 +726,63 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("BookSelection");
                 });
 
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
+                {
+                    b.HasOne("Re_ABP_Backend.Data.Entities.Identity.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Review", b =>
+                {
+                    b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
+                        .WithMany()
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Re_ABP_Backend.Data.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
+                {
+                    b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
+                        .WithMany("UserLibrary")
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Re_ABP_Backend.Data.Entities.LibraryStatus", "LibraryStatus")
+                        .WithMany("UserLibrary")
+                        .HasForeignKey("LibraryStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Re_ABP_Backend.Data.Entities.Identity.User", "User")
+                        .WithMany("UserLibrary")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
+
+                    b.Navigation("LibraryStatus");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBook", b =>
                 {
                     b.Navigation("AudioBookAudioFile");
@@ -515,6 +792,8 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("AudioBookGenre");
 
                     b.Navigation("AudioBookSelection");
+
+                    b.Navigation("UserLibrary");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Author", b =>
@@ -535,6 +814,16 @@ namespace Re_ABP_Backend.Migrations
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Genre", b =>
                 {
                     b.Navigation("AudioBookGenre");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
+                {
+                    b.Navigation("UserLibrary");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.LibraryStatus", b =>
+                {
+                    b.Navigation("UserLibrary");
                 });
 #pragma warning restore 612, 618
         }

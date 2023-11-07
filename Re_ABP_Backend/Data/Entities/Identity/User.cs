@@ -24,6 +24,6 @@ namespace Re_ABP_Backend.Data.Entities.Identity
         public string Token { get; set; }
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
-
+        public List<UserLibrary> UserLibrary { get; set; }
     }
 }

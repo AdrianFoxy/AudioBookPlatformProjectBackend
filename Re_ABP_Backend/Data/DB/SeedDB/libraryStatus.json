@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "Читаю",
+    "EnName": "In Progress"
+  },
+  {
+    "Name": "Прочитав",
+    "EnName": "Read"
+  },
+  {
+    "Name": "Планую",
+    "EnName": "Planning"
+  }
+]

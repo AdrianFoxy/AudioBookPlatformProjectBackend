@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AnotherNewInitial : Migration
+    public partial class NewInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,7 +70,9 @@ namespace Re_ABP_Backend.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    EnDescription = table.Column<string>(type: "text", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
@@ -129,6 +131,21 @@ namespace Re_ABP_Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AudioBook",
                 columns: table => new
                 {
@@ -139,6 +156,7 @@ namespace Re_ABP_Backend.Migrations
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
                     Rating = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
                     BookDuration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    ViewCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     BookLanguageId = table.Column<int>(type: "int", nullable: false),
                     NarratorId = table.Column<int>(type: "int", nullable: false),
                     BookSeriesId = table.Column<int>(type: "int", nullable: false),
@@ -165,6 +183,37 @@ namespace Re_ABP_Backend.Migrations
                         name: "FK_AudioBook_Narrator_NarratorId",
                         column: x => x.NarratorId,
                         principalTable: "Narrator",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    SocialAuth = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(256)", maxLength: 256, nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(256)", maxLength: 256, nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: ""),
+                    TokenCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    TokenExpires = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -265,6 +314,60 @@ namespace Re_ABP_Backend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Review",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewText = table.Column<string>(type: "text", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    AudioBookId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Review_AudioBook_AudioBookId",
+                        column: x => x.AudioBookId,
+                        principalTable: "AudioBook",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Review_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLibrary",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AudioBookId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLibrary", x => new { x.AudioBookId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserLibrary_AudioBook_AudioBookId",
+                        column: x => x.AudioBookId,
+                        principalTable: "AudioBook",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserLibrary_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AudioBook_BookLanguageId",
                 table: "AudioBook",
@@ -299,6 +402,26 @@ namespace Re_ABP_Backend.Migrations
                 name: "IX_AudioBookSelection_BookSelectionId",
                 table: "AudioBookSelection",
                 column: "BookSelectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Review_AudioBookId",
+                table: "Review",
+                column: "AudioBookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Review_UserId",
+                table: "Review",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_RoleId",
+                table: "User",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLibrary_UserId",
+                table: "UserLibrary",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -317,6 +440,12 @@ namespace Re_ABP_Backend.Migrations
                 name: "AudioBookSelection");
 
             migrationBuilder.DropTable(
+                name: "Review");
+
+            migrationBuilder.DropTable(
+                name: "UserLibrary");
+
+            migrationBuilder.DropTable(
                 name: "BookAudioFile");
 
             migrationBuilder.DropTable(
@@ -326,10 +455,13 @@ namespace Re_ABP_Backend.Migrations
                 name: "Genre");
 
             migrationBuilder.DropTable(
+                name: "BookSelection");
+
+            migrationBuilder.DropTable(
                 name: "AudioBook");
 
             migrationBuilder.DropTable(
-                name: "BookSelection");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "BookLanguage");
@@ -339,6 +471,9 @@ namespace Re_ABP_Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Narrator");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

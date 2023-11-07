@@ -37,5 +37,6 @@ namespace Re_ABP_Backend.Data.Entities
         public BookSeries BookSeries { get; set; }
         public int BookSeriesId { get; set; }
         public int OrderInSeries { get; set; }
+        public List<UserLibrary> UserLibrary { get; set; }
     }
 }

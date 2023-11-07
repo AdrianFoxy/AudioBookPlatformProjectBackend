@@ -57,6 +57,17 @@ namespace Re_ABP_Backend.Data.DB
                 .WithMany(e => e.AudioBook)
                 .UsingEntity<AudioBookSelection>();
 
+            modelBuilder.Entity<UserLibrary>()
+              .HasKey(bc => new { bc.AudioBookId, bc.UserId });
+            modelBuilder.Entity<UserLibrary>()
+                .HasOne(bc => bc.AudioBook)
+                .WithMany(b => b.UserLibrary)
+                .HasForeignKey(bc => bc.AudioBookId);
+            modelBuilder.Entity<UserLibrary>()
+                .HasOne(bc => bc.User)
+                .WithMany(c => c.UserLibrary)
+                .HasForeignKey(bc => bc.UserId);
+
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
@@ -77,6 +88,8 @@ namespace Re_ABP_Backend.Data.DB
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Review> Review { get; set; }
+        public DbSet<UserLibrary> UserLibrary { get; set; }
+        public DbSet<LibraryStatus> LibraryStatus { get; set; }
 
     }
 }
