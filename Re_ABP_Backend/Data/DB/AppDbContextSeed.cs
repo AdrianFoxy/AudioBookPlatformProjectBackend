@@ -91,13 +91,6 @@ namespace Re_ABP_Backend.Data.DB
                 context.AudioBookSelection.AddRange(bookSelections_audiobook);
             }
 
-            if (!context.LibraryStatus.Any())
-            {
-                var libaryStatus = File.ReadAllText("Data/DB/SeedDB/libraryStatus.json");
-                var libaryStatuses = JsonSerializer.Deserialize<List<LibraryStatus>>(libaryStatus);
-                context.LibraryStatus.AddRange(libaryStatuses);
-            }
-
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
     }

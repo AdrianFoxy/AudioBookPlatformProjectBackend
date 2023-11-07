@@ -12,8 +12,8 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231106052746_AddReview")]
-    partial class AddReview
+    [Migration("20231107072055_NewInitial")]
+    partial class NewInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -554,7 +554,25 @@ namespace Re_ABP_Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Review");
+                    b.ToTable("Review", t =>
+                        {
+                            t.HasTrigger("UpdateAudioBookRating");
+                        });
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
+                {
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AudioBookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLibrary");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBook", b =>
@@ -690,6 +708,25 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
+                {
+                    b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
+                        .WithMany("UserLibrary")
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Re_ABP_Backend.Data.Entities.Identity.User", "User")
+                        .WithMany("UserLibrary")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBook", b =>
                 {
                     b.Navigation("AudioBookAudioFile");
@@ -699,6 +736,8 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("AudioBookGenre");
 
                     b.Navigation("AudioBookSelection");
+
+                    b.Navigation("UserLibrary");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Author", b =>
@@ -719,6 +758,11 @@ namespace Re_ABP_Backend.Migrations
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Genre", b =>
                 {
                     b.Navigation("AudioBookGenre");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
+                {
+                    b.Navigation("UserLibrary");
                 });
 #pragma warning restore 612, 618
         }

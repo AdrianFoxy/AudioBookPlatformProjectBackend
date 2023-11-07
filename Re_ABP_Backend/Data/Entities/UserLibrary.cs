@@ -6,14 +6,14 @@ namespace Re_ABP_Backend.Data.Entities
 {
     public class UserLibrary
     {
-        public int AudioBookId { get; set; }
         public int UserId { get; set; }
-        public int LibraryStatusId { get; set; }
-
-        public LibraryStatus LibraryStatus { get; set; }
-        public AudioBook AudioBook { get; set; }
         public User User { get; set; }
 
+        public int AudioBookId { get; set; }
+        public AudioBook AudioBook { get; set; }
+
+        public int LibraryStatusId { get; set; }
+        public LibraryStatus LibraryStatus { get; set; }
         [Column(TypeName = "DateTime")]
         public DateTime CreatedAt { get; set; }
 

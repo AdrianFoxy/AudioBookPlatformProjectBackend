@@ -595,6 +595,9 @@ namespace Re_ABP_Backend.Migrations
                     b.Property<int>("AudioBookId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DateTime")
@@ -608,10 +611,7 @@ namespace Re_ABP_Backend.Migrations
                         .HasColumnType("DateTime")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("AudioBookId");
+                    b.HasKey("AudioBookId", "UserId");
 
                     b.HasIndex("LibraryStatusId");
 
@@ -756,19 +756,19 @@ namespace Re_ABP_Backend.Migrations
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
                 {
                     b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
-                        .WithMany()
+                        .WithMany("UserLibrary")
                         .HasForeignKey("AudioBookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Re_ABP_Backend.Data.Entities.LibraryStatus", "LibraryStatus")
-                        .WithMany()
+                        .WithMany("UserLibrary")
                         .HasForeignKey("LibraryStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Re_ABP_Backend.Data.Entities.Identity.User", "User")
-                        .WithMany()
+                        .WithMany("UserLibrary")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -789,6 +789,8 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("AudioBookGenre");
 
                     b.Navigation("AudioBookSelection");
+
+                    b.Navigation("UserLibrary");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Author", b =>
@@ -809,6 +811,16 @@ namespace Re_ABP_Backend.Migrations
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Genre", b =>
                 {
                     b.Navigation("AudioBookGenre");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
+                {
+                    b.Navigation("UserLibrary");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.LibraryStatus", b =>
+                {
+                    b.Navigation("UserLibrary");
                 });
 #pragma warning restore 612, 618
         }
