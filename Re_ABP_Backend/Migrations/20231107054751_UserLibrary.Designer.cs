@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Re_ABP_Backend.Data.DB;
 
@@ -11,9 +12,11 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231107054751_UserLibrary")]
+    partial class UserLibrary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -592,6 +595,12 @@ namespace Re_ABP_Backend.Migrations
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.UserLibrary", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AudioBookId")
                         .HasColumnType("int");
 
@@ -610,6 +619,8 @@ namespace Re_ABP_Backend.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AudioBookId");
 

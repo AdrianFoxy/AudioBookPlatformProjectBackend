@@ -57,6 +57,7 @@ namespace Re_ABP_Backend.Data.DB
                 .WithMany(e => e.AudioBook)
                 .UsingEntity<AudioBookSelection>();
 
+            modelBuilder.Entity<UserLibrary>().HasNoKey();
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
@@ -77,6 +78,8 @@ namespace Re_ABP_Backend.Data.DB
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Review> Review { get; set; }
+        public DbSet<UserLibrary> UserLibrary { get; set; }
+        public DbSet<LibraryStatus> LibraryStatus { get; set; }
 
     }
 }
