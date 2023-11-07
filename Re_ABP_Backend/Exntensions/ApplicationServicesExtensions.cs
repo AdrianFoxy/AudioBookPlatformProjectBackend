@@ -17,6 +17,7 @@ namespace Re_ABP_Backend.Exntensions
             services.AddHttpContextAccessor();
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
+            services.AddScoped<IUserLibraryRepository, UserLibraryRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

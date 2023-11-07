@@ -1,4 +1,5 @@
 ﻿using Re_ABP_Backend.Data.Entities;
+using Re_ABP_Backend.Data.Entities.Identity;
 using System.Text.Json;
 
 namespace Re_ABP_Backend.Data.DB
@@ -89,6 +90,20 @@ namespace Re_ABP_Backend.Data.DB
                 var bookSelection_audiobook = File.ReadAllText("Data/DB/SeedDB/bookselections_books.json");
                 var bookSelections_audiobook = JsonSerializer.Deserialize<List<AudioBookSelection>>(bookSelection_audiobook);
                 context.AudioBookSelection.AddRange(bookSelections_audiobook);
+            }
+
+            if (!context.LibraryStatus.Any())
+            {
+                var libraryStatus = File.ReadAllText("Data/DB/SeedDB/libraryStatus.json");
+                var libraryStatuses = JsonSerializer.Deserialize<List<LibraryStatus>>(libraryStatus);
+                context.LibraryStatus.AddRange(libraryStatuses);
+            }
+
+            if (!context.Role.Any())
+            {
+                var role = File.ReadAllText("Data/DB/SeedDB/roles.json");
+                var roles = JsonSerializer.Deserialize<List<Role>>(role);
+                context.Role.AddRange(roles);
             }
 
             if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
