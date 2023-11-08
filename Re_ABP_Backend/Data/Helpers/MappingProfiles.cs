@@ -44,7 +44,8 @@ namespace Re_ABP_Backend.Data.Helpers
                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
 
             CreateMap<ReviewCreateDto, Review>();
-            CreateMap<Review, ReviewDto>();
+            CreateMap<Review, ReviewDto>()
+                .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.UserName));
 
         }
     }

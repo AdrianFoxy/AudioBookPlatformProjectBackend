@@ -35,11 +35,7 @@ namespace Re_ABP_Backend.Controllers
             var totalItems = await _unitOfWork.Repository<Review>().CountAsync(spec);
 
             var reviews = await _unitOfWork.Repository<Review>().GetListWithSpecAsync(spec);
-            if (reviews.Count == 0)
-            {
-                Log.Error("Request to get reviews of audiobook by id: {id} is failed, there is no data", paginationParams.Id);
-                return NotFound(new ApiResponse(404));
-            }
+  
             var data = _mapper
               .Map<IReadOnlyList<Review>, IReadOnlyList<ReviewDto>>(reviews);
 
@@ -62,6 +58,9 @@ namespace Re_ABP_Backend.Controllers
             _unitOfWork.Repository<Review>().Add(review);
 
             var result = await _unitOfWork.Complete();
+
+            var username = await _userService.GetUserById(createReviewDto.UserId);
+            review.User.UserName = username.UserName;
 
             if (result <= 0)
             {

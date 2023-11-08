@@ -14,7 +14,7 @@ BEGIN
         SELECT @AudioBookId = AudioBookId FROM inserted;
 
         -- Calculate new rating value
-        SELECT @NewRating = CAST(AVG(CAST(Rating AS DECIMAL(3, 1))) AS DECIMAL(3, 1))
+        SELECT @NewRating = ISNULL(CAST(AVG(CAST(Rating AS DECIMAL(3, 1))) AS DECIMAL(3, 1)), 0)
 		FROM Review WHERE AudioBookId = @AudioBookId;
         
         -- Update Rating in AudioBook table
@@ -29,7 +29,7 @@ BEGIN
         SELECT @AudioBookId = AudioBookId FROM deleted;
 
         -- Calculate new rating value
-        SELECT @NewRating = CAST(AVG(CAST(Rating AS DECIMAL(3, 1))) AS DECIMAL(3, 1))
+        SELECT @NewRating = ISNULL(CAST(AVG(CAST(Rating AS DECIMAL(3, 1))) AS DECIMAL(3, 1)), 0)
 		FROM Review WHERE AudioBookId = @AudioBookId;
         
         -- Update Rating in AudioBook table
