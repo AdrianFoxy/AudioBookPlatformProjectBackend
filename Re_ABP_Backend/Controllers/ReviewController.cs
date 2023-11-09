@@ -83,6 +83,9 @@ namespace Re_ABP_Backend.Controllers
 
             var result = await _unitOfWork.Complete();
 
+            var username = await _userService.GetUserById(reviewToUpdate.UserId);
+            review.User.UserName = username.UserName;
+
             if (result <= 0) 
             {
                 Log.Error("Problem creating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
