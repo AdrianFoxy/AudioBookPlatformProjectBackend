@@ -33,8 +33,4 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\DB\SQLTriggers\" />
-  </ItemGroup>
-
 </Project>
