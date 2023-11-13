@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInitial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -112,6 +112,22 @@ namespace Re_ABP_Backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genre", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LibraryStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LibraryStatus", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -349,7 +365,10 @@ namespace Re_ABP_Backend.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    AudioBookId = table.Column<int>(type: "int", nullable: false)
+                    AudioBookId = table.Column<int>(type: "int", nullable: false),
+                    LibraryStatusId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -358,6 +377,12 @@ namespace Re_ABP_Backend.Migrations
                         name: "FK_UserLibrary_AudioBook_AudioBookId",
                         column: x => x.AudioBookId,
                         principalTable: "AudioBook",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserLibrary_LibraryStatus_LibraryStatusId",
+                        column: x => x.LibraryStatusId,
+                        principalTable: "LibraryStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -419,6 +444,11 @@ namespace Re_ABP_Backend.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserLibrary_LibraryStatusId",
+                table: "UserLibrary",
+                column: "LibraryStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserLibrary_UserId",
                 table: "UserLibrary",
                 column: "UserId");
@@ -459,6 +489,9 @@ namespace Re_ABP_Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "AudioBook");
+
+            migrationBuilder.DropTable(
+                name: "LibraryStatus");
 
             migrationBuilder.DropTable(
                 name: "User");

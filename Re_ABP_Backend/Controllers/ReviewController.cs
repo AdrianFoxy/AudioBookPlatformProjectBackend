@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.SpecClasses;
+using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
 using Serilog;
@@ -32,7 +34,9 @@ namespace Re_ABP_Backend.Controllers
         public async Task<ActionResult<Pagination<ReviewDto>>> GetReviews([FromQuery] ABOfSomethingParams paginationParams)
         {
             var spec = new ReviewSpecification(paginationParams);
-            var totalItems = await _unitOfWork.Repository<Review>().CountAsync(spec);
+            var countSpec = new ReviewCountSpecification(paginationParams);
+
+            var totalItems = await _unitOfWork.Repository<Review>().CountAsync(countSpec);
 
             var reviews = await _unitOfWork.Repository<Review>().GetListWithSpecAsync(spec);
   
@@ -43,6 +47,7 @@ namespace Re_ABP_Backend.Controllers
                 paginationParams.PageSize, totalItems, data));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ReviewDto>> CreateReview(ReviewCreateDto createReviewDto)
         {
@@ -72,6 +77,7 @@ namespace Re_ABP_Backend.Controllers
                 Map<Review, ReviewDto>(review));
         }
 
+        [Authorize]
         [HttpPut("id")]
         public async Task<ActionResult<ReviewDto>> UpdateReview(int id, ReviewCreateDto reviewToUpdate)
         {
@@ -83,6 +89,9 @@ namespace Re_ABP_Backend.Controllers
 
             var result = await _unitOfWork.Complete();
 
+            var username = await _userService.GetUserById(reviewToUpdate.UserId);
+            review.User.UserName = username.UserName;
+
             if (result <= 0) 
             {
                 Log.Error("Problem creating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
@@ -93,6 +102,7 @@ namespace Re_ABP_Backend.Controllers
                 Map<Review, ReviewDto>(review));
         }
 
+        [Authorize]
         [HttpDelete("id")]
         public async Task<ActionResult> DeleteReview(int id)
         {
