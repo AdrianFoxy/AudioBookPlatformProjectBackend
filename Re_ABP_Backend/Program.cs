@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.IdentityModel.Tokens;
 using Re_ABP_Backend;
 using Re_ABP_Backend.Data.DB;
+using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Data.Services;
 using Re_ABP_Backend.Exntensions;
 using Re_ABP_Backend.Middleware;
 using Serilog;
@@ -111,11 +113,12 @@ app.MapControllers();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<AppDBContext>();
+var userService = services.GetRequiredService<IUserService>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     await context.Database.MigrateAsync();
-    await AppDbContextSeed.SeedAsync(context);
+    await AppDbContextSeed.SeedAsync(context, userService);
 }
 catch (Exception ex)
 {
