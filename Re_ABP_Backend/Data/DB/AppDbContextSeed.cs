@@ -1,12 +1,15 @@
-﻿using Re_ABP_Backend.Data.Entities;
+﻿using Re_ABP_Backend.Data.Dtos.AuthDtos;
+using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
+using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Data.Services;
 using System.Text.Json;
 
 namespace Re_ABP_Backend.Data.DB
 {
     public class AppDbContextSeed
     {
-        public static async Task SeedAsync(AppDBContext context)
+        public static async Task SeedAsync(AppDBContext context, IUserService userService)
         {
             if (!context.Genre.Any())
             {
@@ -117,6 +120,45 @@ namespace Re_ABP_Backend.Data.DB
                 var role = File.ReadAllText("Data/DB/SeedDB/roles.json");
                 var roles = JsonSerializer.Deserialize<List<Role>>(role);
                 context.Role.AddRange(roles);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.User.Any())
+            {
+                var usernames = new string[]
+                {
+                    "Taras",
+                    "John",
+                    "Alice",
+                    "Bob",
+                    "Eva",
+                    "Alex",
+                    "Olivia",
+                    "Daniel",
+                    "Sophia",
+                    "William"
+                };
+
+                for (int i = 0; i < 10; i++)
+                {
+                    var newUser = new RegisterDto
+                    {
+                        Email = $"user{i + 1}@gmail.com",
+                        UserName = usernames[i],
+                        DateOfBirth = DateTime.Now.AddYears(-i),
+                        Password = "Pa$$w0rd",
+                        ConfirmPassword = "Pa$$w0rd"
+                    };
+
+                    await userService.AddUserAsync(newUser);
+                }
+            }
+
+            if (!context.Review.Any())
+            {
+                var review = File.ReadAllText("Data/DB/SeedDB/reviews.json");
+                var reviews = JsonSerializer.Deserialize<List<Review>>(review);
+                context.Review.AddRange(reviews);
                 await context.SaveChangesAsync();
             }
 
