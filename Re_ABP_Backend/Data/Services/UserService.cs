@@ -4,10 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
-using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
-using Re_ABP_Backend.Errors;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -127,6 +125,14 @@ namespace Re_ABP_Backend.Data.Services
             return await _context.User
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<int> GetLibraryStatusIdAsync(int userId, int audioBookId)
+        {
+            var userLibraryEntry = await _context.UserLibrary
+                .SingleOrDefaultAsync(ul => ul.UserId == userId && ul.AudioBookId == audioBookId);
+
+            return userLibraryEntry?.LibraryStatusId ?? 0;
         }
 
         public bool CheckPassword(string password, User user)

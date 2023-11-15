@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Data.Dtos;
-using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities;
-using Re_ABP_Backend.Data.Entities.Identity;
+using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Data.Specification.SpecClasses;
+using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec;
+using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec.Count;
 using Re_ABP_Backend.Errors;
-using Serilog;
 using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
@@ -28,6 +28,26 @@ namespace Re_ABP_Backend.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userService = userService;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Pagination<AudioBookInLibraryDto>>> GetAudioBooks(
+            [FromQuery] UserLibraryParams userLibraryParams)
+        {
+            var spec = new UserLibrarySpecification(userLibraryParams);
+            var countSpec = new UserLibraryForCountSpecification(userLibraryParams);
+
+            var totalItems = await _unitOfWork.Repository<AudioBook>().CountAsync(countSpec);
+
+            var abooks = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
+
+            var data = _mapper
+                .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(abooks);
+
+            return Ok(new Pagination<AudioBookInLibraryDto>(userLibraryParams.PageIndex,
+                userLibraryParams.PageSize, totalItems, data));
         }
 
         [Authorize]

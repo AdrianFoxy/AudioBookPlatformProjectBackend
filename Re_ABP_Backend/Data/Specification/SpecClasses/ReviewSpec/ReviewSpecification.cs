@@ -10,6 +10,7 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec
             AddInclude(x => x.User);
             ApplyPaging(abParams.PageSize * (abParams.PageIndex - 1),
                     abParams.PageSize);
+            AddOrderByDescending(p => p.CreatedAt);
         }
     }
 }

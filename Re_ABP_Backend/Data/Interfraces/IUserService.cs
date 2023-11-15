@@ -18,6 +18,7 @@ namespace Re_ABP_Backend.Data.Interfraces
         Task<bool> NewReviewAllowed(int audioBookId, int userId);
         Task<bool> AddUserAsync(RegisterDto model);
         Task<bool> EditUserAsync(UserDto user);
+        Task<int> GetLibraryStatusIdAsync(int userId, int audioBookId);
 
     }
 }

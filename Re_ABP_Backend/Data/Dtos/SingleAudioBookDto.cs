@@ -1,6 +1,5 @@
 ﻿using Re_ABP_Backend.Data.Dtos.FilteringDtos;
 using Re_ABP_Backend.Data.Entities;
-using System.Text.Json.Serialization;
 
 namespace Re_ABP_Backend.Data.Dtos
 {
@@ -13,6 +12,7 @@ namespace Re_ABP_Backend.Data.Dtos
         public float Rating { get; set; }
         public string BookDuration { get; set; }
         public int ViewCount { get; set; }
+        public int BookMarksCount { get; set; }
         public List<GenreFilteringDto> Genre { get; set; }
         public List<AuthorFilteringDto> Author { get; set; }
         public List<BookAudioFileDto> BookAudioFile { get; set; }
@@ -20,5 +20,6 @@ namespace Re_ABP_Backend.Data.Dtos
         public Narrator Narrator { get; set; }
         public BookSeries BookSeries { get; set; }
         public int OrderInSeries { get; set; }
+        public int LibraryStatusId { get; set; }
     }
 }

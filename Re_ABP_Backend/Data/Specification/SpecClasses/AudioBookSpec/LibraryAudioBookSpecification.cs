@@ -29,6 +29,7 @@ namespace Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks
             AddInclude(x => x.Narrator);
             AddInclude(x => x.BookSeries);
             AddInclude(x => x.BookLanguage);
+            AddInclude(x => x.UserLibrary);
             ApplyPaging(abParams.PageSize * (abParams.PageIndex - 1),
                 abParams.PageSize);
 

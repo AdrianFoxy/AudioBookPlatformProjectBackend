@@ -158,7 +158,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpDelete("logout")]
-        public async Task<IActionResult> LogOut()
+        public IActionResult LogOut()
         {
             Response.Cookies.Delete("X-Acces-Token", new CookieOptions
             {
@@ -172,12 +172,12 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpDelete("revokeToken")]
-        public async Task<IActionResult> RevokeToken(string username)
+        public IActionResult RevokeToken(string username)
         {
             _userService.RevokeToken(username);
             return Ok();
         }
 
-        
+
     }
 }
