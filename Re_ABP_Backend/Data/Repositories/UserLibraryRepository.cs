@@ -39,5 +39,12 @@ namespace Re_ABP_Backend.Data.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetBookmarkCountForAudioBookAsync(int audioBookId)
+        {
+            return await _context.UserLibrary
+                .CountAsync(ul => ul.AudioBookId == audioBookId);
+        }
+
     }
 }

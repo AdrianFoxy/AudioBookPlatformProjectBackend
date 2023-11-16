@@ -5,5 +5,6 @@ namespace Re_ABP_Backend.Data.Interfraces
     public interface IUserLibraryRepository
     {
         Task<bool> ManageBookInUserLibrary(UserLibraryDto userLibraryDto);
+        Task<int> GetBookmarkCountForAudioBookAsync(int audioBookId);
     }
 }
