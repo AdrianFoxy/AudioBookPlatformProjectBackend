@@ -18,6 +18,7 @@ namespace Re_ABP_Backend.Exntensions
 
             services.AddScoped<IAudioBookRepository, AudioBookRepository>();
             services.AddScoped<IUserLibraryRepository, UserLibraryRepository>();
+            services.AddScoped<IRecommendationRepository, RecommendationRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
