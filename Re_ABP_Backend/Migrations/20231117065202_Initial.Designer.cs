@@ -12,7 +12,7 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231116101628_Initial")]
+    [Migration("20231117065202_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

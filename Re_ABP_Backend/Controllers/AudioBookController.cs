@@ -81,23 +81,6 @@ namespace Re_ABP_Backend.Controllers
             return Ok(data);
         }
 
-        [HttpGet("recommedation")]
-        public async Task<ActionResult<AudioBookInLibraryDto>> GetRecommedantionAudioBooksAsync()
-        {
-
-            var spec = new RecommedantionsSpecification();
-
-            var result = await _unitOfWork.Repository<AudioBook>().GetListWithSpecAsync(spec);
-            if (result == null)
-            {
-                Log.Error("Request to get recommedation is failed, there is no data");
-                return NotFound(new ApiResponse(404));
-            }
-
-            return Ok(_mapper
-                   .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(result));
-        }
-
         [HttpPut("increment-viewcount/{id}")]
         public async Task<ActionResult> IncrementViewCount(int id)
         {
