@@ -12,7 +12,6 @@ namespace Re_ABP_Backend.Data.Dtos.UserDtos
         public string Email { get; set; }
         [Required]
         public DateTime DateOfBirth { get; set; }
-        [Required]
         [MaxLength(256)]
         public string About { get; set; }
         [Required]
