@@ -1,6 +1,7 @@
 ﻿using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Errors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -24,6 +25,13 @@ namespace Re_ABP_Backend.Controllers
                 return NotFound(new ApiResponse(404));
             }
 
+            return Ok();
+        }
+
+        [HttpGet("forbidden")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Get403Error()
+        {
             return Ok();
         }
 

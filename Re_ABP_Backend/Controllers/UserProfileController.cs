@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
@@ -38,6 +39,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<ActionResult<UserDto>> UpdateUser(UserDto userUpdate)
         {
             var user = await _userService.GetUserById(userUpdate.Id);
