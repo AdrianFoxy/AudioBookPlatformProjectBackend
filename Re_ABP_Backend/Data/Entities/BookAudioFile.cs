@@ -10,6 +10,8 @@ namespace Re_ABP_Backend.Data.Entities
         public string Name { get; set; }
         public string AudioFileUrl { get; set; }
         public int Duration { get; set; }
+        public int PlaybackQueue { get; set; }
+
         [JsonIgnore]
 
         public List<AudioBook> AudioBook { get; set; }
