@@ -60,16 +60,16 @@ namespace Re_ABP_Backend.Controllers
         public async Task<ActionResult<SingleAudioBookDto>> GetBookAsync(int id)
         {
             var spec = new LibraryAudioBookSpecification(id);
-            var aidiobook = await _unitOfWork.Repository<AudioBook>().GetEntityWithSpec(spec);
+            var audioBook = await _unitOfWork.Repository<AudioBook>().GetEntityWithSpec(spec);
 
-            if (aidiobook == null) 
+            if (audioBook == null)
             {
-                Log.Error("Request to get audiobook by id failed, book with id {Id} does not exists.", id);
+                Log.Error("Request to get audiobook by id failed, book with id {Id} does not exist.", id);
                 return NotFound(new ApiResponse(404));
             }
 
-            var data = _mapper
-                  .Map<AudioBook, SingleAudioBookDto>(aidiobook);
+            audioBook.BookAudioFile = audioBook.BookAudioFile.OrderBy(baf => baf.PlaybackQueue).ToList();
+            var data = _mapper.Map<AudioBook, SingleAudioBookDto>(audioBook);
 
             data.BookMarksCount = await _userLibraryRepository.GetBookmarkCountForAudioBookAsync(data.Id);
 
@@ -80,6 +80,7 @@ namespace Re_ABP_Backend.Controllers
             }
             return Ok(data);
         }
+
 
         [HttpPut("increment-viewcount/{id}")]
         public async Task<ActionResult> IncrementViewCount(int id)
