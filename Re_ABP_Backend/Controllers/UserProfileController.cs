@@ -6,6 +6,7 @@ using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
 using Serilog;
+using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -43,6 +44,11 @@ namespace Re_ABP_Backend.Controllers
         public async Task<ActionResult<UserDto>> UpdateUser(UserDto userUpdate)
         {
             var user = await _userService.GetUserById(userUpdate.Id);
+            var userIdentifier = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (userIdentifier != userUpdate.Id.ToString())
+                return BadRequest(new ApiResponse(403));
+
 
             if (user.Email != userUpdate.Email)
             {
