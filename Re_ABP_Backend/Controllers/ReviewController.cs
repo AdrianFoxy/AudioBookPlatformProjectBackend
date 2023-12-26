@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
@@ -10,6 +11,7 @@ using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
 using Serilog;
+using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -83,8 +85,11 @@ namespace Re_ABP_Backend.Controllers
         {
             var review = await _unitOfWork.Repository<Review>().GetByIdAsync(id);
 
-            _mapper.Map(reviewToUpdate, review);
+            var userIdentifier = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (userIdentifier != review.UserId.ToString())
+                return BadRequest(new ApiResponse(400, "This is not your review, or you cannot update it."));
 
+            _mapper.Map(reviewToUpdate, review);
             _unitOfWork.Repository<Review>().Update(review);
 
             var result = await _unitOfWork.Complete();
@@ -106,7 +111,14 @@ namespace Re_ABP_Backend.Controllers
         [HttpDelete("id")]
         public async Task<ActionResult> DeleteReview(int id)
         {
-            var review = await _unitOfWork.Repository<Review>().GetByIdAsync(id);
+            
+           var review = await _unitOfWork.Repository<Review>().GetByIdAsync(id);
+
+           var userIdentifier = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+           var userRole = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+
+            if (userIdentifier != review.UserId.ToString() && userRole != "Admin")
+                return BadRequest(new ApiResponse(400, "This is not your review, or you cannot delete it."));
 
             _unitOfWork.Repository<Review>().Delete(review);
 
