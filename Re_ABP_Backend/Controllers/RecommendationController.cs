@@ -23,6 +23,19 @@ namespace Re_ABP_Backend.Controllers
             _recommendationRepository = recommendationRepository;
         }
 
+        [HttpGet("recentlyWatched")]
+        public async Task<ActionResult<AudioBookInLibraryDto>> GetAudioBookRecentlyWatched([FromQuery] List<int> audioBooksIds)
+        {
+            var result = await _recommendationRepository.GetRecentlyWatched(audioBooksIds);
+            if (result == null)
+            {
+                Log.Error("Request to get recommedation is failed, there is no data");
+                return NotFound(new ApiResponse(404));
+            }
+            return Ok(_mapper
+                   .Map<IReadOnlyList<AudioBook>, IReadOnlyList<AudioBookInLibraryDto>>(result));
+        }
+
         [HttpGet("byPopularity")]
         public async Task<ActionResult<AudioBookInLibraryDto>> GetRecommedantionByPopularityAsync()
         {
