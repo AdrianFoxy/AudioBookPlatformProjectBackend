@@ -13,6 +13,15 @@ namespace Re_ABP_Backend.Data.Repositories
             _context = context;
         }
 
+        public async Task<IReadOnlyList<AudioBook>> GetRecentlyWatched(List<int> audioBooksIds)
+        {
+            var recentlyWatched = await _context.AudioBook
+                .Include(x => x.Author)
+                .Where(x => audioBooksIds.Contains(x.Id))
+                .ToListAsync();
+            return recentlyWatched;
+        }
+
         public async Task<IReadOnlyList<AudioBook>> GetRecommendationsByPopularity()
         {
             var popularBooks = await _context.AudioBook
