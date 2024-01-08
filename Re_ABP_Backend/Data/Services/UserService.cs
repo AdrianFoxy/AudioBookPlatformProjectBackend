@@ -233,5 +233,9 @@ namespace Re_ABP_Backend.Data.Services
             }
         }
 
+        public async Task<int> UserCountAsync()
+        {
+            return await _context.User.CountAsync();
+        }
     }
 }

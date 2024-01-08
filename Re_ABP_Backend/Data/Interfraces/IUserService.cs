@@ -19,6 +19,7 @@ namespace Re_ABP_Backend.Data.Interfraces
         Task<bool> AddUserAsync(RegisterDto model);
         Task<bool> EditUserAsync(UserDto user);
         Task<int> GetLibraryStatusIdAsync(int userId, int audioBookId);
+        Task<int> UserCountAsync();
 
     }
 }
