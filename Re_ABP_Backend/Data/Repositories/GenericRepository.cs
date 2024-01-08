@@ -36,6 +36,11 @@ namespace Re_ABP_Backend.Data.Repositories
             return await ApplySpecification(spec).CountAsync();
         }
 
+        public async Task<int> CountAsyncWithSpec()
+        {
+            return await _context.Set<T>().CountAsync();
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
@@ -56,5 +61,6 @@ namespace Re_ABP_Backend.Data.Repositories
         {
             _context.Set<T>().Remove(entity);
         }
+
     }
 }
