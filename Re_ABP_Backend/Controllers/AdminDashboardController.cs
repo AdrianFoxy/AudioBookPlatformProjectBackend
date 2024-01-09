@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
+using Re_ABP_Backend.Errors;
 
 namespace Re_ABP_Backend.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminDashboardController : ControllerBase
@@ -25,6 +28,8 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("audiobook-count")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AudiobookCount()
         {
             var count = await _unitOfWork.Repository<AudioBook>().CountAsyncWithSpec();
@@ -32,6 +37,8 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("review-count")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ReviewCount()
         {
             var count = await _unitOfWork.Repository<Review>().CountAsyncWithSpec();
@@ -39,6 +46,8 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("user-count")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UserCount()
         {
             var count = await _userService.UserCountAsync();
@@ -46,6 +55,8 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet("user-count-chart")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UserCountChart()
         {
             var count = await _dashboard.GetUserCountByMothAsync();
