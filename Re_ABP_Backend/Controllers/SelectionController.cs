@@ -4,10 +4,10 @@ using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
-using Re_ABP_Backend.Data.Specification.SpecClasses;
 using Re_ABP_Backend.Errors;
 using Serilog;
 using Re_ABP_Backend.Data.Specification.SpecClasses.SelectionSpec;
+using Re_ABP_Backend.Data.Specification.Params;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -64,7 +64,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet("selection-books")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AudioBookInLibraryDto>> GetBooksOfSelection([FromQuery] ABOfSomethingParams abParams)
+        public async Task<ActionResult<AudioBookInLibraryDto>> GetBooksOfSelection([FromQuery] PaginationWithIdParams abParams)
         {
             var spec = new BooksOfSelectsSpecification(abParams);
             var countSpec = new BooksOfSelectsCountSpecification(abParams);

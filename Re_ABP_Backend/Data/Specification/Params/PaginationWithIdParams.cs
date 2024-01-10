@@ -1,6 +1,6 @@
-﻿namespace Re_ABP_Backend.Data.Specification.SpecClasses
+﻿namespace Re_ABP_Backend.Data.Specification.Params
 {
-    public class ABOfSomethingParams
+    public class PaginationWithIdParams
     {
         private const int MaxPageSize = 40;
         public int PageIndex { get; set; } = 1;

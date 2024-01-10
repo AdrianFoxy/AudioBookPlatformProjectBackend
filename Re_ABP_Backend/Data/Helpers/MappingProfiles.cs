@@ -6,6 +6,7 @@ using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Helpers.UrlResolvers;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.GenreDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -46,6 +47,8 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<ReviewCreateDto, Review>();
             CreateMap<Review, ReviewDto>()
                 .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.UserName));
+
+            CreateMap<Genre, GenreDto>();
 
         }
     }

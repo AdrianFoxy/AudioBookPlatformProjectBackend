@@ -6,7 +6,7 @@ using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
-using Re_ABP_Backend.Data.Specification.SpecClasses;
+using Re_ABP_Backend.Data.Specification.Params;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
@@ -33,7 +33,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<ReviewDto>>> GetReviews([FromQuery] ABOfSomethingParams paginationParams)
+        public async Task<ActionResult<Pagination<ReviewDto>>> GetReviews([FromQuery] PaginationWithIdParams paginationParams)
         {
             var spec = new ReviewSpecification(paginationParams);
             var countSpec = new ReviewCountSpecification(paginationParams);
