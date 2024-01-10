@@ -4,7 +4,7 @@ using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
-using Re_ABP_Backend.Data.Specification.SpecClasses;
+using Re_ABP_Backend.Data.Specification.Params;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AuthorSpec;
 using Re_ABP_Backend.Errors;
@@ -48,7 +48,7 @@ namespace Re_ABP_Backend.Controllers
         [HttpGet("author-books")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AudioBookInLibraryDto>> GetBooksOfAuthor([FromQuery] ABOfSomethingParams abParams)
+        public async Task<ActionResult<AudioBookInLibraryDto>> GetBooksOfAuthor([FromQuery] PaginationWithIdParams abParams)
         {
             var spec = new AuthorBooksSpecification(abParams);
             var countSpec = new AuthorBooksCountSpecification(abParams);

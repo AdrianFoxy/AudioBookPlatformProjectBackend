@@ -5,7 +5,7 @@ using Re_ABP_Backend.Data.Dtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
-using Re_ABP_Backend.Data.Specification.SpecClasses;
+using Re_ABP_Backend.Data.Specification.Params;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBookSpec.Count;
 using Re_ABP_Backend.Errors;

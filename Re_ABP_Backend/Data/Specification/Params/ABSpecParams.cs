@@ -1,6 +1,6 @@
 ﻿using Re_ABP_Backend.Data.Helpers;
 
-namespace Re_ABP_Backend.Data.Specification.SpecClasses
+namespace Re_ABP_Backend.Data.Specification.Params
 {
     public class ABSpecParams
     {
