@@ -14,6 +14,14 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.Property(p => p.ImageUrl).IsRequired().HasColumnType("text");
             builder.Property(p => p.Description).IsRequired().HasColumnType("text");
             builder.Property(p => p.EnDescription).IsRequired().HasColumnType("text");
+
+            builder.HasIndex(p => p.Name).IsUnique();
+            builder.HasIndex(p => p.EnName).IsUnique();
+
+            builder.HasMany(g => g.AudioBookAuthor)
+                   .WithOne(ag => ag.Author)
+                   .HasForeignKey(ag => ag.AuthorId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

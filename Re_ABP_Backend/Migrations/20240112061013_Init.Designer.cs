@@ -12,8 +12,8 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231117065202_Initial")]
-    partial class Initial
+    [Migration("20240112061013_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,6 +88,9 @@ namespace Re_ABP_Backend.Migrations
                     b.HasIndex("BookLanguageId");
 
                     b.HasIndex("BookSeriesId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("NarratorId");
 
@@ -196,6 +199,12 @@ namespace Re_ABP_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EnName")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Author");
                 });
 
@@ -225,6 +234,9 @@ namespace Re_ABP_Backend.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int>("PlaybackQueue")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
@@ -311,6 +323,12 @@ namespace Re_ABP_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EnName")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("BookSelection");
                 });
 
@@ -344,6 +362,12 @@ namespace Re_ABP_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EnName")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("BookSeries");
                 });
 
@@ -376,6 +400,12 @@ namespace Re_ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EnName")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Genre");
                 });
@@ -547,6 +577,9 @@ namespace Re_ABP_Backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Narrator");
                 });
 
@@ -674,13 +707,13 @@ namespace Re_ABP_Backend.Migrations
                     b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
                         .WithMany("AudioBookAuthor")
                         .HasForeignKey("AudioBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Re_ABP_Backend.Data.Entities.Author", "Author")
                         .WithMany("AudioBookAuthor")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AudioBook");
@@ -693,13 +726,13 @@ namespace Re_ABP_Backend.Migrations
                     b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
                         .WithMany("AudioBookGenre")
                         .HasForeignKey("AudioBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Re_ABP_Backend.Data.Entities.Genre", "Genre")
                         .WithMany("AudioBookGenre")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AudioBook");

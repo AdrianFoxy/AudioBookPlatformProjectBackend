@@ -21,6 +21,9 @@ namespace Re_ABP_Backend.Data.DB.Config
                    .IsRequired()
                    .HasColumnType("int")
                    .HasDefaultValue(0);
+
+            builder.HasIndex(p => p.Name).IsUnique();
+
             builder.HasOne(p => p.BookLanguage).WithMany()
                 .HasForeignKey(p => p.BookLanguageId)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -30,6 +33,14 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.HasOne(p => p.BookSeries).WithMany()
                 .HasForeignKey(p => p.BookSeriesId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(g => g.AudioBookGenre)
+                .WithOne(ag => ag.AudioBook)
+                .HasForeignKey(ag => ag.AudioBookId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(g => g.AudioBookAuthor)
+               .WithOne(ag => ag.AudioBook)
+               .HasForeignKey(ag => ag.AudioBookId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

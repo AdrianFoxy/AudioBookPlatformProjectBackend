@@ -99,7 +99,7 @@ namespace Re_ABP_Backend.Controllers
 
             if (result <= 0) 
             {
-                Log.Error("Problem creating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
+                Log.Error("Problem updating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
                 return BadRequest(new ApiResponse(400, "Problem updateing review"));
             } 
 
