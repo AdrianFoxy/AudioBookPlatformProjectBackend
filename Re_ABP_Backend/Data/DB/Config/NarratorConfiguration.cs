@@ -10,6 +10,8 @@ namespace Re_ABP_Backend.Data.DB.Config
         {
             builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
             builder.Property(p => p.MediaUrl).IsRequired().HasColumnType("text");
+
+            builder.HasIndex(p => p.Name).IsUnique();
         }
     }
 }

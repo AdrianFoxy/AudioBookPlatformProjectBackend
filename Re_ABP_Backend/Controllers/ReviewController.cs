@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.Params;
-using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
 using Serilog;
@@ -99,7 +97,7 @@ namespace Re_ABP_Backend.Controllers
 
             if (result <= 0) 
             {
-                Log.Error("Problem creating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
+                Log.Error("Problem updating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
                 return BadRequest(new ApiResponse(400, "Problem updateing review"));
             } 
 

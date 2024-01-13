@@ -49,6 +49,8 @@ namespace Re_ABP_Backend.Data.Helpers
                 .ForMember(d => d.Username, opt => opt.MapFrom(src => src.User.UserName));
 
             CreateMap<Genre, GenreDto>();
+            CreateMap<AddGenreDto, Genre>();
+
 
         }
     }

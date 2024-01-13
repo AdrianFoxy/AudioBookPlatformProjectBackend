@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class HopeLastInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,7 @@ namespace Re_ABP_Backend.Migrations
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     AudioFileUrl = table.Column<string>(type: "text", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    PlaybackQueue = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -273,13 +274,13 @@ namespace Re_ABP_Backend.Migrations
                         column: x => x.AudioBookId,
                         principalTable: "AudioBook",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AudioBookAuthor_Author_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Author",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -297,13 +298,13 @@ namespace Re_ABP_Backend.Migrations
                         column: x => x.AudioBookId,
                         principalTable: "AudioBook",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AudioBookGenre_Genre_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genre",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -404,6 +405,12 @@ namespace Re_ABP_Backend.Migrations
                 column: "BookSeriesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AudioBook_Name",
+                table: "AudioBook",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AudioBook_NarratorId",
                 table: "AudioBook",
                 column: "NarratorId");
@@ -427,6 +434,60 @@ namespace Re_ABP_Backend.Migrations
                 name: "IX_AudioBookSelection_BookSelectionId",
                 table: "AudioBookSelection",
                 column: "BookSelectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Author_EnName",
+                table: "Author",
+                column: "EnName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Author_Name",
+                table: "Author",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookSelection_EnName",
+                table: "BookSelection",
+                column: "EnName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookSelection_Name",
+                table: "BookSelection",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookSeries_EnName",
+                table: "BookSeries",
+                column: "EnName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookSeries_Name",
+                table: "BookSeries",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Genre_EnName",
+                table: "Genre",
+                column: "EnName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Genre_Name",
+                table: "Genre",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Narrator_Name",
+                table: "Narrator",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_AudioBookId",
