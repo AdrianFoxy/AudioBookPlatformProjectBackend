@@ -12,8 +12,8 @@ using Re_ABP_Backend.Data.DB;
 namespace Re_ABP_Backend.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240112061013_Init")]
-    partial class Init
+    [Migration("20240113072810_HopeLastInit")]
+    partial class HopeLastInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

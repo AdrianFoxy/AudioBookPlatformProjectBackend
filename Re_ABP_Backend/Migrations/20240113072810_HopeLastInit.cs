@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class HopeLastInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

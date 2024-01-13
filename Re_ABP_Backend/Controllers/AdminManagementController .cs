@@ -10,10 +10,6 @@ using Re_ABP_Backend.Data.Specification.SpecClasses.AdminGenreSpec;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Authorization;
-using Re_ABP_Backend.Data.Dtos.ReviewDtos;
-using Re_ABP_Backend.Data.Services;
-using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
 {

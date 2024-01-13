@@ -17,6 +17,30 @@ namespace Re_ABP_Backend.Data.DB
         {
             modelBuilder.Entity<Review>()
                  .ToTable(tb => tb.HasTrigger("UpdateAudioBookRating"));
+            modelBuilder.Entity<Genre>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateGenreUpdatedAt"));
+            modelBuilder.Entity<Author>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateAuthorUpdatedAt"));
+            modelBuilder.Entity<AudioBook>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateAudioBookUpdatedAt"));
+            modelBuilder.Entity<BookAudioFile>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateBookAudioFileUpdatedAt"));
+            modelBuilder.Entity<BookLanguage>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateBookLanguageUpdatedAt"));
+            modelBuilder.Entity<BookSelection>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateBookSelectionUpdatedAt"));
+            modelBuilder.Entity<BookSeries>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateBookSeriesUpdatedAt"));
+            modelBuilder.Entity<LibraryStatus>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateLibraryStatusUpdatedAt"));
+            modelBuilder.Entity<Narrator>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateNarratorUpdatedAt"));
+            modelBuilder.Entity<Review>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateReviewUpdatedAt"));
+            modelBuilder.Entity<User>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateUserUpdatedAt"));
+            modelBuilder.Entity<Role>()
+                 .ToTable(tb => tb.HasTrigger("trg_UpdateRoleUpdatedAt"));
 
             base.OnModelCreating(modelBuilder);
 

@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.Params;
-using Re_ABP_Backend.Data.Specification.SpecClasses.AudioBooks;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
 using Serilog;
