@@ -28,15 +28,15 @@ namespace Re_ABP_Backend.Controllers
             _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
-        [HttpGet("{username}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UserDto>> GetUserByUserName(string username)
+        public async Task<ActionResult<UserDto>> GetUserByUserName(int id)
         {
-            var user = await _userService.GetUserByUserName(username);
+            var user = await _userService.GetUserById(id);
             if (user == null)
             {
-                Log.Error("Request to get user by username failed, user with username {username} does not exists.", username);
+                Log.Error("Request to get user by id failed, user with id {id} does not exists.", id);
                 return NotFound(new ApiResponse(404));
             }
             return Ok(_mapper.Map<User, UserDto>(user));
