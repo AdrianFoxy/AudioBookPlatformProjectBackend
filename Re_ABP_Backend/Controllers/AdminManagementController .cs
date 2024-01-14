@@ -10,6 +10,8 @@ using Re_ABP_Backend.Data.Specification.SpecClasses.AdminGenreSpec;
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Localization;
+using Re_ABP_Backend.Resources;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -19,11 +21,13 @@ namespace Re_ABP_Backend.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public AdminManagementController(IUnitOfWork unitOfWork, IMapper mapper)
+        public AdminManagementController(IUnitOfWork unitOfWork, IMapper mapper, IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         [HttpGet("genres")]
@@ -67,8 +71,9 @@ namespace Re_ABP_Backend.Controllers
 
                 if (result <= 0)
                 {
+                    
                     Log.Error("Problem creating new genre.");
-                    return BadRequest(new ApiResponse(400, "Problem creating genre"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingGenre")));
                 }
 
                 return Ok(genre);
@@ -78,10 +83,10 @@ namespace Re_ABP_Backend.Controllers
                 if (IsUniqueConstraintViolationException(ex))
                 {
                     Log.Error("Genre with this Name or EnName already exists.");
-                    return BadRequest(new ApiResponse(400, "Genre with this Name or EnName already exists"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqGenre")));
                 }
 
-                return BadRequest(new ApiResponse(400, "Problem creating genre"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingGenre")));
             }
         }
 
@@ -100,7 +105,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem updating genre. Genre id: {id}", id);
-                    return BadRequest(new ApiResponse(400, "Problem updating genre"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingGenre")));
                 }
 
                 return Ok(genre);
@@ -110,9 +115,9 @@ namespace Re_ABP_Backend.Controllers
                 if (IsUniqueConstraintViolationException(ex))
                 {
                     Log.Error("Genre with this Name or EnName already exists.");
-                    return BadRequest(new ApiResponse(400, "Genre with this Name or EnName already exists"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqGenre")));
                 }
-                return BadRequest(new ApiResponse(400, "Problem updating genre"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingGenre")));
 
             }
         }
@@ -137,7 +142,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem deleting genre. Genre id: {id}", id);
-                    return BadRequest(new ApiResponse(400, "Problem deleting genre"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingGenre")));
                 }
 
                 return Ok();
@@ -145,7 +150,7 @@ namespace Re_ABP_Backend.Controllers
             catch (DbUpdateException ex)
             {
                 Log.Error(ex, "Error deleting genre. Genre id: {id}", id);
-                return BadRequest(new ApiResponse(400, "Genre is associated with audio books and cannot be deleted."));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingGenreAssociated")));
             }
         }
 

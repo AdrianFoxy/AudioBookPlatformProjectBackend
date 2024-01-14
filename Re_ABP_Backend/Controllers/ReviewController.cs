@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Helpers;
@@ -8,6 +9,7 @@ using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.Params;
 using Re_ABP_Backend.Data.Specification.SpecClasses.ReviewSpec;
 using Re_ABP_Backend.Errors;
+using Re_ABP_Backend.Resources;
 using Serilog;
 using System.Security.Claims;
 
@@ -20,14 +22,17 @@ namespace Re_ABP_Backend.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
         public ReviewController(IUnitOfWork unitOfWork,
                                 IMapper mapper,
-                                IUserService userService)
+                                IUserService userService, 
+                                IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _userService = userService;
+            _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         [HttpGet]
@@ -55,7 +60,7 @@ namespace Re_ABP_Backend.Controllers
             if (reviewExists)
             {
                 Log.Error("Problem creating review. UserId: {createReviewDto.UserId} alredy has a review for this audiobook.", createReviewDto.UserId);
-                return BadRequest(new ApiResponse(400, "Problem creating review. The user alredy has a review."));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingReview") + _sharedResourceLocalizer.GetString("UserAlredyHaveReview")));
             }
 
             var review = _mapper.Map<ReviewCreateDto, Review>(createReviewDto);
@@ -70,7 +75,7 @@ namespace Re_ABP_Backend.Controllers
             if (result <= 0)
             {
                 Log.Error("Problem creating review. UserId: {createReviewDto.UserId}.", createReviewDto.UserId);
-                return BadRequest(new ApiResponse(400, "Problem creating review"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingReview")));
             }
 
             return Ok(_mapper.
@@ -85,7 +90,7 @@ namespace Re_ABP_Backend.Controllers
 
             var userIdentifier = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             if (userIdentifier != review.UserId.ToString())
-                return BadRequest(new ApiResponse(400, "This is not your review, or you cannot update it."));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingReviewFakeOwner")));
 
             _mapper.Map(reviewToUpdate, review);
             _unitOfWork.Repository<Review>().Update(review);
@@ -98,7 +103,7 @@ namespace Re_ABP_Backend.Controllers
             if (result <= 0) 
             {
                 Log.Error("Problem updating review. UserId: {reviewToUpdate.UserId}. Review id: {id}", reviewToUpdate.UserId, id);
-                return BadRequest(new ApiResponse(400, "Problem updateing review"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingReview")));
             } 
 
             return Ok(_mapper.
@@ -116,7 +121,7 @@ namespace Re_ABP_Backend.Controllers
            var userRole = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
 
             if (userIdentifier != review.UserId.ToString() && userRole != "Admin")
-                return BadRequest(new ApiResponse(400, "This is not your review, or you cannot delete it."));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingReviewFakeOwner")));
 
             _unitOfWork.Repository<Review>().Delete(review);
 
@@ -125,7 +130,7 @@ namespace Re_ABP_Backend.Controllers
             if (result <= 0) 
             {
                 Log.Error("Problem deleting review. Review id: {id}", id);
-                return BadRequest(new ApiResponse(400, "Problem deleting review"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingReview")));
             }
 
             return Ok();

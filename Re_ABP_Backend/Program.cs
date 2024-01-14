@@ -12,10 +12,26 @@ using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Exntensions;
 using Re_ABP_Backend.Middleware;
 using Serilog;
+using System.Globalization;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+
+builder.Services.AddLocalization();
+
+var locazalitionOption = new RequestLocalizationOptions();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en-US"),
+    new CultureInfo("uk-UA")
+};
+
+locazalitionOption.SupportedCultures = supportedCultures;
+locazalitionOption.SupportedUICultures = supportedCultures;
+locazalitionOption.SetDefaultCulture("en-US");
+locazalitionOption.ApplyCurrentCultureToResponseHeaders = true;
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -85,6 +101,8 @@ builder.Services.AddAuthentication(x =>
 });
 
 var app = builder.Build();
+
+app.UseRequestLocalization(locazalitionOption);
 
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();

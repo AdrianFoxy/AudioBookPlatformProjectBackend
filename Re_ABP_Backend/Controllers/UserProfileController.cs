@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
+using Re_ABP_Backend.Resources;
 using Serilog;
 using System.Security.Claims;
 
@@ -16,11 +18,14 @@ namespace Re_ABP_Backend.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public UserProfileController(IUserService userService, IMapper mapper)
+        public UserProfileController(IUserService userService, IMapper mapper,
+                                     IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
             _userService = userService;
             _mapper = mapper;
+            _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         [HttpGet("{username}")]
@@ -54,14 +59,20 @@ namespace Re_ABP_Backend.Controllers
             {
                 var userEmail = await _userService.CheckEmailExistsAsync(userUpdate.Email);
                 if (userEmail)
-                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is taken" } });
+                {
+                    var errorMessage = _sharedResourceLocalizer.GetString("UserEmailExists");
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { errorMessage.Value } });
+                }
             }
 
             if (user.UserName != userUpdate.UserName)
             {
                 var userName = await _userService.CheckUserNameExistsAsync(userUpdate.UserName);
                 if (userName)
-                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is taken" } });
+                {
+                    var errorMessage = _sharedResourceLocalizer.GetString("UserNameExists");
+                    return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { errorMessage.Value } });
+                }
             }
 
             if (!(await _userService.EditUserAsync(userUpdate)))
