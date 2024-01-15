@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Google.Apis.Auth;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Re_ABP_Backend.Data.Dtos.AuthDtos;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Errors;
+using Re_ABP_Backend.Resources;
 using System.Security.Claims;
 
 namespace Re_ABP_Backend.Controllers
@@ -19,27 +20,19 @@ namespace Re_ABP_Backend.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly AppSettings _applicationSettings;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public AuthController(IUserService userService, IMapper mapper, IOptions<AppSettings> applicationSettings)
+        public AuthController(IUserService userService, 
+                             IMapper mapper, 
+                             IOptions<AppSettings> applicationSettings,
+                             IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
 
             _userService = userService;
             _mapper = mapper;
             _applicationSettings = applicationSettings.Value;
-        }
+            _sharedResourceLocalizer = sharedResourceLocalizer;
 
-        [Authorize]
-        [HttpGet("auth-test")]
-        public string GetTest()
-        {
-            return "Hi auth user!";
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("auth-test-admin")]
-        public string GetTestTest()
-        {
-            return "Hi admin!";
         }
 
         [HttpGet("get-current-user")]
@@ -138,16 +131,25 @@ namespace Re_ABP_Backend.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            var userEmail = await _userService.CheckEmailExistsAsync(model.Email);
-            if (userEmail)
-                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } });
+            var userEmailExists = await _userService.CheckEmailExistsAsync(model.Email);
+            if (userEmailExists)
+            {
+                var errorMessage = _sharedResourceLocalizer.GetString("UserEmailExists");
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { errorMessage.Value } });
+            }
 
             var userName = await _userService.CheckUserNameExistsAsync(model.UserName);
             if (userName)
-                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "UserName is in use" } });
+            {
+                var errorMessage = _sharedResourceLocalizer.GetString("UserNameExists");
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { errorMessage.Value } });
+            }
 
             if (model.Password != model.ConfirmPassword)
-                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Password confirm is wrong" } });
+            {
+                var errorMessage = _sharedResourceLocalizer.GetString("PasswordConfirmValidation");
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { errorMessage.Value } });
+            }
 
             var response = await _userService.AddUserAsync(model);
             if(response == false) return BadRequest(new ApiResponse(400));
