@@ -123,6 +123,9 @@
   <data name="ProblemCreatingGenre" xml:space="preserve">
     <value>Проблема при створенні жанру</value>
   </data>
+  <data name="ProblemCreatingNarrator" xml:space="preserve">
+    <value>Проблема при створенні оповідача</value>
+  </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
     <value>Проблема при створені відгуку</value>
   </data>
@@ -131,6 +134,12 @@
   </data>
   <data name="ProblemDeletingGenreAssociated" xml:space="preserve">
     <value>Жанр пов'язаний з аудіокнигами і не може бути видалений</value>
+  </data>
+  <data name="ProblemDeletingNarrator" xml:space="preserve">
+    <value>Проблема при видаленні оповідача</value>
+  </data>
+  <data name="ProblemDeletingNarratorAssociated" xml:space="preserve">
+    <value>Оповідач пов'язаний з аудіокнигами і не може бути видалений</value>
   </data>
   <data name="ProblemDeletingReview" xml:space="preserve">
     <value>Проблема при видаленні відгуку</value>
@@ -141,6 +150,9 @@
   <data name="ProblemUpdatingGenre" xml:space="preserve">
     <value>Проблема при оновленні жанру</value>
   </data>
+  <data name="ProblemUpdatingNarrator" xml:space="preserve">
+    <value>Проблема при оновленні оповідача</value>
+  </data>
   <data name="ProblemUpdatingReview" xml:space="preserve">
     <value>Проблема при оновленні відгуку</value>
   </data>
@@ -149,6 +161,9 @@
   </data>
   <data name="UniqGenre" xml:space="preserve">
     <value>Жанр з такою назвою або англійською назвою вже існує</value>
+  </data>
+  <data name="UniqNarrator" xml:space="preserve">
+    <value>Оповідач з такою назвою вже існує</value>
   </data>
   <data name="UserAlredyHaveReview" xml:space="preserve">
     <value>Користувач вже має відгук</value>

@@ -7,6 +7,7 @@ using Re_ABP_Backend.Data.Helpers.UrlResolvers;
 using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.GenreDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.NarratorDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -50,6 +51,9 @@ namespace Re_ABP_Backend.Data.Helpers
 
             CreateMap<Genre, GenreDto>();
             CreateMap<AddGenreDto, Genre>();
+
+            CreateMap<Narrator, NarratorDto>();
+            CreateMap<AddNarratorDto, Narrator>();
 
 
         }
