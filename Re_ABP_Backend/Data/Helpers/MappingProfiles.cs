@@ -8,6 +8,7 @@ using Re_ABP_Backend.Data.Dtos.UserDtos;
 using Re_ABP_Backend.Data.Dtos.ReviewDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.GenreDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.NarratorDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.BookSeriesDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -55,6 +56,8 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<Narrator, NarratorDto>();
             CreateMap<AddNarratorDto, Narrator>();
 
+            CreateMap<BookSeries, BookSeriesDto>();
+            CreateMap<AddBookSeriesDto, BookSeries>();
 
         }
     }

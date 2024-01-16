@@ -120,6 +120,9 @@
   <data name="PasswordConfirmValidation" xml:space="preserve">
     <value>Підтвердження пароля неправильне</value>
   </data>
+  <data name="ProblemCreatingBookSeries" xml:space="preserve">
+    <value>Проблема при створенні книжкової серії</value>
+  </data>
   <data name="ProblemCreatingGenre" xml:space="preserve">
     <value>Проблема при створенні жанру</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
     <value>Проблема при створені відгуку</value>
+  </data>
+  <data name="ProblemDeletingBookSeries" xml:space="preserve">
+    <value>Проблема при видаленні книжкової серії</value>
+  </data>
+  <data name="ProblemDeletingBookSeriesAssociated" xml:space="preserve">
+    <value>Книжкова серія пов'язаний з аудіокнигами і не може бути видалена</value>
   </data>
   <data name="ProblemDeletingGenre" xml:space="preserve">
     <value>Проблема при видаленні жанру</value>
@@ -147,6 +156,9 @@
   <data name="ProblemDeletingReviewFakeOwner" xml:space="preserve">
     <value>Це не твій відгук, або в тебе немає прав на виделення</value>
   </data>
+  <data name="ProblemUpdatingBookSeries" xml:space="preserve">
+    <value>Проблема при оновленні книжкової серії</value>
+  </data>
   <data name="ProblemUpdatingGenre" xml:space="preserve">
     <value>Проблема при оновленні жанру</value>
   </data>
@@ -158,6 +170,9 @@
   </data>
   <data name="ProblemUpdatingReviewFakeOwner" xml:space="preserve">
     <value>Це не твій відгук, або в тебе немає прав на оновлення</value>
+  </data>
+  <data name="UniqBookSeries" xml:space="preserve">
+    <value>Книжкова серія з такою назвою або англійською назвою вже існує</value>
   </data>
   <data name="UniqGenre" xml:space="preserve">
     <value>Жанр з такою назвою або англійською назвою вже існує</value>
