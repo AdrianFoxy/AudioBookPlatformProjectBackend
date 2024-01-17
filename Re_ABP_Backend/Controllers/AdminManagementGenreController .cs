@@ -84,7 +84,7 @@ namespace Re_ABP_Backend.Controllers
 
                 return Ok(item);
             }
-            catch (DbUpdateException ex) when (IsUniqueConstraintViolationException(ex))
+            catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
                 Log.Error("Genre with this Name or EnName already exists.");
                 return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqGenre")));
@@ -117,14 +117,10 @@ namespace Re_ABP_Backend.Controllers
 
                 return Ok(item);
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                if (IsUniqueConstraintViolationException(ex))
-                {
-                    Log.Error("Genre with this Name or EnName already exists.");
-                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqGenre")));
-                }
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingGenre")));
+                Log.Error("Genre with this Name or EnName already exists.");
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqGenre")));
             }
         }
 
@@ -158,12 +154,5 @@ namespace Re_ABP_Backend.Controllers
                 return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingGenreAssociated")));
             }
         }
-
-        private bool IsUniqueConstraintViolationException(DbUpdateException ex)
-        {
-            return ex?.InnerException is SqlException sqlException &&
-                   (sqlException.Number == 2601 || sqlException.Number == 2627);
-        }
-
     }
 }

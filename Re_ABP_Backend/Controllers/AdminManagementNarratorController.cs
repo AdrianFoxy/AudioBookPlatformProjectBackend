@@ -85,7 +85,7 @@ namespace Re_ABP_Backend.Controllers
 
                 return Ok(item);
             }
-            catch (DbUpdateException ex) when (IsUniqueConstraintViolationException(ex))
+            catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
                 Log.Error("Narrator with this Name already exists.");
                 return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqNarrator")));
@@ -118,14 +118,10 @@ namespace Re_ABP_Backend.Controllers
 
                 return Ok(item);
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                if (IsUniqueConstraintViolationException(ex))
-                {
-                    Log.Error("Narrator with this Name already exists.");
-                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqNarrator")));
-                }
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingNarrator")));
+                Log.Error("Narrator with this Name already exists.");
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqNarrator")));
             }
         }
 
@@ -158,12 +154,6 @@ namespace Re_ABP_Backend.Controllers
                 Log.Error(ex, "Error deleting narrator. Narrator id: {id}", id);
                 return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingNarratorAssociated")));
             }
-        }
-
-        private bool IsUniqueConstraintViolationException(DbUpdateException ex)
-        {
-            return ex?.InnerException is SqlException sqlException &&
-                   (sqlException.Number == 2601 || sqlException.Number == 2627);
         }
     }
 }
