@@ -120,11 +120,23 @@
   <data name="PasswordConfirmValidation" xml:space="preserve">
     <value>Password confirm is wrong</value>
   </data>
+  <data name="ProblemCreatingBookSeries" xml:space="preserve">
+    <value>Problem Creating book series</value>
+  </data>
   <data name="ProblemCreatingGenre" xml:space="preserve">
     <value>Problem Creating Genre</value>
   </data>
+  <data name="ProblemCreatingNarrator" xml:space="preserve">
+    <value>Problem Creating Narrator</value>
+  </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
     <value>Problem Creating Review</value>
+  </data>
+  <data name="ProblemDeletingBookSeries" xml:space="preserve">
+    <value>Problem Deleting book series</value>
+  </data>
+  <data name="ProblemDeletingBookSeriesAssociated" xml:space="preserve">
+    <value>Book series is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingGenre" xml:space="preserve">
     <value>Problem Deleting Genre</value>
@@ -132,14 +144,26 @@
   <data name="ProblemDeletingGenreAssociated" xml:space="preserve">
     <value>Genre is associated with audiobooks and cannot be deleted</value>
   </data>
+  <data name="ProblemDeletingNarrator" xml:space="preserve">
+    <value>Problem Deleting Narrator</value>
+  </data>
+  <data name="ProblemDeletingNarratorAssociated" xml:space="preserve">
+    <value>Narrator is associated with audiobooks and cannot be deleted</value>
+  </data>
   <data name="ProblemDeletingReview" xml:space="preserve">
     <value>Problem deleting review</value>
   </data>
   <data name="ProblemDeletingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot delete it.</value>
   </data>
+  <data name="ProblemUpdatingBookSeries" xml:space="preserve">
+    <value>Problem Updating book series</value>
+  </data>
   <data name="ProblemUpdatingGenre" xml:space="preserve">
     <value>Problem Updating Genre</value>
+  </data>
+  <data name="ProblemUpdatingNarrator" xml:space="preserve">
+    <value>Problem Updating Narrator</value>
   </data>
   <data name="ProblemUpdatingReview" xml:space="preserve">
     <value>Problem Updating Review</value>
@@ -147,8 +171,14 @@
   <data name="ProblemUpdatingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot update it.</value>
   </data>
+  <data name="UniqBookSeries" xml:space="preserve">
+    <value>A narrator with that name or english name already exists</value>
+  </data>
   <data name="UniqGenre" xml:space="preserve">
-    <value>A genre with that name or English name already exists</value>
+    <value>A genre with that name or english name already exists</value>
+  </data>
+  <data name="UniqNarrator" xml:space="preserve">
+    <value>A narrator with that name already exists</value>
   </data>
   <data name="UserAlredyHaveReview" xml:space="preserve">
     <value>The user already has a review</value>
