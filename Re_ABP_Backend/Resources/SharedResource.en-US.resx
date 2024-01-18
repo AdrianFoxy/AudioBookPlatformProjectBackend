@@ -120,6 +120,9 @@
   <data name="PasswordConfirmValidation" xml:space="preserve">
     <value>Password confirm is wrong</value>
   </data>
+  <data name="ProblemCreatingBookLanguage" xml:space="preserve">
+    <value>Problem Creating language</value>
+  </data>
   <data name="ProblemCreatingBookSeries" xml:space="preserve">
     <value>Problem Creating book series</value>
   </data>
@@ -131,6 +134,12 @@
   </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
     <value>Problem Creating Review</value>
+  </data>
+  <data name="ProblemDeletingBookLanguage" xml:space="preserve">
+    <value>Problem Deleting language</value>
+  </data>
+  <data name="ProblemDeletingBookLanguageAssociated" xml:space="preserve">
+    <value>Language is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingBookSeries" xml:space="preserve">
     <value>Problem Deleting book series</value>
@@ -156,6 +165,9 @@
   <data name="ProblemDeletingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot delete it.</value>
   </data>
+  <data name="ProblemUpdatingBookLanguage" xml:space="preserve">
+    <value>Problem Updating language</value>
+  </data>
   <data name="ProblemUpdatingBookSeries" xml:space="preserve">
     <value>Problem Updating book series</value>
   </data>
@@ -170,6 +182,9 @@
   </data>
   <data name="ProblemUpdatingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot update it.</value>
+  </data>
+  <data name="UniqBookLanguage" xml:space="preserve">
+    <value>A language with that name or english name already exists</value>
   </data>
   <data name="UniqBookSeries" xml:space="preserve">
     <value>A narrator with that name or english name already exists</value>

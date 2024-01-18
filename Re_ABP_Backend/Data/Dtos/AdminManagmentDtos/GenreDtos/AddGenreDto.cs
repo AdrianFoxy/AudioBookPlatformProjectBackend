@@ -11,6 +11,5 @@ namespace Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.GenreDtos
         [Required]
         [MaxLength(50, ErrorMessage = "Max lenght is 50.")]
         public string EnName { get; set; }
-
     }
 }
