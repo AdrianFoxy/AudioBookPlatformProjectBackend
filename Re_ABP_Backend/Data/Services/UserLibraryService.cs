@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Dtos;
-using Re_ABP_Backend.Data.Entities.Identity;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
 
-namespace Re_ABP_Backend.Data.Repositories
+namespace Re_ABP_Backend.Data.Services
 {
-    public class UserLibraryRepository : IUserLibraryRepository
+    public class UserLibraryService : IUserLibraryService
     {
         private readonly AppDBContext _context;
-        public UserLibraryRepository(AppDBContext context)
+        public UserLibraryService(AppDBContext context)
         {
             _context = context;
         }
@@ -20,7 +19,7 @@ namespace Re_ABP_Backend.Data.Repositories
             var userLibraryEntry = await _context.UserLibrary
                 .FirstOrDefaultAsync(ul => ul.UserId == userLibraryDto.UserId && ul.AudioBookId == userLibraryDto.AudioBookId);
 
-            if(userLibraryEntry != null) 
+            if (userLibraryEntry != null)
             {
                 if (userLibraryDto.LibraryStatusId == 0)
                     _context.UserLibrary.Remove(userLibraryEntry);

@@ -17,12 +17,12 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class UserLibraryController : ControllerBase
     {
-        private readonly IUserLibraryRepository _userLibraryRepository;
+        private readonly IUserLibraryService _userLibraryRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserLibraryController(IUserLibraryRepository userLibraryRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
+        public UserLibraryController(IUserLibraryService userLibraryRepository, IUnitOfWork unitOfWork, IMapper mapper, IUserService userService)
         {
             _userLibraryRepository = userLibraryRepository;
             _unitOfWork = unitOfWork;

@@ -2,7 +2,7 @@
 
 namespace Re_ABP_Backend.Data.Interfraces
 {
-    public interface IRecommendationRepository
+    public interface IRecommendationService
     {
         Task<IReadOnlyList<AudioBook>> GetRecommendationsByPopularity();
         Task<IReadOnlyList<AudioBook>> GetRecommendationsByRating();

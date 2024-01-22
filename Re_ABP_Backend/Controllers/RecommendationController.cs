@@ -15,9 +15,9 @@ namespace Re_ABP_Backend.Controllers
     public class RecommendationController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IRecommendationRepository _recommendationRepository;
+        private readonly IRecommendationService _recommendationRepository;
         public RecommendationController(IMapper mapper,
-                                        IRecommendationRepository recommendationRepository)
+                                        IRecommendationService recommendationRepository)
         {
             _mapper = mapper;
             _recommendationRepository = recommendationRepository;
