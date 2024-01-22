@@ -24,7 +24,6 @@ namespace Re_ABP_Backend.Extensions
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["ApplicationSettings:Secret"])),
-
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
