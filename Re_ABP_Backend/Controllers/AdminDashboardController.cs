@@ -15,10 +15,10 @@ namespace Re_ABP_Backend.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDashboard _dashboard;
+        private readonly IDashboardService _dashboard;
 
 
-        public AdminDashboardController(IUserService userService, IMapper mapper, IUnitOfWork unitOfWork, IDashboard dashboard)
+        public AdminDashboardController(IUserService userService, IMapper mapper, IUnitOfWork unitOfWork, IDashboardService dashboard)
         {
 
             _userService = userService;

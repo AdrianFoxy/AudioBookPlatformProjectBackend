@@ -1,6 +1,6 @@
 ﻿namespace Re_ABP_Backend.Data.Interfraces
 {
-    public interface IDashboard
+    public interface IDashboardService
     {
         Task<int[]> GetUserCountByMothAsync();
     }

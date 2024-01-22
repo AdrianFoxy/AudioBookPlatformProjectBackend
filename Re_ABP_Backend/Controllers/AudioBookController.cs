@@ -17,16 +17,16 @@ namespace Re_ABP_Backend.Controllers
     [ApiController]
     public class AudioBookController : ControllerBase
     {
-        private readonly IAudioBookRepository _audioBookRepository;
+        private readonly IAudioBookService _audioBookRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly IUserLibraryRepository _userLibraryRepository;
+        private readonly IUserLibraryService _userLibraryRepository;
         public AudioBookController(IUnitOfWork unitOfWork,
-                                   IAudioBookRepository audioBookRepository,
+                                   IAudioBookService audioBookRepository,
                                    IMapper mapper,
                                    IUserService userService,
-                                   IUserLibraryRepository userLibraryRepository)
+                                   IUserLibraryService userLibraryRepository)
         {
             _audioBookRepository = audioBookRepository;
             _mapper = mapper;

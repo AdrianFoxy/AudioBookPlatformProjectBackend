@@ -1,27 +1,15 @@
 ﻿using Re_ABP_Backend.Data.DB;
-using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
-using Microsoft.EntityFrameworkCore;
-using Re_ABP_Backend.Errors;
 using Serilog;
 
-namespace Re_ABP_Backend.Data.Repositories
+namespace Re_ABP_Backend.Data.Services
 {
-    public class AudioBookRepository : IAudioBookRepository
+    public class AudioBookService : IAudioBookService
     {
         private readonly AppDBContext _context;
-        public AudioBookRepository(AppDBContext context) 
+        public AudioBookService(AppDBContext context)
         {
             _context = context;
-        }
-        public async Task<AudioBook?> GetAudioBookByIdAsync(int id)
-        {
-            return await _context.AudioBook.FindAsync(id);
-        }
-
-        public async Task<IReadOnlyList<AudioBook>> GetAudioBooksAsync()
-        {
-            return await _context.AudioBook.ToListAsync();
         }
 
         public async Task<bool> IncreaseViewCountAsync(int audioBookId)

@@ -2,12 +2,12 @@
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Interfraces;
 
-namespace Re_ABP_Backend.Data.Repositories
+namespace Re_ABP_Backend.Data.Services
 {
-    public class DashboardRepository : IDashboard
+    public class DashboardService : IDashboardService
     {
         private readonly AppDBContext _context;
-        public DashboardRepository(AppDBContext context)
+        public DashboardService(AppDBContext context)
         {
             _context = context;
         }

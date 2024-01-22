@@ -1,9 +1,7 @@
-﻿using Re_ABP_Backend.Data.DB;
-using Re_ABP_Backend.Data.Interfraces;
+﻿using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Repositories;
 using Re_ABP_Backend.Errors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Re_ABP_Backend.Data.Services;
 
 namespace Re_ABP_Backend.Exntensions
@@ -16,10 +14,10 @@ namespace Re_ABP_Backend.Exntensions
 
             services.AddHttpContextAccessor();
 
-            services.AddScoped<IAudioBookRepository, AudioBookRepository>();
-            services.AddScoped<IUserLibraryRepository, UserLibraryRepository>();
-            services.AddScoped<IRecommendationRepository, RecommendationRepository>();
-            services.AddScoped<IDashboard, DashboardRepository>();
+            services.AddScoped<IAudioBookService, AudioBookService>();
+            services.AddScoped<IUserLibraryService, UserLibraryService>();
+            services.AddScoped<IRecommendationService, RecommendationService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

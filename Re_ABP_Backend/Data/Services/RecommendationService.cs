@@ -3,12 +3,12 @@ using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Interfraces;
 
-namespace Re_ABP_Backend.Data.Repositories
+namespace Re_ABP_Backend.Data.Services
 {
-    public class RecommendationRepository : IRecommendationRepository
+    public class RecommendationService : IRecommendationService
     {
         private readonly AppDBContext _context;
-        public RecommendationRepository(AppDBContext context)
+        public RecommendationService(AppDBContext context)
         {
             _context = context;
         }
