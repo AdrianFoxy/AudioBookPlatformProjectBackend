@@ -1,9 +1,4 @@
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Re_ABP_Backend;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Interfraces;
@@ -40,34 +35,13 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCorsConfiguration();
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddDatabase(builder.Configuration, builder.Environment); // Add this line
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .WriteTo.Console()
     .WriteTo.File("logs/action-logs.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
-
-if (builder.Environment.IsProduction())
-{
-    var keyVaultURL = builder.Configuration.GetSection("KeyVault:KeyVaultURL");
-
-    var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider().KeyVaultTokenCallback));
-
-    builder.Configuration.AddAzureKeyVault(keyVaultURL.Value!.ToString(), new DefaultKeyVaultSecretManager());
-
-    var client = new SecretClient(new Uri(keyVaultURL.Value!.ToString()), new DefaultAzureCredential());
-
-    builder.Services.AddDbContext<AppDBContext>(options =>
-    {
-        options.UseSqlServer(client.GetSecret("ProdConnection").Value.Value.ToString());
-    });
-}
-
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-}
 
 var app = builder.Build();
 
