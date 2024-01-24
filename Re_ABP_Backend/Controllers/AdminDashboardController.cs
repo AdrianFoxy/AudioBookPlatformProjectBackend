@@ -27,6 +27,7 @@ namespace Re_ABP_Backend.Controllers
             _dashboard = dashboard;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("audiobook-count")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -36,6 +37,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(count);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("review-count")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -45,6 +47,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(count);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("user-count")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -54,6 +57,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(count);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("user-count-chart")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]

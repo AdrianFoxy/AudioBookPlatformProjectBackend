@@ -28,6 +28,7 @@ namespace Re_ABP_Backend.Controllers
             _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -42,6 +43,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(_mapper.Map<User, UserDto>(user));
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]

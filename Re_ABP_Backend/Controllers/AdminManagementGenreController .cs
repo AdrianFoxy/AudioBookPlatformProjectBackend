@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Localization;
 using Re_ABP_Backend.Resources;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Re_ABP_Backend.Controllers
 {
@@ -30,6 +31,7 @@ namespace Re_ABP_Backend.Controllers
             _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -47,6 +49,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(new Pagination<GenreDto>(pagAndSearchParams.PageIndex, pagAndSearchParams.PageSize, totalItems, data));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -66,6 +69,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(data);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<GenreDto>> CreateGenre(AddGenreDto addGenreDto)
         {
@@ -91,6 +95,7 @@ namespace Re_ABP_Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<GenreDto>> UpdateGenre(int id, AddGenreDto genreToUpdate)
         {
@@ -124,6 +129,7 @@ namespace Re_ABP_Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteGenre(int id)
         {
