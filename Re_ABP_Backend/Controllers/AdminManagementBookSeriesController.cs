@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -30,6 +31,7 @@ namespace Re_ABP_Backend.Controllers
             _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -47,6 +49,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(new Pagination<BookSeriesDto>(pagAndSearchParams.PageIndex, pagAndSearchParams.PageSize, totalItems, data));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -66,6 +69,7 @@ namespace Re_ABP_Backend.Controllers
             return Ok(data);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<BookSeriesDto>> CreateBookSeries(AddBookSeriesDto addBookSeriesDto)
         {
@@ -91,6 +95,7 @@ namespace Re_ABP_Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<NarratorDto>> UpdateBookSeries(int id, AddBookSeriesDto bookSeriesToUpdate)
         {
@@ -124,6 +129,7 @@ namespace Re_ABP_Backend.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteBookSeries(int id)
         {
