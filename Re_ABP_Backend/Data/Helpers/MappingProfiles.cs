@@ -10,6 +10,7 @@ using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.GenreDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.NarratorDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.BookSeriesDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.LanguageDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AuthorDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -62,6 +63,10 @@ namespace Re_ABP_Backend.Data.Helpers
 
             CreateMap<BookLanguage, BookLanguageDto>();
             CreateMap<AddBookLanguageDto, BookLanguage>();
+
+            CreateMap<Author, AuthorDto>()
+                .ForMember(d => d.ImageUrl, o => o.MapFrom<AuthorUrlResolver<AuthorDto>>());
+            CreateMap<AddAuthorDto, Author>();
 
         }
     }
