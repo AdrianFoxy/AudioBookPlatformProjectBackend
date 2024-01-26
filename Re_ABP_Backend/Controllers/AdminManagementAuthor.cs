@@ -24,14 +24,14 @@ namespace Re_ABP_Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPictureTest(IFormFile picture)
+        public async Task<IActionResult> AddPictureTest([FromForm] PictureDto picture)
         {
-            if (picture == null || picture.Length == 0)
+            if (picture.Picture == null || picture.Picture.Length == 0)
             {
                 return BadRequest("The picture field is required.");
             }
 
-            var result = await _pictureService.SaveToDiskAsync(picture, PictureType.authors);
+            var result = await _pictureService.SaveToDiskAsync(picture.Picture, PictureType.authors);
             return Ok(result);
         }
 
