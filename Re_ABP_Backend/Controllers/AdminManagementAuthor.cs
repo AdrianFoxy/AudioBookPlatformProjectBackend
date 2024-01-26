@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AuthorDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Picture;
@@ -9,6 +10,7 @@ using Re_ABP_Backend.Data.Interfraces;
 using Re_ABP_Backend.Data.Specification.Params;
 using Re_ABP_Backend.Data.Specification.SpecClasses.AdminAuthor;
 using Re_ABP_Backend.Errors;
+using Re_ABP_Backend.Resources;
 using Serilog;
 
 namespace Re_ABP_Backend.Controllers
@@ -20,13 +22,15 @@ namespace Re_ABP_Backend.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPictureService _pictureService;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public AdminManagementAuthor(IMapper mapper, IUnitOfWork unitOfWork, IPictureService pictureService)
+        public AdminManagementAuthor(IMapper mapper, IUnitOfWork unitOfWork, IPictureService pictureService, IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
 
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _pictureService = pictureService;
+            _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         [HttpGet]
@@ -94,7 +98,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem creating new author.");
-                    return BadRequest(new ApiResponse(400, "Error"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingAuthor")));
                 }
 
                 return Ok(item);
@@ -102,7 +106,7 @@ namespace Re_ABP_Backend.Controllers
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
                 Log.Error("Author with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, "Error"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
             }
         }
 
@@ -140,7 +144,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem updating author. Author id: {id}", id);
-                    return BadRequest(new ApiResponse(400, "ProblemUpdatingGenre"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingAuthor")));
                 }
 
                 return Ok(item);
@@ -148,7 +152,7 @@ namespace Re_ABP_Backend.Controllers
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
                 Log.Error("Author with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, "UniqGenre"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
             }
         }
 
@@ -173,7 +177,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem deleting author. Author id: {id}", id);
-                    return BadRequest(new ApiResponse(400, "ProblemDeletingauthor"));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingAuthor")));
                 }
 
                 return Ok();
@@ -181,7 +185,7 @@ namespace Re_ABP_Backend.Controllers
             catch (DbUpdateException ex)
             {
                 Log.Error(ex, "Error deleting author. Author id: {id}", id);
-                return BadRequest(new ApiResponse(400, "ProblemDeletingauthorAssociated"));
+                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemDeletingAuthorAssociated")));
             }
         }
 
