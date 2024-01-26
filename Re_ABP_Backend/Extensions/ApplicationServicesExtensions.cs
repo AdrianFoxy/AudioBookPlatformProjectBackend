@@ -18,6 +18,7 @@ namespace Re_ABP_Backend.Exntensions
             services.AddScoped<IUserLibraryService, UserLibraryService>();
             services.AddScoped<IRecommendationService, RecommendationService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
