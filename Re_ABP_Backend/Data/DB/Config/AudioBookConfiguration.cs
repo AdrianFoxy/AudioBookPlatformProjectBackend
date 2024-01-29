@@ -11,7 +11,7 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
             builder.Property(p => p.Description).IsRequired().HasColumnType("text");
-            builder.Property(p => p.PictureUrl).IsRequired().HasColumnType("text");
+            builder.Property(p => p.PictureUrl).IsRequired().HasColumnType("text").HasDefaultValue("/img/default_img.jpg");
             builder.Property(p => p.Rating).IsRequired().HasColumnType("float").HasDefaultValue(0);
             builder.Property(p => p.BookDuration)
                    .IsRequired()
