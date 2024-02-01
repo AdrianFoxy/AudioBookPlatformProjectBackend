@@ -16,6 +16,8 @@ namespace Re_ABP_Backend.Data.DB.Config
                    .HasColumnType("int")
                    .HasDefaultValue(0);
             builder.Property(p => p.PlaybackQueue).IsRequired();
+
+
         }
     }
 }

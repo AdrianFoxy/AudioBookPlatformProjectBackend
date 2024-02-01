@@ -72,11 +72,6 @@ namespace Re_ABP_Backend.Data.DB
                 .UsingEntity<AudioBookGenre>();
 
             modelBuilder.Entity<AudioBook>()
-                .HasMany(e => e.BookAudioFile)
-                .WithMany(e => e.AudioBook)
-                .UsingEntity<AudioBookAudioFile>();
-
-            modelBuilder.Entity<AudioBook>()
                 .HasMany(e => e.BookSelection)
                 .WithMany(e => e.AudioBook)
                 .UsingEntity<AudioBookSelection>();
@@ -91,6 +86,11 @@ namespace Re_ABP_Backend.Data.DB
                 .HasOne(bc => bc.User)
                 .WithMany(c => c.UserLibrary)
                 .HasForeignKey(bc => bc.UserId);
+            modelBuilder.Entity<BookAudioFile>()
+                .HasOne(baf => baf.AudioBook)
+                .WithMany(ab => ab.BookAudioFile)
+                .HasForeignKey(baf => baf.AudioBookId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
@@ -107,7 +107,6 @@ namespace Re_ABP_Backend.Data.DB
         public DbSet<BookSelection> BookSelection { get; set; }
         public DbSet<AudioBookAuthor> AudioBookAuthor { get; set; }
         public DbSet<AudioBookGenre> AudioBookGenre { get; set; }
-        public DbSet<AudioBookAudioFile> AudioBookAudioFile { get; set; }
         public DbSet<AudioBookSelection> AudioBookSelection { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }

@@ -1,5 +1,5 @@
 CREATE TRIGGER UpdateBookDuration
-ON AudioBookAudioFile
+ON BookAudioFile
 AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
@@ -22,9 +22,8 @@ BEGIN
     UPDATE ab
     SET ab.BookDuration = COALESCE((
         SELECT SUM(baf.Duration)
-        FROM AudioBookAudioFile abaf
-        JOIN BookAudioFile baf ON abaf.BookAudioFileId = baf.Id
-        WHERE abaf.AudioBookId = ab.Id
+        FROM BookAudioFile baf
+        WHERE baf.AudioBookId = ab.Id
     ), 0)
     FROM AudioBook ab
     WHERE ab.Id IN (SELECT Id FROM @AudioBookIds);

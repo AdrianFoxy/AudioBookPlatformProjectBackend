@@ -27,8 +27,6 @@ namespace Re_ABP_Backend.Data.Entities
         public List<AudioBookSelection> AudioBookSelection { get; set; }
         public List<BookSelection> BookSelection { get; set; }
         [JsonIgnore]
-
-        public List<AudioBookAudioFile> AudioBookAudioFile { get; set; }
         public List<BookAudioFile> BookAudioFile { get; set; }
         public BookLanguage BookLanguage { get; set; }
         public int BookLanguageId { get; set; }

@@ -83,14 +83,6 @@ namespace Re_ABP_Backend.Data.DB
                 await context.SaveChangesAsync();
             }
 
-            if (!context.AudioBookAudioFile.Any())
-            {
-                var audioBooksAudioFilesData = File.ReadAllText("Data/DB/SeedDB/audiobook-audiofile.json");
-                var audioBooksAudioFiles = JsonSerializer.Deserialize<List<AudioBookAudioFile>>(audioBooksAudioFilesData);
-                context.AudioBookAudioFile.AddRange(audioBooksAudioFiles);
-                await context.SaveChangesAsync();
-            }
-
             if (!context.BookSelection.Any())
             {
                 var bookSelection = File.ReadAllText("Data/DB/SeedDB/selections.json");

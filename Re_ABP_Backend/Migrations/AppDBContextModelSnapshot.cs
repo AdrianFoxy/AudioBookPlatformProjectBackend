@@ -99,21 +99,6 @@ namespace Re_ABP_Backend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBookAudioFile", b =>
-                {
-                    b.Property<int>("AudioBookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookAudioFileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AudioBookId", "BookAudioFileId");
-
-                    b.HasIndex("BookAudioFileId");
-
-                    b.ToTable("AudioBookAudioFile");
-                });
-
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBookAuthor", b =>
                 {
                     b.Property<int>("AudioBookId")
@@ -223,6 +208,9 @@ namespace Re_ABP_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AudioFileUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -251,6 +239,8 @@ namespace Re_ABP_Backend.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AudioBookId");
 
                     b.ToTable("BookAudioFile", t =>
                         {
@@ -727,25 +717,6 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("Narrator");
                 });
 
-            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBookAudioFile", b =>
-                {
-                    b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
-                        .WithMany("AudioBookAudioFile")
-                        .HasForeignKey("AudioBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Re_ABP_Backend.Data.Entities.BookAudioFile", "BookAudioFile")
-                        .WithMany("AudioBookBookAudioFile")
-                        .HasForeignKey("BookAudioFileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AudioBook");
-
-                    b.Navigation("BookAudioFile");
-                });
-
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBookAuthor", b =>
                 {
                     b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
@@ -801,6 +772,17 @@ namespace Re_ABP_Backend.Migrations
                     b.Navigation("AudioBook");
 
                     b.Navigation("BookSelection");
+                });
+
+            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.BookAudioFile", b =>
+                {
+                    b.HasOne("Re_ABP_Backend.Data.Entities.AudioBook", "AudioBook")
+                        .WithMany("BookAudioFile")
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Identity.User", b =>
@@ -862,13 +844,13 @@ namespace Re_ABP_Backend.Migrations
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.AudioBook", b =>
                 {
-                    b.Navigation("AudioBookAudioFile");
-
                     b.Navigation("AudioBookAuthor");
 
                     b.Navigation("AudioBookGenre");
 
                     b.Navigation("AudioBookSelection");
+
+                    b.Navigation("BookAudioFile");
 
                     b.Navigation("UserLibrary");
                 });
@@ -876,11 +858,6 @@ namespace Re_ABP_Backend.Migrations
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.Author", b =>
                 {
                     b.Navigation("AudioBookAuthor");
-                });
-
-            modelBuilder.Entity("Re_ABP_Backend.Data.Entities.BookAudioFile", b =>
-                {
-                    b.Navigation("AudioBookBookAudioFile");
                 });
 
             modelBuilder.Entity("Re_ABP_Backend.Data.Entities.BookSelection", b =>
