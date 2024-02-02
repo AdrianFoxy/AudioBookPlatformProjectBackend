@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Re_ABP_Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class HopeLastInit : Migration
+    public partial class InitialAgain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,31 +21,13 @@ namespace Re_ABP_Backend.Migrations
                     EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     EnDescription = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false, defaultValue: "/img/default_img.jpg"),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Author", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookAudioFile",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    AudioFileUrl = table.Column<string>(type: "text", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    PlaybackQueue = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookAudioFile", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,7 +56,7 @@ namespace Re_ABP_Backend.Migrations
                     EnName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     EnDescription = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false, defaultValue: "/img/default_img.jpg"),
                     CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
@@ -170,7 +152,7 @@ namespace Re_ABP_Backend.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    PictureUrl = table.Column<string>(type: "text", nullable: false),
+                    PictureUrl = table.Column<string>(type: "text", nullable: false, defaultValue: "/img/default_img.jpg"),
                     Rating = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
                     BookDuration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
@@ -233,30 +215,6 @@ namespace Re_ABP_Backend.Migrations
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AudioBookAudioFile",
-                columns: table => new
-                {
-                    AudioBookId = table.Column<int>(type: "int", nullable: false),
-                    BookAudioFileId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AudioBookAudioFile", x => new { x.AudioBookId, x.BookAudioFileId });
-                    table.ForeignKey(
-                        name: "FK_AudioBookAudioFile_AudioBook_AudioBookId",
-                        column: x => x.AudioBookId,
-                        principalTable: "AudioBook",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AudioBookAudioFile_BookAudioFile_BookAudioFileId",
-                        column: x => x.BookAudioFileId,
-                        principalTable: "BookAudioFile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,6 +285,31 @@ namespace Re_ABP_Backend.Migrations
                         name: "FK_AudioBookSelection_BookSelection_BookSelectionId",
                         column: x => x.BookSelectionId,
                         principalTable: "BookSelection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookAudioFile",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    AudioFileUrl = table.Column<string>(type: "text", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    PlaybackQueue = table.Column<int>(type: "int", nullable: false),
+                    AudioBookId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "DateTime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookAudioFile", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookAudioFile_AudioBook_AudioBookId",
+                        column: x => x.AudioBookId,
+                        principalTable: "AudioBook",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -416,11 +399,6 @@ namespace Re_ABP_Backend.Migrations
                 column: "NarratorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AudioBookAudioFile_BookAudioFileId",
-                table: "AudioBookAudioFile",
-                column: "BookAudioFileId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AudioBookAuthor_AuthorId",
                 table: "AudioBookAuthor",
                 column: "AuthorId");
@@ -444,6 +422,23 @@ namespace Re_ABP_Backend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Author_Name",
                 table: "Author",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookAudioFile_AudioBookId",
+                table: "BookAudioFile",
+                column: "AudioBookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookLanguage_EnName",
+                table: "BookLanguage",
+                column: "EnName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookLanguage_Name",
+                table: "BookLanguage",
                 column: "Name",
                 unique: true);
 
@@ -519,9 +514,6 @@ namespace Re_ABP_Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AudioBookAudioFile");
-
-            migrationBuilder.DropTable(
                 name: "AudioBookAuthor");
 
             migrationBuilder.DropTable(
@@ -531,13 +523,13 @@ namespace Re_ABP_Backend.Migrations
                 name: "AudioBookSelection");
 
             migrationBuilder.DropTable(
+                name: "BookAudioFile");
+
+            migrationBuilder.DropTable(
                 name: "Review");
 
             migrationBuilder.DropTable(
                 name: "UserLibrary");
-
-            migrationBuilder.DropTable(
-                name: "BookAudioFile");
 
             migrationBuilder.DropTable(
                 name: "Author");
