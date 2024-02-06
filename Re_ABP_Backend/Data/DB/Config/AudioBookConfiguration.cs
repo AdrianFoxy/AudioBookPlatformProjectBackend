@@ -36,11 +36,16 @@ namespace Re_ABP_Backend.Data.DB.Config
             builder.HasMany(g => g.AudioBookGenre)
                 .WithOne(ag => ag.AudioBook)
                 .HasForeignKey(ag => ag.AudioBookId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(g => g.AudioBookAuthor)
                .WithOne(ag => ag.AudioBook)
                .HasForeignKey(ag => ag.AudioBookId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(g => g.AudioBookSelection)
+               .WithOne(ag => ag.AudioBook)
+               .HasForeignKey(ag => ag.AudioBookId)
+               .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
