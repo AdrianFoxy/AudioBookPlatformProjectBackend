@@ -18,7 +18,6 @@ namespace Re_ABP_Backend.Data.DB.Config
                    .WithOne(ag => ag.Genre)
                    .HasForeignKey(ag => ag.GenreId)
                    .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

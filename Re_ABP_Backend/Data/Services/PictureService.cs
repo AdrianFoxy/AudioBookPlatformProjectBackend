@@ -19,13 +19,13 @@ namespace Re_ABP_Backend.Data.Services
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
                 var webRootPath = _webHostEnvironment.WebRootPath;
-                var filePath = Path.Combine(webRootPath, "img", PictureType.authors.ToString(), fileName);
+                var filePath = Path.Combine(webRootPath, "img", pictureType.ToString(), fileName);
 
                 await using var fileStream = new FileStream(filePath, FileMode.Create);
                 await file.CopyToAsync(fileStream);
 
                 picture.FileName = fileName;
-                picture.PictureUrl = $"/img/{PictureType.authors.ToString().ToLower()}/{fileName}";
+                picture.PictureUrl = $"/img/{pictureType.ToString().ToLower()}/{fileName}";
                 return picture;
             }
             return null;
@@ -34,13 +34,14 @@ namespace Re_ABP_Backend.Data.Services
         public void DeleteFromDisk(string pictureName, PictureType pictureType)
         {
             var webRootPath = _webHostEnvironment.WebRootPath;
-            var filePath = Path.Combine(webRootPath, "img", PictureType.authors.ToString(), pictureName);
+            var filePath = Path.Combine(webRootPath, "img", pictureType.ToString(), pictureName);
 
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
         }
+
 
     }
 

@@ -11,6 +11,8 @@ using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.NarratorDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.BookSeriesDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.LanguageDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AuthorDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos;
+using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos;
 
 namespace Re_ABP_Backend.Data.Helpers
 {
@@ -67,6 +69,14 @@ namespace Re_ABP_Backend.Data.Helpers
             CreateMap<Author, AuthorDto>()
                 .ForMember(d => d.ImageUrl, o => o.MapFrom<AuthorUrlResolver<AuthorDto>>());
             CreateMap<AddAuthorDto, Author>();
+
+            CreateMap<AudioBook, AudioBookInListDto>()
+                .ForMember(d => d.BookDuration, o => o.MapFrom<IntToStringTime<AudioBookInListDto>>());
+
+            CreateMap<AudioBook, AudioBookDetailsDto>()
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<AudioBookUrlResolver<AudioBookDetailsDto>>())
+                .ForMember(d => d.BookDuration, o => o.MapFrom<IntToStringTime<AudioBookDetailsDto>>());
+            CreateMap<AddAudioBookDto, AudioBook>();
 
         }
     }
