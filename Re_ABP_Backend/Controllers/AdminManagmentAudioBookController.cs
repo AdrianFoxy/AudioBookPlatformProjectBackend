@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos.AudioFiles;
@@ -77,10 +79,7 @@ namespace Re_ABP_Backend.Controllers
         }
 
 
-        // Doesn`t work correctly in Swagger, so tests in Postman
-        // Because I can't send a list of objects to form-data
-        // only format like:
-        // AudioFileUrls[0].Name, AudioFileUrls[1].Name, etc
+        // AudioFiles is json string with audiofiles data
         [HttpPost]
         public async Task<ActionResult<AudioBook>> AddAudioBook([FromForm] AddAudioBookDto addAudioBookDto)
         {
@@ -105,29 +104,33 @@ namespace Re_ABP_Backend.Controllers
 
                 var audioBookGenres = addAudioBookDto.GenresIds.Select(genreId => new AudioBookGenre { GenreId = genreId }).ToList();
                 var audioBookAuthors = addAudioBookDto.AuthorsIds.Select(authorId => new AudioBookAuthor { AuthorId = authorId }).ToList();
-                var audioBookSelection = addAudioBookDto.BookSelectionsIds.Select(selectionId => new AudioBookSelection { BookSelectionId = selectionId }).ToList();
 
                 item.AudioBookAuthor = audioBookAuthors;
                 item.AudioBookGenre = audioBookGenres;
-                item.AudioBookSelection = audioBookSelection;
 
-                item.BookAudioFile = new List<BookAudioFile>(); 
+                item.BookAudioFile = new List<BookAudioFile>();
 
-                if (addAudioBookDto.AudioFileUrls != null && addAudioBookDto.AudioFileUrls.Any())
+                if (!string.IsNullOrEmpty(addAudioBookDto.AudioFiles))
                 {
-                    foreach (var audioFileDto in addAudioBookDto.AudioFileUrls)
-                    {
-                        var audioFile = new BookAudioFile
-                        {
-                            Name = audioFileDto.Name,
-                            AudioFileUrl = audioFileDto.AudioFileUrl,
-                            Duration = audioFileDto.Duration,
-                            PlaybackQueue = audioFileDto.PlaybackQueue
-                        };
+                    // Парсинг и десериализация строки JSON в объект AddAudioFile[]
+                    var audioFiles = JsonConvert.DeserializeObject<AddAudioFile[]>(addAudioBookDto.AudioFiles);
 
-                        // Connect with audiobook
-                        audioFile.AudioBook = item;
-                        item.BookAudioFile.Add(audioFile);
+                    if (audioFiles != null && audioFiles.Length > 0)
+                    {
+                        foreach (var audioFileDto in audioFiles)
+                        {
+                            var audioFile = new BookAudioFile
+                            {
+                                Name = audioFileDto.Name,
+                                AudioFileUrl = audioFileDto.AudioFileUrl,
+                                Duration = audioFileDto.Duration,
+                                PlaybackQueue = audioFileDto.PlaybackQueue
+                            };
+
+                            // Connect with audiobook
+                            audioFile.AudioBook = item;
+                            item.BookAudioFile.Add(audioFile);
+                        }
                     }
                 }
 
@@ -141,7 +144,7 @@ namespace Re_ABP_Backend.Controllers
                     return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingAuthor")));
                 }
 
-                return Ok(item);
+                return Ok("Audiobook with id" + item.Id + "added.");
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
@@ -149,6 +152,7 @@ namespace Re_ABP_Backend.Controllers
                 return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
             }
         }
+
 
 
         [HttpDelete("{id}")]

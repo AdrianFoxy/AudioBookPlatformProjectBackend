@@ -14,8 +14,7 @@ namespace Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos
         public int OrderInSeries { get; set; }
         public List<int> AuthorsIds { get; set; }   
         public List<int> GenresIds { get; set; }
-        public List<int> BookSelectionsIds { get; set; }
-        public List<AddAudioFile> AudioFileUrls { get; set; }
+        public string AudioFiles { get; set; }
 
         [NotMapped]
         [MaxFileSize(2 * 1024 * 1024)]
