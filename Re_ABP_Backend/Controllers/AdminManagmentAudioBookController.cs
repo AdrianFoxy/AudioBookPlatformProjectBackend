@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos.AudioFiles;
-using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AuthorDtos;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Picture;
 using Re_ABP_Backend.Data.Helpers;
@@ -33,7 +29,6 @@ namespace Re_ABP_Backend.Controllers
 
         public AdminManagmentAudioBookController(IMapper mapper, IUnitOfWork unitOfWork, IPictureService pictureService, IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
-
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _pictureService = pictureService;
@@ -112,7 +107,7 @@ namespace Re_ABP_Backend.Controllers
 
                 if (!string.IsNullOrEmpty(addAudioBookDto.AudioFiles))
                 {
-                    // Парсинг и десериализация строки JSON в объект AddAudioFile[]
+                    // Parse and deserialize the JSON string into an AddAudioFile[] object
                     var audioFiles = JsonConvert.DeserializeObject<AddAudioFile[]>(addAudioBookDto.AudioFiles);
 
                     if (audioFiles != null && audioFiles.Length > 0)
@@ -144,7 +139,8 @@ namespace Re_ABP_Backend.Controllers
                     return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingAuthor")));
                 }
 
-                return Ok("Audiobook with id" + item.Id + "added.");
+                return Ok(item);
+
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {

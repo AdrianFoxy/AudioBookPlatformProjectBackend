@@ -6,5 +6,7 @@
         public string Name { get; set; }
         public string AudioFileUrl { get; set; }
         public int Duration { get; set; }
+        public int PlaybackQueue { get; set; }
+
     }
 }
