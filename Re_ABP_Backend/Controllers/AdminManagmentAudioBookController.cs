@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos;
-using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos.AudioFiles;
 using Re_ABP_Backend.Data.Entities;
 using Re_ABP_Backend.Data.Entities.Picture;
 using Re_ABP_Backend.Data.Helpers;
@@ -25,14 +23,17 @@ namespace Re_ABP_Backend.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPictureService _pictureService;
+        private readonly IAudioBookService _audioBookService;
         private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public AdminManagmentAudioBookController(IMapper mapper, IUnitOfWork unitOfWork, IPictureService pictureService, IStringLocalizer<SharedResource> sharedResourceLocalizer)
+        public AdminManagmentAudioBookController(IMapper mapper, IUnitOfWork unitOfWork, IPictureService pictureService, 
+            IStringLocalizer<SharedResource> sharedResourceLocalizer, IAudioBookService audioBookService)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _pictureService = pictureService;
             _sharedResourceLocalizer = sharedResourceLocalizer;
+            _audioBookService = audioBookService;
         }
 
 
@@ -73,8 +74,6 @@ namespace Re_ABP_Backend.Controllers
             return Ok(data);
         }
 
-
-        // AudioFiles is json string with audiofiles data
         [HttpPost]
         public async Task<ActionResult<AudioBook>> AddAudioBook([FromForm] AddAudioBookDto addAudioBookDto)
         {
@@ -102,32 +101,9 @@ namespace Re_ABP_Backend.Controllers
 
                 item.AudioBookAuthor = audioBookAuthors;
                 item.AudioBookGenre = audioBookGenres;
-
                 item.BookAudioFile = new List<BookAudioFile>();
 
-                if (!string.IsNullOrEmpty(addAudioBookDto.AudioFiles))
-                {
-                    // Parse and deserialize the JSON string into an AddAudioFile[] object
-                    var audioFiles = JsonConvert.DeserializeObject<AddAudioFile[]>(addAudioBookDto.AudioFiles);
-
-                    if (audioFiles != null && audioFiles.Length > 0)
-                    {
-                        foreach (var audioFileDto in audioFiles)
-                        {
-                            var audioFile = new BookAudioFile
-                            {
-                                Name = audioFileDto.Name,
-                                AudioFileUrl = audioFileDto.AudioFileUrl,
-                                Duration = audioFileDto.Duration,
-                                PlaybackQueue = audioFileDto.PlaybackQueue
-                            };
-
-                            // Connect with audiobook
-                            audioFile.AudioBook = item;
-                            item.BookAudioFile.Add(audioFile);
-                        }
-                    }
-                }
+                _audioBookService.AddAudioFilesToAudioBook(addAudioBookDto, item);
 
                 _unitOfWork.Repository<AudioBook>().Add(item);
 
@@ -136,7 +112,7 @@ namespace Re_ABP_Backend.Controllers
                 if (result <= 0)
                 {
                     Log.Error("Problem creating new audiobook.");
-                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingAuthor")));
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemCreatingAudioBook")));
                 }
 
                 return Ok(item);
@@ -144,12 +120,55 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Audiobook with this name already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
+                return SQLExceptionHandler.HandleDbUpdateException(ex, _sharedResourceLocalizer, "UniqAudioBook");
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult<AudioBook>> UpdateAudioBook(int id, [FromForm] AddAudioBookDto updateAudioBook)
+        {
+            try
+            {
+                var spec = new LibraryAudioBookSpecification(id);
+                var existingAudioBook = await _unitOfWork.Repository<AudioBook>().GetEntityWithSpec(spec);
 
+                if (existingAudioBook == null)
+                {
+                    Log.Error("Error to get audiobook by id. Audiobook id: {id} not found", id);
+                    return NotFound();
+                }
+
+                if (existingAudioBook.PictureUrl != null && updateAudioBook.Picture != null)
+                {
+                    var picture = await _pictureService.SaveToDiskAsync(updateAudioBook.Picture, PictureType.authors);
+                    if (picture == null)
+                    {
+                        ModelState.AddModelError(nameof(updateAudioBook.Picture), "Error during saving picture.");
+                        return BadRequest(ModelState);
+                    }
+                    _pictureService.DeleteFromDisk(Path.GetFileName(existingAudioBook.PictureUrl), PictureType.authors);
+                    existingAudioBook.PictureUrl = picture.PictureUrl;
+                }
+
+                _audioBookService.UpdateGenresAndAuthors(existingAudioBook, updateAudioBook.GenresIds, updateAudioBook.AuthorsIds);
+                _audioBookService.UpdateAudioFiles(existingAudioBook, updateAudioBook.AudioFiles);
+
+                _unitOfWork.Repository<AudioBook>().Update(existingAudioBook);
+                var result = await _unitOfWork.Complete();
+
+                if (result <= 0)
+                {
+                    Log.Error("Problem updating the audiobook.");
+                    return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("ProblemUpdatingAudioBook")));
+                }
+
+                return Ok(existingAudioBook);
+            }
+            catch (DbUpdateException ex)
+            {
+                return SQLExceptionHandler.HandleDbUpdateException(ex, _sharedResourceLocalizer, "UniqAudioBook");
+            }
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAudioBook(int id)
