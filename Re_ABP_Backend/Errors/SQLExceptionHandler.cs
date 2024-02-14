@@ -14,7 +14,7 @@ namespace Re_ABP_Backend.Errors
                    (sqlException.Number == 2601 || sqlException.Number == 2627);
         }
 
-        public static ActionResult HandleDbUpdateException(DbUpdateException ex, IStringLocalizer sharedResourceLocalizer, string uniqExceptionText)
+        public static ActionResult HandleDbUniqException(DbUpdateException ex, IStringLocalizer sharedResourceLocalizer, string uniqExceptionText)
         {
             if (IsUniqueConstraintViolationException(ex))
             {
@@ -32,8 +32,8 @@ namespace Re_ABP_Backend.Errors
                     innerException = innerException.InnerException;
                 }
             }
-            Log.Error("Error updating: " + ex.Message);
-            return new BadRequestObjectResult(new ApiResponse(400, sharedResourceLocalizer.GetString("ProblemDuringUpdating")));
+            Log.Error("Error during uniq checking: " + ex.Message);
+            return new BadRequestObjectResult(new ApiResponse(400, sharedResourceLocalizer.GetString("ProblemDuringUniqCheck")));
         }
     }
 }

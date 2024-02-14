@@ -88,8 +88,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("BookLanguage with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqBookLanguage")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqBookLanguage");
             }
         }
 
@@ -122,8 +121,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Book language with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqBookLanguage")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqBookLanguage");
             }
         }
 

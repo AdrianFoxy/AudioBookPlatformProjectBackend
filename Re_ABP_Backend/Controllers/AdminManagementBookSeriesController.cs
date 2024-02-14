@@ -90,8 +90,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Book series with this Name or enName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqBookSeries")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqBookSeries");
             }
         }
 
@@ -124,8 +123,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Bookseries with this Name or enName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqBookSeries")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqBookSeries");
             }
         }
 

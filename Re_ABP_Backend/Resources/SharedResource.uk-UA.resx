@@ -120,6 +120,9 @@
   <data name="PasswordConfirmValidation" xml:space="preserve">
     <value>Підтвердження пароля неправильне</value>
   </data>
+  <data name="ProblemCreatingAudioBook" xml:space="preserve">
+    <value>Проблема при створенні аудіокниги</value>
+  </data>
   <data name="ProblemCreatingAuthor" xml:space="preserve">
     <value>Проблема при створенні автора</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
     <value>Проблема при створені відгуку</value>
+  </data>
+  <data name="ProblemDeletingAudioBook" xml:space="preserve">
+    <value>Проблема при видаленні аудіокниги</value>
+  </data>
+  <data name="ProblemDeletingAudioBookAssociated" xml:space="preserve">
+    <value>Проблема асоціації при видаленні книги</value>
   </data>
   <data name="ProblemDeletingAuthor" xml:space="preserve">
     <value>Проблема при видаленні автора</value>
@@ -174,6 +183,12 @@
   <data name="ProblemDeletingReviewFakeOwner" xml:space="preserve">
     <value>Це не твій відгук, або в тебе немає прав на виделення</value>
   </data>
+  <data name="ProblemDuringUniqCheck" xml:space="preserve">
+    <value>Проблема при перевірці унікальності</value>
+  </data>
+  <data name="ProblemUpdatingAudioBook" xml:space="preserve">
+    <value>Проблема при оновленні аудіокниги</value>
+  </data>
   <data name="ProblemUpdatingAuthor" xml:space="preserve">
     <value>Проблема при оновленні автора</value>
   </data>
@@ -194,6 +209,9 @@
   </data>
   <data name="ProblemUpdatingReviewFakeOwner" xml:space="preserve">
     <value>Це не твій відгук, або в тебе немає прав на оновлення</value>
+  </data>
+  <data name="UniqAudioBook" xml:space="preserve">
+    <value>Аудіокнига з такою назвою вже існую</value>
   </data>
   <data name="UniqAuthor" xml:space="preserve">
     <value>Автор з таким ім'ям або англійським ім'ям вже існує</value>
