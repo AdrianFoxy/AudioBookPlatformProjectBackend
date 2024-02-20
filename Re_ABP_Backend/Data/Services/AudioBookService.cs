@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Re_ABP_Backend.Data.DB;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos;
 using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos.AudioFiles;
@@ -109,5 +110,21 @@ namespace Re_ABP_Backend.Data.Services
                 existingAudioBook.AudioBookAuthor.Add(new AudioBookAuthor { AuthorId = authorId });
             }
         }
+
+        public void DeleteAudioFiles(AudioBook audioBook, IEnumerable<int> audioFilesToDelete)
+        {
+            if (audioFilesToDelete == null || !audioFilesToDelete.Any())
+                return;
+
+            foreach (var audioFileId in audioFilesToDelete)
+            {
+                var audioFileToRemove = audioBook.BookAudioFile.FirstOrDefault(f => f.Id == audioFileId);
+                if (audioFileToRemove != null)
+                {
+                    audioBook.BookAudioFile.Remove(audioFileToRemove);
+                }
+            }
+        }
+
     }
 }

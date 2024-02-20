@@ -129,7 +129,7 @@ namespace Re_ABP_Backend.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<AudioBook>> UpdateAudioBook(int id, [FromForm] AddAudioBookDto updateAudioBook)
+        public async Task<ActionResult<AudioBook>> UpdateAudioBook(int id, [FromForm] UpdateAudioBookDto updateAudioBook)
         {
             try
             {
@@ -155,6 +155,7 @@ namespace Re_ABP_Backend.Controllers
                 }
 
                 _audioBookService.UpdateGenresAndAuthors(existingAudioBook, updateAudioBook.GenresIds, updateAudioBook.AuthorsIds);
+                _audioBookService.DeleteAudioFiles(existingAudioBook, updateAudioBook.AudioFilesToDelete);
                 _audioBookService.UpdateAudioFiles(existingAudioBook, updateAudioBook.AudioFiles);
 
                 _unitOfWork.Repository<AudioBook>().Update(existingAudioBook);

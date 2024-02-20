@@ -20,5 +20,8 @@ namespace Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos
         public Narrator Narrator { get; set; }
         public BookSeries BookSeries { get; set; }
         public int OrderInSeries { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
     }
 }
