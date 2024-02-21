@@ -109,8 +109,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Author with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqAuthor");
             }
         }
 
@@ -156,8 +155,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Author with this Name or EnName already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqAuthor")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqAuthor");
             }
         }
 

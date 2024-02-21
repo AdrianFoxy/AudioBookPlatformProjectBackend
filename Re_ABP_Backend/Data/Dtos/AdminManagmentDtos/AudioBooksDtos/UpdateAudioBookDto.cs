@@ -1,11 +1,10 @@
-﻿using Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos.AudioFiles;
-using Re_ABP_Backend.Data.Helpers.Validation;
+﻿using Re_ABP_Backend.Data.Helpers.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos
 {
-    public class AddAudioBookDto
+    public class UpdateAudioBookDto
     {
         [Required]
         [MaxLength(256, ErrorMessage = "Max lenght is 256.")]
@@ -25,6 +24,8 @@ namespace Re_ABP_Backend.Data.Dtos.AdminManagmentDtos.AudioBooksDtos
         public List<int> AuthorsIds { get; set; }
         [Required]
         public List<int> GenresIds { get; set; }
+        [Required]
+        public List<int>? AudioFilesToDelete { get; set; }
         [Required]
         public string AudioFiles { get; set; }
 

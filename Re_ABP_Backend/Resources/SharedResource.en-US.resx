@@ -120,83 +120,101 @@
   <data name="PasswordConfirmValidation" xml:space="preserve">
     <value>Password confirm is wrong</value>
   </data>
+  <data name="ProblemCreatingAudioBook" xml:space="preserve">
+    <value>The problem of creating an audiobook</value>
+  </data>
   <data name="ProblemCreatingAuthor" xml:space="preserve">
-    <value>Problem Creating Author</value>
+    <value>The problem of creating an author</value>
   </data>
   <data name="ProblemCreatingBookLanguage" xml:space="preserve">
-    <value>Problem Creating language</value>
+    <value>The problem of creation a language</value>
   </data>
   <data name="ProblemCreatingBookSeries" xml:space="preserve">
-    <value>Problem Creating book series</value>
+    <value>The problem of creating a book series</value>
   </data>
   <data name="ProblemCreatingGenre" xml:space="preserve">
-    <value>Problem Creating Genre</value>
+    <value>The problem of creating a genre</value>
   </data>
   <data name="ProblemCreatingNarrator" xml:space="preserve">
-    <value>Problem Creating Narrator</value>
+    <value>The problem of creating a narrator</value>
   </data>
   <data name="ProblemCreatingReview" xml:space="preserve">
-    <value>Problem Creating Review</value>
+    <value>The problem of creating a review</value>
+  </data>
+  <data name="ProblemDeletingAudioBook" xml:space="preserve">
+    <value>Problem with deleting the audiobook</value>
+  </data>
+  <data name="ProblemDeletingAudioBookAssociated" xml:space="preserve">
+    <value>Audiobook is associated and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingAuthor" xml:space="preserve">
-    <value>Problem Deleting Author</value>
+    <value>Problem with deleting the author</value>
   </data>
   <data name="ProblemDeletingAuthorAssociated" xml:space="preserve">
-    <value>Problem Deleting Author Associated</value>
+    <value>Problem with deleting the author, the author is associated</value>
   </data>
   <data name="ProblemDeletingBookLanguage" xml:space="preserve">
-    <value>Problem Deleting language</value>
+    <value>Problem with deleting language</value>
   </data>
   <data name="ProblemDeletingBookLanguageAssociated" xml:space="preserve">
     <value>Language is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingBookSeries" xml:space="preserve">
-    <value>Problem Deleting book series</value>
+    <value>Problem with deleting book series</value>
   </data>
   <data name="ProblemDeletingBookSeriesAssociated" xml:space="preserve">
     <value>Book series is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingGenre" xml:space="preserve">
-    <value>Problem Deleting Genre</value>
+    <value>Problem with deleting genre</value>
   </data>
   <data name="ProblemDeletingGenreAssociated" xml:space="preserve">
     <value>Genre is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingNarrator" xml:space="preserve">
-    <value>Problem Deleting Narrator</value>
+    <value>Problem with deleting narrator</value>
   </data>
   <data name="ProblemDeletingNarratorAssociated" xml:space="preserve">
     <value>Narrator is associated with audiobooks and cannot be deleted</value>
   </data>
   <data name="ProblemDeletingReview" xml:space="preserve">
-    <value>Problem deleting review</value>
+    <value>Problem with deleting review</value>
   </data>
   <data name="ProblemDeletingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot delete it.</value>
   </data>
+  <data name="ProblemDuringUniqCheck" xml:space="preserve">
+    <value>Problem during uniq checking</value>
+  </data>
+  <data name="ProblemUpdatingAudioBook" xml:space="preserve">
+    <value>The problem of updating an audiobook</value>
+  </data>
   <data name="ProblemUpdatingAuthor" xml:space="preserve">
-    <value>Problem Updating Author</value>
+    <value>Problem with updating the author</value>
   </data>
   <data name="ProblemUpdatingBookLanguage" xml:space="preserve">
-    <value>Problem Updating language</value>
+    <value>Problem with updating the language</value>
   </data>
   <data name="ProblemUpdatingBookSeries" xml:space="preserve">
-    <value>Problem Updating book series</value>
+    <value>Problem with updating the book series</value>
   </data>
   <data name="ProblemUpdatingGenre" xml:space="preserve">
-    <value>Problem Updating Genre</value>
+    <value>Problem with updating the genre</value>
   </data>
   <data name="ProblemUpdatingNarrator" xml:space="preserve">
-    <value>Problem Updating Narrator</value>
+    <value>Problem with updating the narrator</value>
   </data>
   <data name="ProblemUpdatingReview" xml:space="preserve">
-    <value>Problem Updating Review</value>
+    <value>Problem with updating the review</value>
   </data>
   <data name="ProblemUpdatingReviewFakeOwner" xml:space="preserve">
     <value>This is not your review, or you cannot update it.</value>
   </data>
+  <data name="UniqAudioBook" xml:space="preserve">
+    <value>A audiobook with that name already exists</value>
+  </data>
   <data name="UniqAuthor" xml:space="preserve">
-    <value>UniqAuthor</value>
+    <value>An author with that name already exists</value>
   </data>
   <data name="UniqBookLanguage" xml:space="preserve">
     <value>A language with that name or english name already exists</value>

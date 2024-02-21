@@ -89,8 +89,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Narrator with this Name already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqNarrator")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqNarrator");
             }
         }
 
@@ -123,8 +122,7 @@ namespace Re_ABP_Backend.Controllers
             }
             catch (DbUpdateException ex) when (SQLExceptionHandler.IsUniqueConstraintViolationException(ex))
             {
-                Log.Error("Narrator with this Name already exists.");
-                return BadRequest(new ApiResponse(400, _sharedResourceLocalizer.GetString("UniqNarrator")));
+                return SQLExceptionHandler.HandleDbUniqException(ex, _sharedResourceLocalizer, "UniqNarrator");
             }
         }
 
