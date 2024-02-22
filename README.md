@@ -1,6 +1,6 @@
-# ASP .NET Core 7.0 Web API, backend for Audiobook platform
+# ASP.NET Core 7.0 Web API, backend for Audiobook platform
 
-It's an ASP .NET WEB API application with integrated authentication and authorization, user account management, CRUD operation with all basic entities including audiobook and audio files, sorting and filtering of audiobooks by different criteria, rating&views of audiobooks, and user reviews. The application uses Entity Framework Core to connect and manage a SQL Server database.
+It's an ASP.NET WEB API application with integrated authentication and authorization, user account management, CRUD operation with all basic entities including audiobook and audio files, sorting and filtering of audiobooks by different criteria, rating&views of audiobooks, and user reviews. The application uses Entity Framework Core to connect and manage a SQL Server database.
 
 The client side of this app is [here](https://github.com/AdrianFoxy/AudioBookPlatformProject).
 Also, click here to see the [demo](https://foxwithbook.azurewebsites.net/).
